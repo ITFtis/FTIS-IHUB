@@ -1,0 +1,151 @@
+﻿@using Dou.Misc
+@using Dou.Misc.Attr
+@using Dou.Misc.Extension
+@using System.Dynamic;
+@using Newtonsoft.Json
+
+@{
+    List<dynamic> defs = new List<dynamic>();
+    ////Menu
+    defs.Add(new { Id = "HrPath", actClass = "hr" });
+    defs.Add(new { Id = "ReservePath", actClass = "reserve" });
+    defs.Add(new { Id = "OnlinePath", actClass = "online" });
+    defs.Add(new { Id = "AssetsPath", actClass = "assets" });
+    defs.Add(new { Id = "FinancePath", actClass = "finance" });
+    defs.Add(new { Id = "BusinessPath", actClass = "business" });
+    defs.Add(new { Id = "ProjectPath", actClass = "project" });
+    defs.Add(new { Id = "SysPath", actClass = "system" });
+    defs.Add(new { Id = "TrainingPath", actClass = "training" });
+    defs.Add(new { Id = "ManualPath", actClass = "manual" });
+}
+
+@foreach (Menu.MenuItem item in Menu.GetCurrentUserMenuTree())
+{
+    if (item.Children != null)
+    {
+        @GenGroupMenu(item, item.Children, defs);
+    }
+    ////else
+    ////{
+    ////@GenActionMenu(item);
+    ////}
+}
+@helper GenActionMenu(Menu.MenuItem item, string actClass)
+{
+    string str_a = "";
+    if (Model == "DeskTop")
+    {
+    }
+    else if (Model == "RWD")
+    {
+        str_a = "px-2 py-1";
+    }
+
+    <li>
+        <a href="@(item.Attributes is HtmlIFrameMenuDefAttribute &&  item.Attributes.IsPromptUI ?(item.Attributes as HtmlIFrameMenuDefAttribute).Url: Url.Action(item.Attributes.Action, item.Attributes.ActionController))"
+           class="dropdown-item @actClass @str_a"
+           url="@((!item.Attributes.IsPromptUI && item.Attributes is HtmlIFrameMenuDefAttribute) ?  (item.Attributes as HtmlIFrameMenuDefAttribute).Url : null)"
+           target="@(item.Attributes.IsPromptUI ? "_blank" : null)"
+           data-Index="@(item.Index)">
+            @*@Html.MenuImage(item.Icon != null ? Url.Content(item.Icon) : null)<label class=@(item.Id.Replace(".", "_"))><span>@(item.Name)</span></label>*@
+            @*@Html.MenuImage(item.Icon != null ? Url.Content(item.Icon) : null)*@
+            @(item.Name)
+        </a>
+    </li>
+
+}
+@helper GenGroupMenu(Menu.MenuItem node, IEnumerable<Menu.MenuItem> items, List<dynamic> defs)
+{
+    var ctl = defs.FirstOrDefault(a => a.Id == node.Id);
+    string actClass = ctl == null ? "" : ctl.actClass;
+
+    if (ctl == null)
+    {
+        return;
+    }
+
+    if (Model == "DeskTop")
+    {
+        <div class="z-dou-menu d-flex align-items-center justify-content-center">
+            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center @actClass-circle">
+                <img src=" ~/@Url.Content(node.Icon) " alt="" />
+            </div>
+            <div class="dropend">
+                <button type="button"
+                        class="dropdown-toggle text-start @actClass"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    @(node.Name)
+                </button>
+                <ul class="dropdown-menu dropdown-menu-@actClass">
+                    <!-- Dropdown menu links -->
+                    @foreach (Menu.MenuItem item in items)
+                    {
+                        if (item.Children != null && item.Children.Count() > 0)
+                        {
+                            //目前只有2層
+                            //@GenGroupMenu(item, item.Children)
+                        }
+                        else
+                        {
+                            @GenActionMenu(item, @actClass);
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    else if (Model == "RWD")
+    {
+        <div class="z-dou-menu d-inline-flex">
+            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center @actClass-circle">
+                <img src=" ~/@Url.Content(node.Icon) " alt="" />
+            </div>
+            <button class="@(ctl.actClass)-title collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapse@(ctl.actClass)"
+                    aria-expanded="false"
+                    aria-controls="collapse@(ctl.actClass)">
+                @(node.Name)
+            </button>
+        </div>
+        <div class="collapse" id="collapse@(ctl.actClass)">
+            <ul class="dropdown-menu-@(ctl.actClass) ms-4">
+                <!-- Dropdown menu links -->
+                @foreach (Menu.MenuItem item in items)
+                {
+                    if (item.Children != null && item.Children.Count() > 0)
+                    {
+                        //目前只有2層
+                        //@GenGroupMenu(item, item.Children)
+                    }
+                    else
+                    {
+                        @GenActionMenu(item, @actClass);
+                    }
+                }
+            </ul>
+        </div>        
+    }
+
+    <!-- 人事差勤專區 end -->
+    <div class="separate"></div>
+}
+
+<script>
+
+    //$('.dou-action-controller').parents('.dropdown ').find('> a[data-bs-toggle="dropdown"]').addClass("dou-action-controller-root");
+    $('.z-dou-menu a[url=""]').removeAttr("url");
+    $('.z-dou-menu a[target=""]').removeAttr("target");
+
+    $.each($('.z-dou-menu a[url]'), function () {
+        $(this).attr("href", $(this).attr("href") + "?url=" + $(this).attr("url")).removeAttr("url");
+    });
+
+    //////$('.z-dou-menu a:not([href="#"]):not([target]), #user-profile + .popover a').click(function () { //20220928
+    ////$('.z-dou-menu a:not(#user-profile):not([href="#"]):not([target])').click(function () {   ////bootstrap 5
+    ////    helper.misc.showBusyIndicator();
+    ////});
+
+</script>

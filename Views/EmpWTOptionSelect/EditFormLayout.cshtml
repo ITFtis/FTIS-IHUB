@@ -1,0 +1,18 @@
+﻿@using Dou.Misc.Extension
+@using Dou.Controllers
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    @Html.DataEditContainer("Fno", "員工編號", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("Wyear", "差勤年份", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("Qno", "工作季別", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("SelectNo", "班表選次", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("ClassID", "所選班表代號", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("WTID", "所選出勤時段代號", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("Cstartdate", "所選該次班表起始日", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("Cenddate", "所選該次班表結束日", null, "col-sm-9", "col-sm-3")
+    @Html.DataEditContainer("Remark", "備註說明", null, "col-sm-9", "col-sm-3")
+</div>

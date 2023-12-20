@@ -1,0 +1,139 @@
+﻿@GetTitle()
+
+<!-- banner-news-CSS -->
+<style>
+    .banner-news .table-striped {
+        color: #53575A;
+        font-weight: bold;
+    }
+
+    .banner-news .table-striped > tbody > tr:nth-of-type(odd) > * {
+        color: #53575A;
+    }
+
+/*    .table a:hover {
+        text-decoration: underline;
+        color: #A0072C;
+    }*/
+</style>
+<!-- banner-news-CSS -->
+
+@helper GetTitle()
+{
+    var user = Dou.Context.CurrentUser<Dou.Models.UserBase>();
+    var conroller = Html.ViewContext.Controller;
+
+    var theMenuDefAttribute = Dou.Misc.HelperUtilities.GetTypeAttr<Dou.Misc.Attr.MenuDefAttribute>(conroller.GetType());
+
+    if (theMenuDefAttribute != null)
+    {
+        string tilCss = "";
+
+        var title = theMenuDefAttribute.Name;
+        if (theMenuDefAttribute.Id == "Home" && theMenuDefAttribute.Action == "Index")
+        {
+            //首頁
+            if (user != null)
+            {
+                title = user.Name + " 您好!!";
+            }
+        }
+        else
+        {
+            tilCss = "news-header";
+        }
+
+        //預設icon圖
+        if (string.IsNullOrEmpty(theMenuDefAttribute.Icon))
+        {
+            theMenuDefAttribute.Icon = "Images/main_banner_1.png";
+        }
+
+        <div class="right-section-img shadow rounded-3 overflow-hidden position-relative">
+            @if (@theMenuDefAttribute.Id == "Home")
+            {
+                <!-- main-banner start -->
+            <div class="container right-section-banner shadow rounded-3 overflow-hidden position-relative
+                                d-flex flex-wrap justify-content-between p-0" style="height: auto;">
+                <div class="banner-user d-flex align-items-center" style="padding-left: 1.8rem;">
+                    <p class="fs-2 fw-bold my-4">@title</p>
+                </div>
+                <div class="container33 banner-news d-flex"
+                     style="height: 10rem; overflow-y: auto; scroll-behavior:smooth;">
+                    <table class="table table-responsive-xl table-sm table-striped align-middle m-0 fw-bold" style="text-align: center; width: 40rem;">
+                        <tbody>
+                            @{
+                                List<iHub.Models.cmmMrq> mrqs = ViewBag.Mrqs;
+                                foreach (var v in mrqs)
+                                {
+                                    <tr>
+                                        <td>
+                                           @v.mrqtxt                                            
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <script>
+                var isNavbar = $('.navbar-toggler').is(":visible");
+                var $td = $('.container33 table').find('td');
+                var len = $td.length;
+                if (isNavbar || len > 3) {
+                //if (false) {
+                    //跳頁
+                    var $_info = $('.container33');
+
+                    var aryUps = [];
+                    var sum = 0;
+                    $.each($td, function (index, value) {
+                        sum += this.scrollHeight;
+                        aryUps.push(sum);
+                    });
+                    
+                    var prev = 0;                    
+                    infoInvertnalflag = setInterval(function () {
+
+                        var t = $_info[0].scrollTop;                        
+                        var actTop = t + $_info.height();
+
+                        //上下2則文字切斷,移至Td起頭                                                        
+                        var v = aryUps.filter(obj => obj <= actTop);
+                        if (v.length > 0) {
+                            var up = Math.max(...v);
+                            if (prev == up) {
+                                //(最後一筆)置底時，scrollTop不會再下拉
+                                actTop = 0;                                
+                            }
+                            else {
+                                actTop = up;                                
+                            }
+                        }
+
+                        console.log("scrollTop:" + $_info[0].scrollTop + ", pvev:" + prev + ", actTop:" + actTop);
+                        $_info[0].scrollTop = actTop;
+                        prev = actTop;
+
+                        setTimeout(function () { //因css設scroll-behavior: smooth
+                            //置底時，scrollTop不會再下拉
+                            if (t == $_info[0].scrollTop)
+                                $_info[0].scrollTop = 0;
+                        }, 300);
+
+                    }, 3 * 1000);
+                }
+            </script>
+                <!-- main-banner end -->
+                                            }
+                                            else
+                                            {
+                <img src=" ~/@theMenuDefAttribute.Icon " alt="" />
+                <span class="position-absolute top-50 start-0 fw-bold fs-2 greet @tilCss">@title</span>
+            }
+        </div>
+    }
+}
+
+<!-- main img end -->

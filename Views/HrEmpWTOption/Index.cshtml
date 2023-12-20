@@ -1,0 +1,124 @@
+﻿@using Dou.Misc.Extension
+@Html.MenuMap()
+
+@Html.DataManagerOptionsJavascript(null, "douoptions")
+<script>
+    $(document).ready(function () {
+        var $container = $('#_detail');
+
+        //xml資料
+        var class1 = "";
+        var class2 = "";
+        var class3 = "";
+        var class9 = "";
+        var isView = "";
+        $.ajax({
+            url: $.AppConfigOptions.baseurl + 'HrEmpWTOption/GetClassesLink',
+            datatype: "json",
+            type: "POST",
+            async: false,
+            success: function (data) {
+                class1 = data.Class1;
+                class2 = data.Class2;
+                class3 = data.Class3;
+                class9 = data.Class9;
+                isView = data.IsView;
+            }
+        });
+
+        var a = {};
+        a.item = '<span class="btn btn-success glyphicon glyphicon-eye-open"> 預覽班表Block</span>';
+        a.event = 'click .glyphicon-eye-open';
+        a.callback = function importQdate(evt) {
+            $container.douTable('destroy');
+            //班表Block 關
+            $('.glyphicon-eye-open').hide();
+            $('#_table').hide();
+            $('.glyphicon-eye-close').show();
+
+            helper.misc.showBusyIndicator();
+            $.ajax({
+                url: $.AppConfigOptions.baseurl + 'HrEmpWTOption/GetDataDetail',
+                datatype: "json",
+                type: "POST",
+                success: function (_opt) {
+                    //取消自動抓後端資料
+                    _opt.tableOptions.url = undefined;
+
+                    //初始options預設值
+                    douHelper.setFieldsDefaultAttribute(_opt.fields);//給預設屬性
+
+                    $(_opt.fields).each(function () {
+                        var columnName = this.field;
+                        if (columnName == "Cstartdate" || columnName == "Cenddate" || columnName == "SelectNo") {
+                            this.editable = false;
+                        }
+                    });
+
+                    _opt.afterCreateEditDataForm = function ($container, row) {
+                        //保留確定按鈕
+                        $container.find('.modal-footer button').hide();
+                        $('#myModalLabel').text('預覽班表Block');
+
+                        //班表1,2,3,9 pdf連結
+                        var ppp = $container.find('div[data-field=ClassID]');
+                        var classes = [];
+
+                        if (class1 != "") {
+                            classes.push('<a target="_blank" href="' + app.siteRoot + class1 + '">班表一</a>');
+                        }
+                        if (class2 != "") {
+                            classes.push('<a target="_blank" href="' + app.siteRoot + class2 + '">班表二</a>');
+                        }
+                        if (class3 != "") {
+                            classes.push('<a target="_blank" href="' + app.siteRoot + class3 + '">班表三</a>');
+                        }
+                        if (class9 != "") {
+                            classes.push('<a target="_blank" href="' + app.siteRoot + class9 + '">特殊班表</a>');
+                        }
+                        $(classes.join('&nbsp&nbsp')).appendTo(ppp);
+                    }
+
+                    //實體Dou js
+                    $container.douTable(_opt);
+                },
+                complete: function () {
+                    helper.misc.hideBusyIndicator();
+                }
+            });
+        };
+
+        var b = {};
+        b.item = '<span class="btn btn-success glyphicon glyphicon-eye-close"> 關閉預覽Blcok</span>';
+        b.event = 'click .glyphicon-eye-close';
+        b.callback = function importQdate(evt) {
+            $container.douTable('destroy');
+            //班表Block 開
+            $('.glyphicon-eye-open').show();
+            $('#_table').show();
+            $('.glyphicon-eye-close').hide();
+        };
+
+        douoptions.appendCustomToolbars = [a, b];
+
+        douoptions.tableOptions.onLoadSuccess = function (datas) {
+            if (isView != "Y") {
+                //xml設定擋，IsView未開啟
+                $('.glyphicon-eye-open').hide();
+                $('.glyphicon-eye-close').hide();
+            }
+            else {
+                //班表Block 開
+                $('.glyphicon-eye-open').show();
+                $('.glyphicon-eye-close').hide();
+            }
+            return false;
+        }
+
+        $("#_table").DouEditableTable(douoptions); //初始dou table
+    });
+</script>
+
+<table id="_table"></table>
+<hr />
+<table id="_detail"></table>

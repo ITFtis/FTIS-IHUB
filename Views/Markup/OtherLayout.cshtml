@@ -1,0 +1,591 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+          crossorigin="anonymous" />
+
+    <!-- custom css -->
+    <link rel="stylesheet" href="~/Content/prj/style.css" />
+    <link href="~/Images/logo.ico" rel="icon" />
+
+    <title>Ftis iHub</title>
+</head>
+<body>
+    <!-- navbar test -->
+    <nav class="navbar bg-body-tertiary sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index">
+                <img src="~/Images/logo.png" alt="Ftis" width="auto" height="25" />
+            </a>
+
+            <div class="d-flex align-items-center">
+                <div class="dropdown-center">
+                    <a href="index" class="px-2 px-lg-3">
+                        <img src="~/Images/house-solid.svg"
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </a>
+                </div>
+
+                <div class="dropdown-center ">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-title="百老匯">
+                        <a href="#">
+                            <img src="~/Images/comment-dots-solid.svg"
+                                 width="auto"
+                                 height="25"
+                                 class="nav-icon" />
+                        </a>
+                    </button>
+                </div>
+
+                <div class="dropdown-center ">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-title="個人排班班表">
+                        <img src="~/Images/calendar-days-solid.svg"
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </button>
+                </div>
+
+                <div class="dropdown-center ">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-title="人員基本資料管理">
+                        <img src="~/Images/user-solid.svg"
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </button>
+                </div>
+
+                <div class="dropdown-center">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <img src="~/Images/gear-solid.svg"
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-item">帳 號:J11150</li>
+                        <li class="dropdown-item">名 稱:繆照慶</li>
+                        <li class="dropdown-item">IP:61.222.155.163</li>
+                        <li class="dropdown-item"><hr /></li>
+                        <li><a class="dropdown-item" href="#">登出</a></li>
+                    </ul>
+                </div>
+
+                <button class="navbar-toggler d-xl-none"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasNavbar"
+                        aria-controls="offcanvasNavbar"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-start"
+                 tabindex="-1"
+                 id="offcanvasNavbar"
+                 aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <a class="navbar-brand" href="#">
+                        <img src="~/Images/logo.png" alt="Ftis" width="auto" height="25" />
+                    </a>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="d-flex flex-column align-items-start justify-content-start gap-2">
+                        <!-- 人事差勤專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center hr-circle">
+                                <img src="~/Images/clock-regular.svg" alt="" />
+                            </div>
+                            <button class="hr-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseHr"
+                                    aria-expanded="false"
+                                    aria-controls="collapseHr">
+                                人事差勤專區
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseHr">
+                            <ul class="dropdown-menu-hr ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">我的班表</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">T8差勤確認系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">績效評量溝通</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">員工資料維護</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">F22人事差勤平台</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">人員基本資料管理</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">座位表管理</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">座位表查詢</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item hr px-2 py-1" href="#">線上離職申請</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 人事差勤專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 行政管理與系統預約專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center reserve-circle">
+                                <img src="~/Images/list-check-solid.svg" alt="" />
+                            </div>
+
+                            <button class="reserve-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseReserve"
+                                    aria-expanded="false"
+                                    aria-controls="collapseReserve">
+                                行政管理與系統預約專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseReserve">
+                            <ul class="dropdown-menu-reserve ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item reserve px-2 py-1"
+                                       href="documents.html">行政管理專區</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item reserve px-2 py-1" href="#">行政組支援系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item reserve px-2 py-1" href="#">線上會議活動登入</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item reserve px-2 py-1" href="http://120.100.100.176/mrbs/day.php?year=2023&month=08&day=21&area=1&room=1" target="_blank">會議室&設備預約系統</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 行政管理與系統預約專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 線上系統專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center online-circle">
+                                <img src="~/Images/network-wired-solid.svg" alt="" />
+                            </div>
+
+                            <button class="online-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOnline"
+                                    aria-expanded="false"
+                                    aria-controls="collapseOnline">
+                                線上系統專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseOnline">
+                            <ul class="dropdown-menu-online ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="#">APP待處理單據</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="#">線上用印系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="#">線上差旅報帳系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="https://mail.ftis.org.tw/webmail-cgi/XwebMail?_task=login" target="_blank">線上Email系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="https://odoc.ftis.org.tw/Account/Login" target="_blank">線上公文系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="https://esp.ftis.org.tw/ESP/login.aspx?ReturnUrl=%2fESP%2f" target="_blank">ESP知識管理系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="https://report.ftis.org.tw/" target="_blank">行動化報告系統</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="https://mis.ftis.org.tw/nprecycle/" target="_blank">非塑稽核認證回收商</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item online px-2 py-1" href="#">抽獎活動系統</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 線上系統專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 資產管理系統專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center assets-circle">
+                                <img src="~/Images/file-lines-regular.svg" alt="" />
+                            </div>
+
+                            <button class="assets-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseAssets"
+                                    aria-expanded="false"
+                                    aria-controls="collapseAssets">
+                                資產管理系統專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseAssets">
+                            <ul class="dropdown-menu-assets ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item assets px-2 py-1" href="#">資產管理系統 V1</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item assets px-2 py-1" href="#">資產管理系統 V2</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 資產管理系統專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 財務系統專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center finance-circle">
+                                <img src="~/Images/circle-dollar-to-slot-solid.svg" alt="" />
+                            </div>
+
+                            <button class="finance-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFinance"
+                                    aria-expanded="false"
+                                    aria-controls="collapseFinance">
+                                財務系統專區
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseFinance">
+                            <ul class="dropdown-menu-finance ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item finance px-2 py-1" href="#">財務系統專區</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 財務系統專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 業務系統專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center business-circle">
+                                <img src="~/Images/address-book-regular.svg" alt="" />
+                            </div>
+
+                            <button class="business-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseBusiness"
+                                    aria-expanded="false"
+                                    aria-controls="collapsecollapseBusiness">
+                                業務系統專區
+                            </button>
+                        </div>
+                        <div class="collapse" id="collapseBusiness">
+                            <ul class="dropdown-menu-business ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item business px-2 py-1" href="#">工服案</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item business px-2 py-1" href="#">工服資料簡易查詢</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 業務系統專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 專案管理專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center project-circle">
+                                <img src="~/Images/hard-drive-regular.svg" alt="" />
+                            </div>
+
+                            <button class="project-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseProject"
+                                    aria-expanded="false"
+                                    aria-controls="collapseProject">
+                                專案管理專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseProject">
+                            <ul class="dropdown-menu-project ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item project px-2 py-1" href="#">專案資料一覽表</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item project px-2 py-1" href="#">專案履約管理系統</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 專案管理專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 系統管理專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center system-circle">
+                                <img src="~/Images/user-gear-solid.svg" alt="" />
+                            </div>
+
+                            <button class="system-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSystem"
+                                    aria-expanded="false"
+                                    aria-controls="collapseSystem">
+                                系統管理專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseSystem">
+                            <ul class="dropdown-menu-system ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item system px-2 py-1" href="#">角色管理</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item system px-2 py-1" href="#">紀錄查詢</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item system px-2 py-1" href="#">使用者管理</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 系統管理專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 內訓專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center training-circle">
+                                <img src="~/Images/book-solid.svg" alt="" />
+                            </div>
+
+                            <button class="training-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTraining"
+                                    aria-expanded="false"
+                                    aria-controls="collapseTraining">
+                                內訓專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseTraining">
+                            <ul class="dropdown-menu-training ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item training px-2 py-1" href="#">內訓課程</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item training px-2 py-1" href="#">部門內訓/讀書會報名</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 內訓專區 end -->
+
+                        <div class="separate"></div>
+
+                        <!-- 操作手冊專區 start -->
+                        <div class="d-inline-flex">
+                            <div class="icon-container rounded-circle p-2 d-flex align-items-center justify-content-center manual-circle">
+                                <img src="~/Images/folder-open-regular.svg" alt="" />
+                            </div>
+
+                            <button class="manual-title collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseManual"
+                                    aria-expanded="false"
+                                    aria-controls="collapseManual">
+                                操作手冊專區
+                            </button>
+                        </div>
+
+                        <div class="collapse" id="collapseManual">
+                            <ul class="dropdown-menu-manual ms-4">
+                                <!-- Dropdown menu links -->
+                                <li>
+                                    <a class="dropdown-item manual px-2 py-1" href="#">管理系統操作手冊</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item manual px-2 py-1" href="#">資訊系統懶人包</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 操作手冊專區 end -->
+                    </div>
+                    <!-- main-left end -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- navbar test -->
+    <!-- main section start -->
+    <div class="container mt-4">
+        <div class="Body_content text-center">
+            <div class="layoutForOtherPage px-3 py-2 rounded-2 mx-auto">
+                <a href="index.html"
+                   class="layoutForOtherPage-icon text-decoration-none d-flex align-items-center justify-content-center gap-2">
+                    <svg viewBox="0 0 576 512" fill="#fff">
+                        <path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
+                    </svg>
+                    <span class="fw-bold layoutForOtherPage-text">回首頁</span>
+                </a>
+            </div>
+
+            <div class="w-100 h-auto mx-auto my-3">
+                需要置入的頁面 Lsorem ipsum dolor sit amet consectetur adipisicing
+                elit. Nobis dicta non et temporibus doloremque adipisci velit commodi
+                harum laboriosam ab! Aspernatur, ad reiciendis! Esse, natus quia sequi
+                obcaecati enim nostrum, quasi facere dolores perferendis vel libero
+                voluptatum veritatis fugiat placeat tenetur tempore minus fugit ex
+                magni exercitationem voluptatibus optio impedit. Ea, tenetur quas non
+                laboriosam repellat necessitatibus nihil nisi a. Autem voluptate atque
+                quam officiis ex cumque fugit excepturi culpa quidem explicabo.
+                Reiciendis asperiores modi, aperiam nobis perspiciatis error molestias
+                voluptatibus suscipit eveniet ad, aliquid debitis eum aut delectus?
+                Esse tenetur placeat cumque vitae. Aperiam eaque doloribus sint,
+                incidunt perspiciatis mollitia quaerat quasi minima vel, consequatur
+                enim delectus! Iusto amet placeat repellendus, tempore illo rerum
+                deleniti veniam minus eaque nobis, atque, maxime quas laborum vel.
+                Tempora itaque fuga deleniti nam omnis perspiciatis id tenetur maiores
+                eius et unde nisi dicta totam odio, illum accusantium, culpa est
+                laudantium autem dignissimos error consectetur laboriosam. Tempore
+                rerum, nihil expedita, minima perspiciatis inventore illum, earum ut
+                aliquam in accusantium modi! Porro rerum, cum necessitatibus ut quas
+                cupiditate possimus, sed praesentium libero ad accusamus veniam, quos
+                eum beatae laborum ullam dicta? Ea repellat laudantium in
+                exercitationem! Quos iusto fuga, enim dignissimos culpa natus
+                excepturi quasi temporibus ut asperiores blanditiis nobis animi nisi
+                provident ducimus alias numquam earum! Aut aliquam eveniet eum, id
+                obcaecati similique accusantium numquam, adipisci magni minima in
+                earum libero, commodi necessitatibus odio? Incidunt dignissimos
+                voluptate porro autem reiciendis maxime ad quibusdam laboriosam, ea
+                eligendi consectetur sint voluptatum eius eos! Obcaecati facere ea
+                libero explicabo animi, blanditiis totam assumenda neque a atque
+                eligendi fugiat tenetur illo mollitia voluptas labore vero maiores.
+                Delectus nisi deserunt, nam tenetur numquam, explicabo fuga autem
+                inventore rerum perspiciatis earum. Blanditiis debitis libero, quidem
+                quisquam dolore maxime, voluptate eos, obcaecati dolor cumque laborum
+                dignissimos aperiam ipsam ipsum aliquam sint alias eligendi!
+                Consequuntur temporibus, quo non optio ad repellat animi molestias
+                harum dignissimos explicabo maxime quia sequi laboriosam ipsum
+                mollitia rem eos unde labore, cupiditate adipisci. Dolores aspernatur
+                veniam asperiores veritatis deleniti voluptatibus doloremque
+                accusantium possimus eaque cumque ducimus ratione quisquam odit
+                distinctio et, eligendi esse, itaque exercitationem laboriosam quo
+                fugit dignissimos! Ad repellendus consequatur iure alias nostrum
+                tenetur nobis architecto quisquam odio. Explicabo voluptates
+                praesentium facilis ducimus nesciunt sit eaque! Fugiat reprehenderit
+                quisquam expedita voluptatum? Voluptas labore excepturi, unde
+                pariatur, id nesciunt temporibus ratione ad doloribus eos delectus,
+                cum odio est. Cupiditate maiores quidem aperiam beatae quos expedita
+                temporibus, suscipit nobis veniam? Ab obcaecati id enim aliquid
+                similique alias veniam commodi sapiente vitae sequi, maxime minima
+                labore dolorem modi nemo. Beatae eaque veniam enim saepe tempore,
+                consequatur quis reiciendis assumenda distinctio non sequi a atque
+                incidunt illum eligendi ipsa itaque sapiente, id quibusdam quaerat
+                asperiores est quae facilis. Amet placeat repellat repudiandae magnam
+                ab asperiores repellendus minus veritatis corrupti. Atque nobis
+                distinctio enim, totam rem voluptatem quis sequi cumque possimus
+                necessitatibus temporibus vel iste officiis, maiores iure molestiae
+                dignissimos repudiandae fugiat quam, ab repellendus! Voluptatem magni
+                sed ullam adipisci iure eaque, alias voluptate, fuga vero laudantium
+                voluptatum officiis! Culpa sed libero voluptatum quis officiis
+                reiciendis nulla, similique id vitae modi facere nostrum. Alias, sunt
+                facilis illum expedita beatae sed harum. Illo ullam quod vero,
+                similique soluta facilis corporis blanditiis illum aspernatur tempore
+                ab eos. Sunt voluptate placeat, perspiciatis itaque voluptatibus fuga
+                odio pariatur, corporis exercitationem eos minima, ea molestias
+                laboriosam est? A accusantium qui, nobis vel repellat veniam hic
+                reprehenderit, porro ratione odio enim eaque excepturi! Soluta
+                consequatur eligendi dolore quis maiores in ex! Accusantium rem,
+                veritatis repellendus nemo beatae minima labore ad! Eum rem provident
+                omnis commodi incidunt praesentium soluta quo animi, iusto officia
+                assumenda ea saepe tempore. 需要置入的頁面
+            </div>
+        </div>
+    </div>
+
+    <!-- main section end -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+
+    <script>
+        const tooltipTriggerList = document.querySelectorAll(
+            '[data-bs-toggle="tooltip"]'
+        );
+        const tooltipList = [...tooltipTriggerList].map(
+            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+        );
+    </script>
+</body>
+</html>
+
+

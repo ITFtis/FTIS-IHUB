@@ -1,0 +1,148 @@
+﻿<!-- navbar -->
+<nav class="navbar bg-body-tertiary sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href='~/Home' >
+            <img src="~/Images/logo.png" alt="Ftis" width="auto" height="25" />
+        </a>
+
+        <div class="d-flex align-items-center">
+            <div class="dropdown-center">
+                <a href="~/Home" class="px-2 px-lg-3">
+                    <img src="~/Images/house-solid.svg"
+                         width="auto"
+                         height="25"
+                         class="nav-icon" />
+                </a>
+            </div>
+
+            <div class="dou-header dropdown-center ">
+                <a href="https://pj.ftis.org.tw/CHAT/ChatHistory?isiframe=Y">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-title="百老匯">
+                        <img src='~/Images/comment-dots-solid.svg'
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </button>
+                </a>
+            </div>
+
+            <div class="dropdown-center ">
+                <button class="btn dropdown-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="bottom"
+                        data-bs-title="個人排班班表">
+                    <img src='~/Images/calendar-days-solid.svg'
+                         width="auto"
+                         height="25"
+                         class="nav-icon" />
+                </button>
+            </div>
+
+            <div class="dou-header dropdown-center ">
+                <a href="https://pj.ftis.org.tw/FtisEmpManage/EmpBasic?isiframe=Y">
+                    <button class="btn dropdown-toggle"
+                            type="button"
+                            aria-expanded="false"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="bottom"
+                            data-bs-title="個人資料維護">
+                        <img src='~/Images/user-solid.svg'
+                             width="auto"
+                             height="25"
+                             class="nav-icon" />
+                    </button>
+                </a>
+            </div>
+
+            <div class="dropdown-center">
+                <button class="btn dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    <img src='~/Images/gear-solid.svg'
+                         width="auto"
+                         height="25"
+                         class="nav-icon" />
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="dropdown-item">
+                        帳 號:@if (Dou.Context.CurrentUserBase != null)
+                        {
+                            @Dou.Context.CurrentUserBase.Id
+                        }
+                    </li>
+                    <li class="dropdown-item">
+                        名 稱:@if (Dou.Context.CurrentUserBase != null)
+                        {
+                            @Dou.Context.CurrentUserBase.Name
+                        }
+                    </li>
+                    <li class="dropdown-item">
+                        IP:@HttpContext.Current.Request.UserHostAddress
+                    </li>
+                    <li class="dropdown-item"><hr /></li>
+                    <li class="dropdown-item">
+                        @Html.ActionLink("登出", "DouLogoff", "User", routeValues: null, htmlAttributes: new { id = "logoffLink" })
+                    </li>
+                </ul>
+            </div>
+
+            <button class="navbar-toggler d-xl-none"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar"
+                    aria-controls="offcanvasNavbar"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        
+        <div class="offcanvas offcanvas-start"
+             tabindex="-1"
+             id="offcanvasNavbar"
+             aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <a class="navbar-brand" href="#">
+                    <img src='~/Images/logo.png'  alt="Ftis" width="auto" height="25" />
+                </a>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="d-flex flex-column align-items-start justify-content-start gap-2">
+                    @*RWD Menu(平板+手機) _MenuRWDPartial(共用_MenuPartial)*@
+                    @Html.Partial("_MenuPartial", "RWD")@*標頭*@
+                </div>
+                <!-- main-left end -->
+            </div>
+        </div>
+
+    </div>
+</nav>
+<!-- navbar -->
+
+<script>
+    //快捷鍵Menu
+    const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+    );
+
+    //快捷鍵內嵌網頁
+    $.each($('.dou-header a[href]'), function () {
+        var href = app.siteRoot + 'HtmlIframeOtherMainLayout/IFrame' + "?url=" + $(this).attr("href");
+        $(this).attr('href', href);
+    });
+</script>
+

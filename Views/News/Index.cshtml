@@ -1,0 +1,121 @@
+﻿<!-- news board start -->
+<!--<div class="bg-white rounded-3 mt-4 p-4 shadow">
+	<div class="search-container mt-2">
+		<div class="input-group mb-3 px-xl-3">
+			<input type="text"
+				   class="form-control"
+				   placeholder=""
+				   aria-label=""
+				   aria-describedby="button-addon2" />
+			<button class="btn btn-outline-secondary"
+					type="submit"
+					id="button-addon2">
+				搜尋
+			</button>
+		</div>
+	</div>
+
+	<div class="news-area-container mt-4 px-xl-3">
+		<div class="news-item d-flex align-items-center">
+			<div class="news-date me-3">2023/05/31</div>
+			<a class="news-title" href="news-1.html">經濟部工業局112年「綠色技術與工程實務研討會」徵求論文</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/29</div>
+			<a class="news-title" href="#">經濟部工業局112年度因應國際環保暨綠色工廠推動計畫「綠色工廠講習會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/29</div>
+			<a class="news-title" href="#">經濟部工業局「推動產業及中小企業升級轉型說明會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/12</div>
+			<a class="news-title" href="#">經濟部工業局「銅箔基板及印刷電路板製程空氣污染防制技術研討會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/05</div>
+			<a class="news-title" href="#">經濟部工業局112年度「低碳淨零人培開班資訊」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/05</div>
+			<a class="news-title" href="#">經濟部工業局112年度因應國際環保暨綠色工廠推動計畫「綠色工廠講習會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/04</div>
+			<a class="news-title" href="#">經濟部工業局「推動產業及中小企業升級轉型說明會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/03</div>
+			<a class="news-title" href="#">經濟部工業局「銅箔基板及印刷電路板製程空氣污染防制技術研討會」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/02</div>
+			<a class="news-title" href="#">經濟部工業局112年度「低碳淨零人培開班資訊」</a>
+		</div>
+
+		<div class="news-line mt-2"></div>
+
+		<div class="news-item d-flex align-items-center mt-2">
+			<div class="news-date me-3">2023/05/01</div>
+			<a class="news-title" href="#">經濟部工業局112年「綠色技術與工程實務研討會」徵求論文</a>
+		</div>
+	</div>-->
+
+	<!-- Pagination start -->
+	@*<nav aria-label="Page navigation example text-center ">
+		<ul class="pagination mt-4 justify-content-center">
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">1</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">2</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#">3</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>*@
+	<!-- Pagination end -->
+<!--</div>-->
+<!-- news board end -->
+
+<link href="~/Content/prj/news.css" rel="stylesheet"/>
+
+@using Dou.Misc.Extension
+@Html.DataManagerOptionsJavascript(null, "douoptions")
+<table id="_table"></table>
+<script src="~/Scripts/prj/News.js"></script>

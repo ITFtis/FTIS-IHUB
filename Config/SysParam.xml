@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ArrayOfSysParam xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<SysParam>
+	<Key>EmpWTOption</Key>
+	<Name>班別調查設定</Name>
+	<Wyear>2023</Wyear>
+	<Qno>3</Qno>
+	<Cstartdate>2023/05/29</Cstartdate>
+	<Cenddate>2023/08/20</Cenddate>
+	<Class1>Upload/ClassDoc/2023Q3-1.pdf</Class1>
+	<Class2>Upload/ClassDoc/2023Q3-2.pdf</Class2>
+	<Class3>Upload/ClassDoc/2023Q3-3.pdf</Class3>
+	<Class9></Class9>
+	<IsView>Y</IsView>
+	<IsBlock>N</IsBlock>
+</SysParam>
+<SysParam>
+	<Key>Test_Key</Key>
+	<Name>Test_Name</Name>
+</SysParam>
+</ArrayOfSysParam>

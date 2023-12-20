@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutV3.cshtml";
+}
+
+@using Dou.Misc.Extension
+
+@Html.DataManagerOptionsJavascript(null, "douoptions")
+
+
+<script>
+    $(document).ready(function () {
+
+        //隱藏Menu
+        $(".justify-content-end").hide();
+        $('#user-profile').hide();
+
+        ////douoptions.afterAddServerData = function (row, callback) {
+        ////    location.href = '/User/DouLogin';
+        ////}
+
+        douoptions.afterUpdateServerData = function (row, callback) {
+            location.href = app.siteRoot + 'User/DouLogin';
+        }
+
+        douoptions.afterCreateEditDataForm = function ($container, row) {
+            //保留確定按鈕
+            $container.find('.modal-footer button').hide();
+            $container.find('.modal-footer').find('.btn-primary').show();
+            ////$('#myModalLabel').text('員工班表挑選');  //主題
+            $('.modal-header').hide();
+
+            //班表1,2,3,9 pdf連結
+            $.ajax({
+                url: $.AppConfigOptions.baseurl + 'EmpWTOptionSelect/GetClassesLink',
+                datatype: "json",
+                type: "POST",
+                success: function (data) {
+                    var ppp = $container.find('div[data-field=ClassID]');
+                    var classes = [];
+
+                    if (data.Class1 != "") {
+                        classes.push('<a target="_blank" href="' + app.siteRoot + data.Class1 + '">班表一</a>');
+                    }
+                    if (data.Class2 != "") {
+                        classes.push('<a target="_blank" href="' + app.siteRoot + data.Class2 + '">班表二</a>');
+                    }
+                    if (data.Class3 != "") {
+                        classes.push('<a target="_blank" href="' + app.siteRoot + data.Class3 + '">班表三</a>');
+                    }
+                    if (data.Class9 != "") {
+                        classes.push('<a target="_blank" href="' + app.siteRoot + data.Class9 + '">特殊班表</a>');
+                    }
+                    $(classes.join('&nbsp&nbsp')).appendTo(ppp);
+                }
+            });
+        }
+
+        $("#_table").DouEditableTable(douoptions); //初始dou table
+    });
+</script>
+
+<table id="_table"></table>
+
+

@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<ArrayOfMenuDefAttribute xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>HrEmpBasic</Id>
+		<Name>員工資料管理</Name>
+		<MenuPath>人事差勤專區</MenuPath>
+		<Index>6</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj.ftis.org.tw/FtisEmpManage/Emp</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>HrF22</Id>
+		<Name>F22人事差勤平台</Name>
+		<MenuPath>人事差勤專區</MenuPath>
+		<Index>5</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj3.ftis.org.tw/HRM_F22/SalarySettleAccoun</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>HrSeat</Id>
+		<Name>座位表管理</Name>
+		<MenuPath>人事差勤專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>7</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/SEAT/Customization/Customization?isiframe=Y</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>HrSeatSearch</Id>
+		<Name>座位表查詢</Name>
+		<MenuPath>人事差勤專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>8</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/SEAT/SEAT/SEAT?isiframe=Y</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>AssetsManage</Id>
+		<Name>資產管理系統</Name>
+		<MenuPath>資產管理系統專區</MenuPath>
+		<Index>1</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj3.ftis.org.tw/AssetSys</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>FinanceManage</Id>
+		<Name>財務系統專區</Name>
+		<MenuPath>財務系統專區</MenuPath>
+		<Index>1</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj3.ftis.org.tw/FBsys/User/Login?ad=true</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ManualBag</Id>
+		<Name>資訊系統懶人包</Name>
+		<MenuPath>操作手冊專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>2</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/iHub/DocsWeb/資訊系統懶人包.pdf</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ReserveMeetingRoom</Id>
+		<Name>會議室_設備預約系統</Name>
+		<MenuPath>行政管理與系統預約專區</MenuPath>
+		<Index>4</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>http://120.100.100.176/mrbs/day.php?year=2023&amp;month=08&amp;day=21&amp;area=1&amp;room=1</Url>
+	</MenuDefAttribute>
+
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineEmail</Id>
+		<Name>線上Email系統</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>4</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://mail.ftis.org.tw/webmail-cgi/XwebMail?_task=login</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineDocument</Id>
+		<Name>線上公文系統</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>5</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://odoc.ftis.org.tw/Account/Login</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineESP</Id>
+		<Name>ESP知識管理系統</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>6</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://esp.ftis.org.tw/ESP/login.aspx?ReturnUrl=%2fESP%2f</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineAction</Id>
+		<Name>行動化報告系統</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>7</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://report.ftis.org.tw/</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineRecycler</Id>
+		<Name>非塑稽核認證回收商</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>8</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://mis.ftis.org.tw/nprecycle/</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineDrawGame</Id>
+		<Name>抽獎活動系統</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>9</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj3.ftis.org.tw/DrawGame/Lottery</Url>
+	</MenuDefAttribute>	
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>OnlineFtisErMail</Id>
+		<Name>環資中心投書信箱</Name>
+		<MenuPath>線上系統專區</MenuPath>
+		<Index>12</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://mis.ftis.org.tw/er_mail/er_mail.asp</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>BusinessWork</Id>
+		<Name>工服案</Name>
+		<MenuPath>業務系統專區</MenuPath>
+		<Index>1</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj.ftis.org.tw/is</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>BusinessWorkSearch</Id>
+		<Name>工服資料簡易查詢</Name>
+		<MenuPath>業務系統專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>2</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/WorkForm?isiframe=Y</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ProjectView</Id>
+		<Name>專案資料一覽表</Name>
+		<MenuPath>專案管理專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>1</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj.ftis.org.tw/FtisEmpManage/Pj?isiframe=Y</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ProjectdSet</Id>
+		<Name>專案資料管理</Name>
+		<MenuPath>專案管理專區</MenuPath>
+		<Index>2</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj.ftis.org.tw/FtisEmpManage/Pj</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ProjectOutsource</Id>
+		<Name>外包機構核備系統</Name>
+		<MenuPath>專案管理專區</MenuPath>		
+		<Index>4</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/SCMS/User/Sso</Url>
+	</MenuDefAttribute>
+</ArrayOfMenuDefAttribute>
