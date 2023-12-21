@@ -29,7 +29,7 @@ namespace iHub.Controllers
 			ViewBag.LatestPost = post.GetAll()
 								.Where(x => x.NodeId == 3 && x.Flag == 1)
 								.OrderByDescending(x => x.ShowDate)
-								.Take(6)
+								.Take(5)
 								.ToList();
 
 			//首頁登入者資料
