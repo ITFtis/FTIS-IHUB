@@ -66,3 +66,14 @@
 .modal-content .table-borderless b {
 	margin-right: 2.5rem;
 }
+
+@media (max-width:576px) {
+
+	.form-group .form-control {
+		border-radius: 0.375rem !important;
+	}
+
+	.form-group .btn {
+		border-radius: 0.375rem !important
+	}
+}
