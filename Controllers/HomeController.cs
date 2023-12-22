@@ -19,21 +19,31 @@ namespace iHub.Controllers
             //    return Redirect("~/User/DouLogin");
 
             var dbContext = new iHubModelContextExt();
-
-            //跑馬燈
-            Dou.Models.DB.IModelEntity<cmmMrq> mrq = new Dou.Models.DB.ModelEntity<cmmMrq>(dbContext);
-            ViewBag.Mrqs = mrq.GetAll().OrderByDescending(a => a.mrqtxt).ToList();
-
+           
 			//最新消息
 			Dou.Models.DB.IModelEntity<POST> post = new Dou.Models.DB.ModelEntity<POST>(dbContext);
-			ViewBag.LatestPost = post.GetAll()
+			var news = post.GetAll()
 								.Where(x => x.NodeId == 3 && x.Flag == 1)
 								.OrderByDescending(x => x.ShowDate)
 								.Take(5)
 								.ToList();
 
-			//首頁登入者資料
-			if (Dou.Context.CurrentUserBase != null)
+            ViewBag.LatestPost = news;
+
+            //跑馬燈
+            Dou.Models.DB.IModelEntity<cmmMrq> mrq = new Dou.Models.DB.ModelEntity<cmmMrq>(dbContext);
+            var a1 = mrq.GetAll().Select(a => a.mrqtxt);            
+            var a2 = news.Take(3).Select(a => new
+            {
+                ShowDate = a.ShowDate == null ? "" : (((DateTime)a.ShowDate).Year - 1911).ToString() + "." + (((DateTime)a.ShowDate).Month).ToString(),
+                a.Title
+            })
+            .Select(a => a.ShowDate + " " + a.Title);
+
+            ViewBag.Mrqs = a1.Concat(a2).OrderByDescending(a => a).ToList();
+
+            //首頁登入者資料
+            if (Dou.Context.CurrentUserBase != null)
             {
                 string Fno = Dou.Context.CurrentUserBase.Id;   //string Fno = "A0183";
                 DateTime today = DateTime.Now;  //DateTime today = DateTime.Parse("2023/07/26");

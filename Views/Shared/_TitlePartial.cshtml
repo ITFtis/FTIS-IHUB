@@ -63,12 +63,14 @@
                     <table class="table table-sm table-striped align-middle m-0 fw-bold d-block d-md-table" style="text-align: center; width: 40rem;">
                         <tbody>
                             @{
-                                List<iHub.Models.cmmMrq> mrqs = ViewBag.Mrqs;
+                                //List<iHub.Models.cmmMrq> mrqs = ViewBag.Mrqs;
+                                List<string> mrqs = ViewBag.Mrqs;
                                 foreach (var v in mrqs)
                                 {
                                     <tr>
                                         <td>
-                                           @v.mrqtxt                                            
+                                           @*@v.mrqtxt*@
+                                           @v
                                         </td>
                                     </tr>
                                 }
