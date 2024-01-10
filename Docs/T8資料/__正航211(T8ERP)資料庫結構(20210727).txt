@@ -1,0 +1,1219 @@
+網址：http://eip.ftis.org.tw    http://118.163.136.68(port:980)    120.100.100.211
+帳套：ERP
+帳號：F00000
+密碼：F00000
+
+
+測試用人員職號：F01342~F01342
+
+
+
+測試環境：帳套：HRTEST
+
+=========================================
+         mis..mis_t8
+         T8ERP(120.100.100.211)
+Server=120.100.100.211;UID=sa;PWD=Ftis173ftis170;database=T8ERP
+
+
+<%set conn=Open_Database("maindatabase")
+  set connt8=Open_DataBase_T8("maindatabaset8")%>
+
+
+=========================================
+職號組成
+
+Left(session("cmpy"),1) & session("keyid")
+
+
+專案組成
+
+Left(session("cmpy"),1) & PJ號碼
+
+
+-----------------------
+session("T8keyid")=Left(session("cmpy"),1) & session("keyid")
+
+
+  '該月第1天
+  tdate=CDate(session("填寫yy") & "/" & session("填寫mm") & "/1")
+  '該月共幾天
+  mmdays=datediff("d" ,tdate ,Dateadd("m", +1, tdate) )
+  twdy=cint(session("填寫dy"))
+  twwk=cint(session("填寫wk"))-1
+  For ii=twwk To 6
+    if twdy<=mmdays then
+     response.write "[" & session("填寫mm") & "/" & twdy & "<" & Right(weekdayname(weekday(CDate(session("填寫yy")&"/"&session("填寫mm")&"/"&twdy))),1) & ">] "
+     twwk=twwk+1
+     twdy=twdy+1
+    else
+     Exit for
+    end If
+  next
+
+
+
+
+=========================================
+Flow簽核的關主，因系統中無類似簽核表之類的功能可維護，
+因此將人員集團檔案中，沒使用到的欄位來當簽核表使用，對照如下：
+
+(comGroupPerson人員集團檔案, comDepartment部門-Sheet1第14355行)
+
+EyeState   色覺檢查  副理：1天
+DiffColor  單色識別  資深經理/經理：3天
+Abhorrer   禁忌      協理：4天
+MSNNo      MSN       副總經理：5天
+
+
+'取出所屬清單  [在職a.DimissionDate=0、p.EyeState(色覺檢查 副理)、p.DiffColor(單色識別 經理)、p.Abhorrer(禁忌 協理)、p.MSNNo(MSN 副總經理)]
+SELECT p.PersonId as 員工編號,p.PersonName,p.EMail,a.DeptId,q.DeptName,
+ p.EyeState as ckno1, ck1.PersonName as ckname1, ck1.EMail as ckmail1, 
+p.DiffColor as ckno2, ck2.PersonName as ckname2, ck2.EMail as ckmail2, 
+ p.Abhorrer as ckno3, ck3.PersonName as ckname3, ck3.EMail as ckmail3, 
+    p.MSNNo as ckno4, ck4.PersonName as ckname4, ck4.EMail as ckmail4, 
+a.InductionDate as 到職日,a.DimissionDate as 離職日, a.IsInUsed
+  FROM [comGroupPerson] p left join [comPerson] a on p.PersonId=a.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   left join [comGroupPerson] ck1 on p.EyeState=ck1.PersonId
+   left join [comGroupPerson] ck2 on p.DiffColor=ck2.PersonId
+   left join [comGroupPerson] ck3 on p.Abhorrer=ck3.PersonId
+   left join [comGroupPerson] ck4 on p.MSNNo=ck4.PersonId
+   where a.DimissionDate = 0 and (p.EyeState='F00027' or p.DiffColor='F00027' or p.Abhorrer='F00027' or p.MSNNo='F00027')
+  order by p.PersonId
+
+'取出所屬部門 (在職a.DimissionDate=0)
+SELECT distinct a.DeptId,q.DeptName
+  FROM [comGroupPerson] p left join [comPerson] a on p.PersonId=a.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   where a.DimissionDate = 0 and (p.EyeState='F00027' or p.DiffColor='F00027' or p.Abhorrer='F00027' or p.MSNNo='F00027')
+  order by a.DeptId
+
+------------------------------------------
+
+★取出員工個人資料(含4階審核人資料)
+SELECT p.PersonId as 員工編號,p.PersonName,p.EMail,a.DeptId,q.DeptName,
+ p.EyeState as ckno1, ck1.PersonName as ckname1, ck1.EMail as ckmail1, 
+p.DiffColor as ckno2, ck2.PersonName as ckname2, ck2.EMail as ckmail2, 
+ p.Abhorrer as ckno3, ck3.PersonName as ckname3, ck3.EMail as ckmail3, 
+    p.MSNNo as ckno4, ck4.PersonName as ckname4, ck4.EMail as ckmail4, 
+a.InductionDate as 到職日,a.DimissionDate as 離職日, a.IsInUsed
+  FROM [comGroupPerson] p left join [comPerson] a on p.PersonId=a.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   left join [comGroupPerson] ck1 on p.EyeState=ck1.PersonId
+   left join [comGroupPerson] ck2 on p.DiffColor=ck2.PersonId
+   left join [comGroupPerson] ck3 on p.Abhorrer=ck3.PersonId
+   left join [comGroupPerson] ck4 on p.MSNNo=ck4.PersonId
+   where p.PersonId='F01162'
+  order by p.PersonId
+
+
+取出姓名、mail
+select p.PersonId,p.PersonName,p.EMail,p.EyeState,p.DiffColor,p.Abhorrer,p.MSNNo,p.Birthday,p.Sex,a.InductionDate as 到職日,a.DimissionDate as 離職日, a.IsInUsed 
+from [comGroupPerson] p left join [comPerson] a on p.PersonId=a.PersonId order by p.PersonId
+
+取出在職人員
+select * from comPerson where IsInUsed=1 order by PersonId
+
+=========================================
+關連用欄位
+
+HrmOrgId	人力管理組織        → 1000
+TypeId		代碼
+
+-------------------------------------------------
+【comDepartment】部門
+DeptId			代碼		varchar
+DeptShortName		簡稱		nvarchar
+DeptName		名稱		nvarchar
+DepartmentCategory	部門類型	varchar
+ValidityFromDate	有效期從	int
+ValidityToDate		有效期至	int
+JobScheduleId		部門行事曆代碼	varchar
+LeaderId		主管一		varchar
+
+
+取出部門資料
+select a.DeptId, a.DeptShortName, a.DeptName, a.ValidityFromDate, a.ValidityToDate, a.LeaderId, p.PersonName,p.EMail
+from [comDepartment] a left join [comGroupPerson] p on a.LeaderId=p.PersonId 
+order by a.DeptId
+
+-------------------------------------------------
+【comGroupPerson】人員集團檔案
+PersonId	代碼
+PersonName	姓名
+Sex		性別
+EMail		E-Mail
+
+-------------------------------------------------
+【comPerson】	任職資訊
+HrmOrgId	人力管理組織
+SalCompanyId	管理公司
+PersonId	人員編號
+BelongGroupId	人員組別
+ServiceStatus	就職狀態
+InductionDate	到職日期
+DimissionDate	離職日期
+
+
+
+=========================================
+[hrmSpecialRestR	(遞延特休) 年度休假表]
+
+select BelongYear as 年度, BeginDate as 起始日, EndDate as 結束日, SRestTime as 特休總時數, SRestTimeRemain as 剩餘特休時數
+,LYSRTRemain as 上年度未休時數, OriginalTime as 期初已休時數,IsAutoExtend as 已自動遞延,*  
+from hrmSpecialRestR
+where personid='F01162'
+  order by personid,年度 desc
+
+SRestTime	年假時數	numeric
+SRestTimeUse	已休時數	numeric
+SRestTimeRemain	未休時數	numeric
+
+BelongYear	所屬年度	smallint
+BeginDate	起始日期	int
+EndDate		結束日期	int         → 判斷「遞延特休」
+
+LYSRTRemain	上年度未休時數	numeric
+OriginalTime	期初已休時數	numeric
+
+IsAutoExtend	已自動遞延	bit
+
+-------------------------------------------------
+
+補休 →　部份人員不符，原因不明
+-------------------
+[hrmSpecDRestSum	補休彙總表] 
+
+  SELECT DRestTime as 補休總時數, DRestTimeRemain as 剩餘補休時數,SRestTime as 特休總時數, SRestTimeRemain as 剩餘特休時數, *
+  FROM [hrmSpecDRestSum]
+  where personid='F01162'
+  order by PersonId desc
+
+
+PersonId	人員編號
+
+SRestDay	年假可休天數
+SRestTime	年假可休時數
+SRestDayRemain	年假剩餘可休天數
+SRestTimeRemain	年假剩餘可休時數
+
+DRestTime	補休時數	numeric
+DRestTimeRemain	補休剩餘時數	numeric
+
+-------------------
+改用下述２表互加
+-------------------
+●取出原管理系統轉過來的可用補休資料
+ [hrmDRestInitial	可補休時數初始]   
+  PersonId	人員編號
+  HourUnit	時數單位
+  DRestTime	補休時數
+  DRestTimeUse	已補休時數
+  ValidateDate	生效日期
+＊InValidateDate	截止日期
+
+select PersonId,sum(DRestTimeRemain) 可用舊補休 from  hrmDRestInitial
+where (personid='F01162' or  personid='F00460' or  personid='F01536') and InValidateDate>='20210809'
+group by PersonId order by PersonId	
+
+
+●判斷T8可用補休
+[hrmOverTimeD  加班單明細資料表]
+  BillNo	單據編號	varchar
+  PersonId	人員編號	varchar
+  BelongDate	歸屬日期	int
+  UnRestTime	剩餘可補休時數	numeric
+＊CutOffDate	補休截止日期	int
+
+可用補休總數
+select PersonId,sum(UnRestTime) as 可用補休 from hrmOverTimeD
+where (personid='F01162' or  personid='F00460' or  personid='F01536') and CutOffDate>='20210809'
+group by PersonId order by PersonId	
+
+可用補休詳細資料(同一張單會被拆多筆 1.33 vs 1.66)
+select PersonId,sum(UnRestTime) as 可用補休 from hrmOverTimeD
+where BillNo='OW20210809008'
+group by PersonId order by PersonId
+
+
+
+xxx [hrmSpecialRestR	年假記錄初始]
+
+
+
+=========================================
+[hrmLeaveBillD] 請假明細
+
+請假資料  (hrmLeaveBill假單, hrmLeaveBillM假單主檔, hrmLeaveBillD請假明細, hrmLeaveCause請假假別-Sheet1第39832行, )
+          (comGroupPerson人員集團檔案, comDepartment部門-Sheet1第14355行)
+
+
+---------------
+(假單主體) 取出202106以後所有的請假明細
+
+【有效假單：hrmLeaveBillM假單主表 → PermitState=1 or PermitState=2】
+PermitState	審核狀態	tinyint  	選項列表:0<未審核>;1<審核中>;2<已審核>
+CurrentState	狀態		tinyint  	選項列表:0<草稿>;1<未生效>;2<生效>;3<作廢>;4<結案>
+
+SELECT a.BillNo,a.PersonId as 員工編號,p.PersonName,p.EMail,a.DeptId,q.DeptName,a.LeaveCause,r.TypeName,
+a.BeginDate as 假單起始日期,a.BeginTime as 假單起始時間,a.EndDate as 假單結束日期,a.FinishTime as 假單結束時間,a.ExchangeHour as 總時數,a.ExchangeDay as 總天數,
+c.PermitState as 審核狀態,c.PermitTime as 審核時間, c.CurrentState as 假單狀態
+   FROM [hrmLeaveBill] a
+   left join [hrmLeaveBillM] c on a.BillNo=c.BillNo
+   left join [hrmLeaveCause] r on a.LeaveCause=r.TypeId
+   left join [comGroupPerson] p on a.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where a.PersonId='F00664' and left(a.BeginDate,6)>='202107' and (c.CurrentState=1 or c.CurrentState=2)
+  order by a.personid,a.BeginDate desc,a.BeginTime desc
+
+
+(切割明細) 取出202106以後所有的請假明細
+SELECT a.BillNo,a.PersonId as 員工編號,p.PersonName,p.EMail,a.DeptId,q.DeptName,a.LeaveCause,r.TypeName,
+a.BeginDate as 假單起始日期,a.BeginTime as 假單起始時間,a.EndDate as 假單結束日期,a.FinishTime as 假單結束時間,a.ExchangeHour as 總時數,a.ExchangeDay as 總天數,
+c.PermitState as 審核狀態,c.PermitTime as 審核時間,
+b.WorkAttr as 本日類別,b.BeginDate as 切單起日,b.BeginTime as 切單起時,b.EndDate as 切單迄日,b.FinishTime as 切單迄時,b.ExchangeHour as 切單時數
+        FROM [hrmLeaveBill] a
+   left join [hrmLeaveBillD] b on a.BillNo=b.BillNo
+   left join [hrmLeaveBillM] c on a.BillNo=c.BillNo
+   left join [hrmLeaveCause] r on a.LeaveCause=r.TypeId
+   left join [comGroupPerson] p on a.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where left(a.BeginDate,6)>='202106'
+  order by a.personid,a.BeginDate desc,a.BeginTime desc,b.BeginDate,b.BeginTime
+
+
+--------------------------------------
+取出某人某一天之全部假單資料
+select a.BillNo,a.PersonId,p.PersonName,p.EMail,a.DeptId,q.DeptName,
+a.LeaveCause,r.TypeName,b.BeginDate as 切單起日,b.BeginTime as 切單起時,b.EndDate as 切單迄日,b.FinishTime as 切單迄時,b.ExchangeHour as 切單時數
+FROM hrmLeaveBill a 
+left join hrmLeaveBillD b on a.BillNo=b.BillNo 
+left join hrmLeaveCause r on a.LeaveCause=r.TypeId
+left join [comGroupPerson] p on a.PersonId=p.PersonId 
+left join [comDepartment] q on a.DeptId=q.DeptId 
+where a.PersonId='F01162' and b.BeginDate='20191209'
+order by a.PersonId,a.LeaveCause
+
+取出某人某一天之各假單累計時數
+select distinct a.PersonId,p.PersonName,p.EMail,a.DeptId,q.DeptName,
+a.LeaveCause,r.TypeName,b.BeginDate as 切單起日,b.EndDate as 切單迄日,sum(b.ExchangeHour) as resthr
+FROM hrmLeaveBill a 
+left join hrmLeaveBillD b on a.BillNo=b.BillNo 
+left join hrmLeaveCause r on a.LeaveCause=r.TypeId
+left join comGroupPerson p on a.PersonId=p.PersonId 
+left join comDepartment q on a.DeptId=q.DeptId 
+where a.PersonId='F01162' and b.BeginDate='20191209'
+group by a.PersonId,p.PersonName,p.EMail,a.DeptId,q.DeptName,
+a.LeaveCause,r.TypeName,b.BeginDate,b.EndDate
+order by a.PersonId,a.LeaveCause
+
+
+[belongdate]歸屬日期 vs [BeginDate]切單起日
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+F00121- 4月第4週
+工時週報 之 切割假單
+mh-pr.asp  2043行
+
+   sql2a="SELECT a.BillNo,a.PersonId as 員工編號,p.PersonName,p.EMail,a.DeptId,q.DeptName,a.LeaveCause,r.TypeName,a.BeginDate as 假單起始日期,a.BeginTime as 假單起始時間,a.EndDate as 假單結束日期,a.FinishTime as 假單結束時間,a.ExchangeHour as 總時數,a.ExchangeDay as 總天數,c.PermitState as 審核狀態,c.PermitTime as 審核時間,b.WorkAttr as 本日之工作屬性,b.BeginDate as 切單起日,b.BeginTime as 切單起時,b.EndDate as 切單迄日,b.FinishTime as 切單迄時,b.ExchangeHour as 切單時數
+   FROM [hrmLeaveBill] a left join [hrmLeaveBillD] b on a.BillNo=b.BillNo left join [hrmLeaveBillM] c on a.BillNo=c.BillNo left join [hrmLeaveCause] r on a.LeaveCause=r.TypeId left join [comGroupPerson] p on a.PersonId=p.PersonId left join [comDepartment] q on a.DeptId=q.DeptId
+   WHERE a.PersonId='" & Left(session("cmpy"),1) & session("keyid") & "' and b.BeginDate='" & session("填寫yy") & Right("0" & session("填寫mm"),2) & Right("0" & twdy,2) & "' order by a.BeginDate,a.BeginTime,b.BeginDate,b.BeginTime"
+'Response.write sql0a & "<br>"
+'Response.write sql1a & "<br>"
+Response.write sql2a & "<br><br>"
+   set rs0a=conn.execute(sql0a)
+   set rs1a=conn.execute(sql1a)
+   set rs2a=connt8.execute(sql2a)
+
+typename 假單種類 寫入陣列
+
+'      if cint(rs2a("切單時數")))>0 Then
+        ha0=CDbl(rs2a("切單時數"))
+'      end If
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+---------------
+假單     SELECT * from hrmLeaveBill a
+請假明細 SELECT * from hrmLeaveBillD b	→ ★ 已切割之假單 
+假單主表 SELECT * from hrmLeaveBillM c	→ ★ 審核狀態
+
+
+---------------------------------------
+●hrmLeaveBillM	假單主表
+
+BillNo	單據編號
+PersonId	人員編號
+PermitterId	核准人
+PermitTime	核准時間	→ 最後一審的審核時間	
+PermitState	審核狀態	tinyint  	選項列表:0<未審核>;1<審核中>;2<已審核>
+CurrentState	狀態		tinyint  	選項列表:0<草稿>;1<未生效>;2<生效>;3<作廢>;4<結案>
+
+【有效假單：hrmLeaveBillM假單主表 → PermitState=1 or CurrentState=2】
+
+
+●hrmLeaveBill	假單
+BillNo		單據編號
+LeaveCause	假別
+BeginDate	開始日期
+BeginTime	開始時間
+EndDate		結束日期
+FinishTime	結束時間
+ExchangeHour	換算時數
+ExchangeDay	換算天數
+LeaveReason	請假原因
+
+
+
+●hrmLeaveBillD 請假明細
+BillNo		單據編號
+BeginDate	開始日期
+BeginTime	開始時間
+EndDate		結束日期
+FinishTime	結束時間
+ExchangeHour	換算時數
+ExchangeDay	換算天數
+
+
+---------------------------------------
+
+b.WorkAttr as 本日之工作屬性
+選項列表:0<未設定>;10<工作日>;11<制度內加班>;20<休息日>;30<休假日>;31<例假日>
+
+
+hrmLeaveCause	請假假別
+→
+Unit	單位  選項列表:0<天>;1<小時>;2<分鐘>
+TypeId	代碼
+TypeName名稱
+TypeId	假別編號
+0011	特休假(0.5H)
+0012	特休假(1H)
+0021	補休(0.5H)
+0022	補休(1H)
+004	公假
+1011	事假(一般事假-0.5H)
+1012	事假(一般事假-1H)
+1021	事假(家庭照顧假-0.5H)
+1022	事假(家庭照顧假-1H)
+103	遲到
+2011	病假(一般病假-0.5H)
+2012	病假(一般病假-1H)
+202	病假(生理假)
+301	婚假
+401	喪假
+501	產假
+502	陪產假
+503	產檢假
+601	公傷病假
+801	天然災害停班
+802	防疫照顧假
+803	其他
+804	其他假0.5hr
+805	防疫照顧假(0.5H)
+
+
+
+
+=========================================
+=========================================
+WorkAttr as 本日之工作屬性
+選項列表:0<未設定>;10<工作日>;11<制度內加班>;20<休息日>;30<休假日>;31<例假日>
+=========================================
+=========================================
+國定假日TB     
+
+《注意 comDepartment 部門》有指定國定假日行事曆
+DeptId	代碼
+DeptShortName	簡稱(尚未使用)
+DeptName	名稱
+【JobScheduleId	部門行事曆代碼】    關聯:(表名:comWorkCalendar,主鍵:WorkCalendarId)
+→ comWorkCalendarSub.WorkCalendarId = comDepartment.JobScheduleId
+
+★☆★ 取出此人，部門對映之國定假日資料
+select d.PersonId,p.PersonName,p.EMail,d.DeptId,q.DeptName,q.JobScheduleId, a.WorkCalendarId, c.WorkCalendarName, a.YearRange, b.Holiday, b.HolidayName
+FROM comPerson d left join comGroupPerson p on d.PersonId=p.PersonId
+left join comDepartment q on d.DeptId=q.DeptId 
+left join comWorkCalendarSub a on a.WorkCalendarId=q.JobScheduleId
+left join comSetHolidaySub b on a.Holiday=b.SetHolidayId left join comWorkCalendar c on a.WorkCalendarId=c.WorkCalendarId 
+where d.PersonId='f01162' and a.YearRange='2019'
+order by a.YearRange, b.holiday
+★☆★
+
+
+
+
+★ 主行事曆10 年度2019
+select a.WorkCalendarId, c.WorkCalendarName, a.YearRange, b.Holiday, b.HolidayName
+from comWorkCalendarSub a left join comSetHolidaySub b on a.Holiday=b.SetHolidayId left join comWorkCalendar c on a.WorkCalendarId=c.WorkCalendarId 
+where a.WorkCalendarId='10' and a.YearRange='2019'
+order by a.YearRange, b.holiday
+
+★ 主行事曆11 年度2020
+select a.WorkCalendarId, c.WorkCalendarName, a.YearRange, b.Holiday, b.HolidayName
+from comWorkCalendarSub a left join comSetHolidaySub b on a.Holiday=b.SetHolidayId left join comWorkCalendar c on a.WorkCalendarId=c.WorkCalendarId 
+where a.WorkCalendarId='11' and a.YearRange='2020'
+order by a.YearRange, b.holiday
+
+xxxx  comWorkCalendar 主行事曆  (可以不理它)
+  WorkCalendarId	行事曆代碼   (10為主)
+  WorkCalendarName	行事曆名稱
+
+****  comWorkCalendarSub
+  WorkCalendarId	行事曆代碼   (10為主)
+  YearRange		年度區間     (年度對照)
+  Holiday		休假日代碼   (此年度對照之國定假日清單 SetHolidayId)
+
+  【comWorkCalendarSub..Holiday  關聯  (表名:comSetHoliday comSetHolidaySub ,主鍵:SetHolidayId)】
+
+****  comSetHolidaySub  休假日設定明細
+  SetHolidayId	代碼
+  Holiday	休假日  (只有4碼  如：元旦 → 0101)
+  HolidayName	假名
+  LunarCalendar 是否為農曆
+
+
+xxxx  comSetHoliday  休假日設定  (可以不理它)
+  SetHolidayId		代碼
+  SetHolidayName	名稱
+
+
+
+=========================================
+=========================================
+WorkAttr as 本日之工作屬性
+選項列表:0<未設定>;10<工作日>;11<制度內加班>;20<休息日>;30<休假日>;31<例假日>
+=========================================
+=========================================
+
+
+01539 林佳諭  6月第4週
+http://127.0.0.1/ftis_mis/mhot2020/mh-srhpns.asp?qv=檢視個人工時週報單&no=01539&yy=2021&mm=6&ww=4
+
+
+
+★【hrmPersonAttend】人員考勤檔案
+  SELECT * FROM [hrmPersonAttend] where PersonId='F00121'
+
+  PersonId	人員編號
+  CardId	考勤卡號
+  SchemeId	加班處理方案	關聯:(表名:hrmOTScheme,主鍵:HrmOrgId;TypeId)
+＊AttenRecScheId出勤記錄方案	關聯:(表名:hrmAttendScheme,主鍵:HrmOrgId;SchemeId)
+  SRBDate	法定年假起算日
+  ComSRBDate	公司年假起算日
+
+
+★[hrmClassSetAtt] 出勤曆排班 → 有改班別的申請單
+SELECT *  FROM [hrmClassSetAtt]
+where PersonId='F00121' and Begindate<='20210601' and Enddate>='20210601' order by Begindate desc
+   PersonId	人員編號
+   DeptId	部門代碼
+   AttTypeId	出勤曆代碼
+   BeginDate	起始日期
+   EndDate	截止日期
+
+
+★[hrmAttendanceI]	全年每日所有出勤曆 資訊對照表
+ SELECT  * FROM [hrmAttendanceI] where left(attdate,7)='2021060'  order by attdate,typeid
+ SELECT  * FROM [hrmAttendanceI] where typeid='B03' and attdate='20210601' order by attdate,typeid
+
+SELECT  a.*,b.typename FROM [hrmAttendanceI] a left join hrmAttCalendarS b on a.typeid=b.typeid where a.attdate='20210429' order by a.attdate,a.typeid
+ → 每一天各種班別，應出勤的對照
+
+  TypeId      出勤曆代碼
+  YearRange   年度區間
+  AttDate     日期
+  WorkAttr    該日期屬性 (0<未設定>;10<工作日>;11<制度內加班>;20<休息日>;30<休假日>;31<例假日>)
+  ClassData   實際班別    
+
+
+★[hrmClassData] 班別資料
+  SELECT *  FROM hrmClassData where TypeId='B23'
+
+SELECT *  FROM hrmClassData order by typeid
+ → 各種班別說明
+
+HrmOrgId	人力管理組織
+TypeId	        代碼
+TypeName	名稱
+ExchangeDay	換算天數
+WorkingHours	工作時數
+
+
+★[hrmAttCalendar]  → 基本出勤曆主檔    -Sheet1第41117行
+  SELECT  * FROM hrmAttCalendar
+
+★[hrmAttCalendarS] → 基本出勤曆join檔
+ SELECT *  FROM hrmAttCalendarS
+
+
+★[hrmTimeSet] 時間設定(各班別之上下班時間)
+TypdId：班別
+RowNo：編號
+Time：時間
+AttendanceType	出勤類別
+→選項列表:0<上班前加班開始>;1<上班前加班休息開始>;2<上班前加班休息結束>;3<上班前加班結束>;10<最早上班時間>;
+11<上班>;12<最晚上班時間>;13<休息開始>;14<休息結束>;15<最早下班時間>;16<下班>;17<最晚下班時間>;31<下班後加班開始>;32<下班後休息開始>;33<下班後休息結束>;34<下班後加班結束>;41<巡視點>
+11上班
+13休息開始
+14休息結束
+16下班
+
+
+==================================
+考勤資料
+1a.撈【hrmPersonAttend】人員考勤檔案     → PersonId人員編號, AttenRecScheId出勤記錄方案
+1b.撈 [hrmClassSetAtt] 出勤曆排班 → 有改班別的申請單 查該日期有沒有在範圍內     → PersonId人員編號, AttTypeId出勤曆代碼
+2.用1a+1b的資料撈 [hrmAttendanceI]全年每日所有出勤曆 資訊對照表 取出該日期該員工的實際班別     → AttDate日期, WorkAttr該日期屬性, ClassData實際班別
+3.用2的資料，比對 [hrmClassData] 班別資料，取出該班別的該日工時總數     → TypeName班別名稱, WorkingHours工作時數
+
+
+★查詢 特定同仁 在 特定日期 之 工時★
+
+輸入 uid(含公司代碼F,T,B)、日期，來取得每日應有工時
+．[uid] = Left(session("cmpy"),1) & uid    ∴所以 uid = F01116
+．[dat] = tmpdate                          ∴所以 dat = 20191101
+----------------------------------
+
+a. 取得出勤記錄方案
+   用 [uid]  在 【hrmPersonAttend】人員考勤檔案 → 取得 【出勤記錄方案】 hrmPersonAttend..AttenRecScheId
+SELECT * FROM [hrmPersonAttend] where PersonId='F01116'
+(AttenRecScheId = A01)
+
+
+b. 取出真正的出勤曆排班(看有沒有改班!?)
+   用 [uid] 以及 [dat] 在 【hrmClassSetAtt】出勤曆排班 → 取得 【出勤曆】 
+SELECT * FROM [hrmClassSetAtt] where PersonId='F01116' and Begindate<='20191101' and Enddate>='20191101' order by Enddate
+(AttTypeId = B21)
+
+   有資料 → 【出勤曆tmpatt】= hrmClassSetAtt..AttTypeId        (有改班別的申請單)
+   沒資料 → 【出勤曆tmpatt】= hrmPersonAttend..AttenRecScheId  (預設)
+∴所以 tmpatt = B21
+
+
+c. 取出該出勤曆之詳細工時
+   用 [出勤曆tmpatt] 以及 [dat] 在 【hrmAttendanceI】出勤曆資訊對照表
+   → 取得 【班別】hrmAttendanceI..ClassData
+           【當日】hrmAttendanceI..WorkAttr  ：10(工作日)、20(休息日)、30(休假日)、31(例假日)
+SELECT * FROM [hrmAttendanceI] where typeid='B21' and attdate='20191101'
+
+∴所以 ClassData = B11
+       WorkAttr  = 10
+
+
+d. 取出此班別之工時
+   班別WorkAttr：10(工作日)
+   用 [班別ClassData]  在 【hrmClassData】班別資料
+ → 取得 【班別時數】hrmClassData..WorkingHours
+         【班別說明】hrmClassData..TypeName
+SELECT * FROM hrmClassData where TypeId='B11'
+∴所以 WorkingHours = 8.00
+       TypeName     = 8.0小時班(08:00~17:00)
+============
+★結論★
+'A出勤曆
+先取出某日該同仁之所屬班別 AttTypeid(班表1,2,3)
+SELECT * FROM [hrmClassSetAtt] where (PersonId='F01162' or PersonId='F01162' or PersonId='F01162') 
+and Begindate<='20210806' and Enddate>='20210806' order by Begindate desc
+
+
+'B換班
+比對該同仁某日是否有換班(已核準)
+     (原：ClassDate,     該日工作屬性WorkAttr,     班別名稱ClassTypeId
+  vs  換：SwopClassDate, 該日工作屬性SwopWorkAttr, 班別名稱SwopClassTypeId)
+SELECT b.*,a.PermitterId,a.PermitState,a.PermitTime,FlowState,CurrentState  
+FROM hrmClassSetBill a inner join hrmClassChangeD b on a.BillNo=b.BillNo 
+where a.CurrentState=2 and  b.PersonId='F01162' and (b.ClassDate='20210806' or b.SwopClassDate='20210806') order by b.BillNo
+
+
+'C班別
+最後取出某日attdate 所有 工作曆typeid  該日工作屬性workattr  班別名稱classdata  的工作時數WorkingHours 與 班別說明TypeName
+SELECT a.attdate,a.typeid,a.workattr,a.classdata,b.TypeName,b.WorkingHours 
+FROM [hrmAttendanceI] a left join [hrmClassData] b on a.ClassData=b.TypeId 
+where a.attdate='20210730' and a.typeid='A01' and a.classdata='A001-0800'
+
+'D說明
+
+
+=========================================
+調班單(變形工時)
+
+
+
+
+取出202106以後所有的調班單(變形工時)
+SELECT b.*,a.PermitterId,a.PermitState,a.PermitTime,FlowState,CurrentState 
+FROM hrmClassSetBill a inner join hrmClassChangeD b on a.BillNo=b.BillNo 
+where a.CurrentState=2 and left(b.ClassDate,6)>='202106'
+order by b.PersonId,b.SwopClassDate desc
+
+
+
+00451  20210429,0430有變形資料
+01539 / 林佳諭 同仁 , 民國 110 年 6 月 第 4 週 有變形(21,22,24,25)、加班(26)
+
+◎ 變形工時後的特定日期之實際班別資料
+SELECT b.*,a.PermitterId,a.PermitState,a.PermitTime,FlowState,CurrentState 
+FROM hrmClassSetBill a inner join hrmClassChangeD b on a.BillNo=b.BillNo 
+where b.PersonId='f00121' and (b.ClassDate='20191224' or b.SwopClassDate='20191224') and (a.PermitState=1 or a.PermitState=2 or a.FlowState=4)
+ order by b.SwopClassDate desc
+
+
+【'審核狀態PermitState 	選項列表:1<審核中>;2<已審核>】
+【'流程狀態FlowState    選項列表:1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>】
+
+
+[hrmClassSetBill 排班單]
+select * from hrmClassSetBill
+BillNo		單據編號
+BillDate	單據日期
+CreatorId	創建人
+CreateTime	創建時間
+PermitterId	核准人
+PermitTime	核准時間
+PermitState	審核狀態    選項列表:0<未審核>;1<審核中>;2<已審核>
+FlowState	流程狀態    選項列表:0<無>;1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>
+CurrentState	狀態	    選項列表:0<草稿>;1<未生效>;2<生效>;3<作廢>;4<結案>
+
+
+[hrmClassChangeD 調班明細]
+select * from hrmClassChangeD
+PersonId	人員編號
+DeptId		部門代碼
+ClassDate	日期
+WorkAttr	原工作屬性
+ClassTypeId	原班別代碼
+
+SwopClassDate	對調日期
+SwopWorkAttr	對調工作屬性
+SwopClassTypeId	對調班別代碼
+
+
+10<工作日>;11<制度內加班>;20<休息日>;30<休假日>;31<例假日>
+
+
+[hrmClassSetType] ??
+
+=========================================
+
+＊＊OverTimeSchId	加班處理方案版本代碼
+	A01(給加班費), A02(給補休) ,F01(天災加班費)
+	關聯:(表名:hrmOtDealSche,主鍵:HrmOrgId;SchemeId)
+
+
+【加班申請單】
+【'審核狀態PermitState 	選項列表:1<審核中>;2<已審核>】
+
+OverTimeSchId  A01(給加班費), A02(給補休) 
+ActualTime as 實際時數
+
+---------------------
+Flow審核資訊
+
+加班單資料
+select a.BillNo, b.CreatorId, p.PersonId, p.PersonName as name,a.DeptId,q.DeptName,
+ b.ProjectId, b.LeaderId, a.OverTimeDate,c.WorkAttr, c.BeginTime,
+ b.CreateTime, b.PermitState, b.FlowState, a.OverTimeSchId as 加班種類, a.RestTimeTotal as 換休時數, a.PayTimeTotal as 換薪時數, a.ActualTime as 實際時數, a.reason
+from [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where b.ProjectId<>'' and left(a.OverTimeDate,6)='202108' and (b.FlowState=2 or b.FlowState=3 or b.FlowState=4)
+order by b.FlowState, a.OverTimeDate desc
+
+比對加班單之各層審核狀態
+select a.BillNo, b.CreatorId, p.PersonId, p.PersonName as name,a.DeptId,q.DeptName,
+ b.ProjectId, b.LeaderId, a.OverTimeDate,c.WorkAttr, c.BeginTime,
+ b.CreateTime, b.PermitState, b.FlowState, a.OverTimeSchId as 加班種類, a.RestTimeTotal as 換休時數, a.PayTimeTotal as 換薪時數, a.ActualTime as 實際時數, a.reason,
+  d.BillPKValueText, d.TransactionId, d.StartId, d.BillState, d.CurrentLevelNO, 
+  e.LevelNO, e.UserId, e.State, e.UpdateTime, p2.PersonName as ckname
+from [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join wfBill d on d.BillPKValueText=a.BillNo
+   left join wfActivity e on d.TransactionId=e.TransactionId 
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   left join [comGroupPerson] p2 on e.UserId=p2.PersonId
+where b.ProjectId<>'' and left(a.OverTimeDate,6)='202108' and (b.FlowState=2 or b.FlowState=3 or b.FlowState=4)
+order by a.OverTimeDate desc,e.LevelNO
+---------------
+  b.PermitState	  審核狀態        → 選項列表:0<未審核>;1<審核中>;2<已審核>
+【b.FlowState     流程狀態        → 選項列表:0<無>;1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>】
+  d.BillState	  流程狀態	  → 選項列表:0<無>;1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>
+  e.State         Flow狀態        → 選項列表:0<未處理>;2<已審批>;3<已簽核>;8<已否決>;128<被催辦>;
+                                                    1<已簽收>;4<已退回>;16<被退回>;32<被否決>;64<原單已異動>;256<委託審批>;512<委託提供意見>"
+  e.UpdateTime	辦理時間	0未處理 (格林威治時間 +8)
+
+
+---------------------
+取出202108以後所有的加班資料
+SELECT a.BillNo, b.CreatorId, p.PersonId, p.PersonName, a.DeptId , q.DeptName, b.ProjectId, b.LeaderId, a.OverTimeDate,c.WorkAttr, c.BeginTime,
+ b.PermitState, b.FlowState, a.OverTimeSchId as 加班種類, a.RestTimeTotal as 換休時數, a.PayTimeTotal as 換薪時數, a.ActualTime as 實際時數, a.reason
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   where  b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)>='202108'
+   order by a.OverTimeDate desc, p.PersonId
+
+
+某人某日加班資料
+SELECT a.BillNo, b.CreatorId, p.PersonId, p.PersonName, a.DeptId, q.DeptName, b.ProjectId, b.LeaderId, a.OverTimeDate,c.WorkAttr, c.BeginTime,
+ b.PermitState, b.FlowState,
+ a.RestTimeTotal as 補休時數合計, a.PayTimeTotal as 加班費時數合計,
+ a.OverTimeSchId as 加班種類, a.ActualTime as 實際時數
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+   where p.PersonId='F01162' and b.ProjectId<>'' and a.OverTimeDate='20210622'
+   order by a.OverTimeDate desc
+
+---------------------
+某人某天某專案之時數(A種)
+SELECT p.PersonId, p.PersonName, b.ProjectId, a.OverTimeDate, sum(a.RestTimeTotal) as otb, sum(a.PayTimeTotal) as ota, sum(a.ActualTime) as otall
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+ where b.PermitState=2 and p.PersonId='F01162' and a.OverTimeDate='20191216' and b.ProjectId=''
+ group by p.PersonId, p.PersonName, b.ProjectId, a.OverTimeDate
+
+
+某人某天某專案之時數(B種)
+SELECT p.PersonId, p.PersonName, b.ProjectId, a.OverTimeDate, a.OverTimeSchId, sum(a.ActualTime) as otall
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+ where b.PermitState=2 and p.PersonId='F01162' and a.OverTimeDate='20191216' and b.ProjectId=''
+ group by p.PersonId, p.PersonName, b.ProjectId, a.OverTimeDate, a.OverTimeSchId
+
+
+---------------------
+某月之累計時數(A種)
+SELECT p.PersonId, p.PersonName,sum(a.RestTimeTotal) as otb, sum(a.PayTimeTotal) as ota, sum(a.ActualTime) as otall
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+ where b.PermitState=2 and p.PersonId='F01162' and b.ProjectId<>'' and left(a.OverTimeDate,6)='201912'
+ group by p.PersonId, p.PersonName
+
+
+某月之累計時數(B種)
+ [A01換薪]
+SELECT p.PersonId, p.PersonName, a.OverTimeSchId, sum(a.ActualTime) as otall
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+ where b.PermitState=2 and a.OverTimeSchId='A01' and p.PersonId='F01162' and b.ProjectId<>'' and left(a.OverTimeDate,6)='201912'
+ group by p.PersonId, p.PersonName, a.OverTimeSchId
+
+ [A02換休]
+SELECT p.PersonId, p.PersonName, a.OverTimeSchId, sum(a.ActualTime) as otall
+FROM [hrmOTApplySub] a
+   left join [hrmOTApplyM] b on a.BillNo=b.BillNo
+   left join [hrmOTApplyTime] c on a.BillNo=c.BillNo
+   left join [comGroupPerson] p on c.PersonId=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+ where b.PermitState=2 and a.OverTimeSchId='A02' and p.PersonId='F01162' and b.ProjectId<>'' and left(a.OverTimeDate,6)='201912'
+ group by p.PersonId, p.PersonName, a.OverTimeSchId
+
+---------------------
+
+select * from hrmOTApplyM order by BillNo desc
+select * from hrmOTApplyTime order by BillNo desc
+select * from hrmOTApplySub order by BillNo desc
+select * from hrmOTApplyD order by BillNo desc
+
+
+欄位說明如下
+★hrmOTApplySub	加班申請單表身
+  BillNo	單據編號
+  DeptId	所屬部門代碼
+＊OverTimeDate	加班歸屬日期
+  RestTimeTotal	預計補休時數合計
+  PayTimeTotal	預計加班費時數合計
+
+＊＊OTVersionId	加班處理方案版本代碼	A01(給加班費), A02(給補休) ,F01(天災加班費)	關聯:(表名:hrmOtDealSche,主鍵:HrmOrgId;SchemeId)
+
+＊＊ActualTime     實際時數
+
+
+【'審核狀態PermitState 	選項列表:1<審核中>;2<已審核>】
+★hrmOTApplyM	加班申請單表頭
+  BillNo	單據編號
+  DeptId	所屬部門
+  CreatorId	創建人
+  PermitterId	核准人
+  PermitTime	核准時間
+b.PermitState	審核狀態        → 選項列表:0<未審核>;1<審核中>;2<已審核>
+b.FlowState     流程狀態        → 選項列表:0<無>;1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>
+  ProjectId	專案編號
+  LeaderId	專案負責人
+
+
+★hrmOTApplyTime	加班申請單表身
+  BillNo	單據編號
+【＊PersonId	人員編號＊】
+  BeginDate	加班開始日期
+  BeginTime	加班開始時間
+  EndDate	加班結束日期
+  FinishTime	加班結束時間
+＊BeginDateTime	開始時間      yyyymmddhhmmss
+＊EndDateTime	結束時間      yyyymmddhhmmss
+  WorkAttr	工作屬性
+
+
+
+hrmOTApplyD	加班申請單明細  → 好像不太需要
+
+
+hrmOtDealSche	加班處理方案版本
+  SchemeId	版本代碼	A01(給加班費), A02(給補休) ,F01(天災加班費)
+  TypeId	加班處理方案	A01(給加班費), A02(給補休) ,F01(天災加班費)
+  LimitBase	基數（小時）    A01(54hr), A02(46hr) ,F01(0hr)
+
+hrmOTApplyT	加班申請單類型
+
+hrmOTApplyP	加班單類型參數
+
+=========================================
+
+【實際加班單】
+
+＊＊OTVersionId	加班處理方案版本代碼	A01(給加班費), A02(給補休) ,F01(天災加班費)	關聯:(表名:hrmOtDealSche,主鍵:HrmOrgId;SchemeId)
+
+
+
+---------------------
+已完成之Flow審核資訊
+
+select a.BillNo,a.PersonId,a.DeptId,a.BeginDate,a.BeginTime,a.TotalTime,a.OverTimeSchId,a.Reason,
+  b.ProjectId,b.LeaderId,b.CurrentState,
+  c.BillPKValueText, c.TransactionId, c.StartId, c.BillState, c.CurrentLevelNO, 
+  d.LevelNO, d.UserId, d.State, d.UpdateTime , p.PersonName as name
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+ left join wfBill c on a.FromBillNo=c.BillPKValueText
+ left join wfActivity d on c.TransactionId=d.TransactionId 
+ left join [comGroupPerson] p on d.UserId=p.PersonId
+where a.personid='F01387' and left(a.BeginDate,6)='202108'
+order by a.BeginDate desc,d.LevelNO
+
+---------------
+d.State         Flow狀態        → 選項列表:0<未處理>;3已簽核>;;1<已簽收>2<已審批>;4<已退回>;8<已否決>;
+                                                    16<被退回>;32<被否決>;64<原單已異動>;128<被催辦>;256<委託審批>;512<委託提供意見>"
+d.UpdateTime	辦理時間	0未處理 (格林威治時間 +8)
+
+
+
+---------------------
+select b.ProjectId,b.LeaderId,b.CurrentState,a.* 
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+where a.personid='F01162' 
+order by a.OverTimeDate desc
+
+
+取出202106以後所有的加班資料
+select a.BillNo, p.PersonId, p.PersonName, a.DeptId, q.DeptName, b.ProjectId, b.LeaderId, a.BeginDate, a.BeginTime,
+ a.TotalTime, a.OverTimeSchId
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+   left join [comGroupPerson] p on a.personid=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)>='202106'
+order by a.OverTimeDate desc, a.PersonId
+
+
+某人某日加班資料
+select a.BillNo, p.PersonId, p.PersonName, a.DeptId, q.DeptName, b.ProjectId, b.LeaderId, a.BeginDate, a.BeginTime,
+ a.TotalTime, a.OverTimeSchId
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+   left join [comGroupPerson] p on a.personid=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where a.personid='F01162' and b.ProjectId<>'' and p.PersonId is not null and a.OverTimeDate='20210727'
+order by a.OverTimeDate desc, a.PersonId
+
+---------------------
+某人某月之累計時數
+select a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId, sum(a.TotalTime) as otall
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+   left join [comGroupPerson] p on a.personid=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where a.personid='F01162' and b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)='202107'
+group by a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId
+order by a.PersonId
+
+ [A01換薪]
+select a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId, sum(a.TotalTime) as otall
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+   left join [comGroupPerson] p on a.personid=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where a.personid='F01162' and b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)='202107' and a.OverTimeSchId='A01'
+group by a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId
+order by a.PersonId
+
+ [A02換休]
+select a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId, sum(a.TotalTime) as otall
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo 
+   left join [comGroupPerson] p on a.personid=p.PersonId
+   left join [comDepartment] q on a.DeptId=q.DeptId
+where a.personid='F01162' and b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)='202107' and a.OverTimeSchId='A02'
+group by a.PersonId, p.PersonName, a.DeptId, q.DeptName, a.OverTimeSchId
+order by a.PersonId
+
+---------------------
+某月加班超過15小時排行榜
+select a.PersonId, p.PersonName, p.email, a.DeptId, q.DeptName, sum(a.TotalTime) as otall 
+from hrmOverTimeSub a left join hrmOverTimeM b on a.BillNo=b.BillNo left join [comGroupPerson] p on a.personid=p.PersonId left join [comDepartment] q on a.DeptId=q.DeptId 
+where b.ProjectId<>'' and p.PersonId is not null and left(a.OverTimeDate,6)='202110' group by a.PersonId, p.PersonName, p.email, a.DeptId, q.DeptName 
+having  sum(a.TotalTime)>15 order by a.PersonId
+
+---------------------
+select * from hrmOverTimeSub where personid='F01162' order by OverTimeDate desc
+select * from hrmOverTimeM  order by BillDate desc
+
+
+欄位說明如下
+★ hrmOverTimeSub 	加班單表身
+BillNo	單據編號
+PersonId	人員編號
+DeptId	所屬部門代碼
+OverTimeDate	加班歸屬日期
+BeginDate	加班開始日期
+BeginTime	加班開始時間
+EndDate	加班結束日期
+FinishTime	加班結束時間
+TheoryTotal	理論時數合計
+TotalTime	時數合計
+RestTimeTotal	補休時數合計
+PayTimeTotal	加班費時數合計
+OverTimeSchId	加班處理方案代碼
+Reason	加班原因
+
+
+
+★ hrmOverTimeM  	加班單表頭
+  BillNo		單據編號	varchar
+  PermitTime	核准時間	20210528090725
+  PermitState	審核狀態int		選項列表:0<未審核>;1<審核中>;2<已審核>
+ *CurrentState	狀態	tinyint	3	選項列表:0<草稿>;1<未生效>;2<生效>;3<作廢>;4<結案>
+  FromBillNo	來源單號	varchar	20   加班申請單編號
+  ProjectId	專案編號
+  LeaderId	專案負責人
+
+
+xx★ [hrmOverTimeD	加班單明細]
+BillNo	單據編號	varchar
+PersonId	人員編號	varchar
+BelongDate	歸屬日期	int
+UnRestTime	剩餘可補休時數	numeric
+CutOffDate	補休截止日期	int
+
+可用補休總數
+select PersonId,sum(UnRestTime) 可用補休 from hrmOverTimeD
+where (personid='F01162' or  personid='F00460' or  personid='F01536') and CutOffDate>='20210809'
+group by PersonId order by PersonId	
+
+可用補休詳細資料(同一張單會被拆多筆 1.33 vs 1.66)
+select PersonId,sum(UnRestTime) as 可用補休 from hrmOverTimeD
+where BillNo='OW20210809008'
+group by PersonId order by PersonId
+
+
+=========================================
+專案資料
+   select * from  comProject
+
+取出專案資料(開放中)
+SELECT a.ProjectId, a.ProjectName, a.BriefName, a.ValidityFromDate, a.ValidityToDate, a.IsInUsed
+  FROM [comProject] a
+   where a.IsInUsed=1
+   order by a.ProjectId
+
+取出特定專案 1~4階主管姓名、mail
+SELECT a.ProjectId, a.ProjectName, a.BriefName, a.ValidityFromDate, a.ValidityToDate,b.RowNo, b.LeaderId as ckno, p.PersonName as ckname, p.EMail as ckmail, b.DeptId, q.DeptName
+  FROM [comProject] a
+   left join [comProjectDetail] b on a.ProjectId=b.ProjectId
+   left join [comGroupPerson] p on b.LeaderId=p.PersonId
+   left join [comDepartment] q on b.DeptId=q.DeptId
+   where a.ProjectId='F080171'
+  order by a.ProjectId,b.RowNo
+
+[comProject]
+ProjectId	專案代碼
+ProjectName	專案名稱
+
+BriefName	專案簡稱
+
+ValidityFromDate有效期從
+ValidityToDate	有效期至
+
+IsInUsed	是否啟用
+
+
+[comProjectDetail]
+ProjectId	專案代碼
+RowNo		專案審核人順序 → 幾階
+LeaderId	專案審核人
+DeptId		專案審核人之部門
+
+
+=========================================
+打卡資料
+
+SELECT p.PersonName,c.*  FROM [hrmClockRec] c left join [comGroupPerson] p on c.PersonId = p.PersonId
+where c.personid<>'' and (clockdate='20200311' or clockdate='20200312')
+  order by c.personid,c.clockdate,c.ClockTime
+
+SELECT *
+FROM              hrmClockRec
+WHERE      (PersonId = 'F01162')
+ORDER BY   clockdate DESC, ClockTime DESC
+
+[hrmClockRec]
+PersonId	人員編號	varchar
+ClockDate	刷卡日期	int
+ClockTime	刷卡時間	int
+FromSourceTag	來源類型	int      → 3(app打卡), 0(ftis卡機匯入)
+                                            選項列表:0<刷卡採集(刷卡來源)>;1<刷卡採集(指定刷卡數據文件)>;3<線上打卡>;12996<刷卡記錄單>;4<客戶端同步到服務>
+
+
+
+打卡app記錄檔
+SELECT    *  FROM              hrmPunchTime
+WHERE          (PersonId = 'F01162')
+ORDER BY   ClockDate DESC
+
+[hrmPunchTime]
+PersonId	人員編號	varchar
+ClockDate	刷卡日期	int
+ClockTime	刷卡時間	int
+FromSourceTag	來源類型	int      → 3(app打卡), 0(ftis卡機匯入)
+                                            選項列表:0<刷卡採集(刷卡來源)>;1<刷卡採集(指定刷卡數據文件)>;3<線上打卡>;12996<刷卡記錄單>;4<客戶端同步到服務>
+Addr		打卡地址	nvarchar
+
+
+
+
+
+
+
+=========================================
+Flow簽核流程
+
+'取出流程待處理人
+select a.BillPKValueText, a.TransactionId, a.StartId, a.BillState, a.CurrentLevelNO, a.UpdateTime as atime,
+       b.LevelNO, b.UserId, b.State, b.UpdateTime as btime, c.PersonName as name
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId 
+   left join [comGroupPerson] c on b.UserId=c.PersonId
+where a.BillPKValueText='OA20210805010' 
+order by b.LevelNO desc
+
+
+'統計未完成單據數
+select b.UserId,p.PersonName, a.TypeId, a.BillState, count(*) as cnt
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] p on b.UserId=p.PersonId
+where b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210731000000'
+group by b.UserId,p.PersonName,a.TypeId, a.BillState
+order by b.userid,a.TypeId
+
+--------------------------------------------------
+查Flow資料
+
+
+SELECT *  FROM wfBill  where startId='F01162' order by updatetime desc
+SELECT *  FROM wfActivity where TransactionId='420877656945274051' or TransactionId='666402984984154811'
+
+
+SELECT startId,BillState,*  FROM wfBill  where BillPKValueText='OA20210817043' order by updatetime desc
+SELECT state,*  FROM wfActivity where TransactionId='4330338226878950489'
+
+select a.BillPKValueText, a.TransactionId, a.StartId, a.BillState, a.CurrentLevelNO, a.UpdateTime as atime, 
+       b.LevelNO, b.UserId, b.State, b.UpdateTime as btime, c.PersonName as name 
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where a.BillPKValueText='" & rsq("BillNo") & "' order by a.TransactionId,b.LevelNO desc
+
+=============================================
+'2021/8/31之後的單據  
+-----------------------
+取出系統所有未完成單據資料【TypeId：OA加班,LN假單,MS變形】
+select b.UserId, c.PersonName as name, a.TypeId,a.BillPKValueText, a.TransactionId, a.StartId, a.BillState, a.CurrentLevelNO, a.UpdateTime as atime, 
+       b.LevelNO, b.UserId, b.State, b.UpdateTime as btime
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210831000000' 
+order by b.UserId, a.TypeId, a.TransactionId,b.LevelNO desc
+
+
+取出系統，所有同仁未完成單據總筆數
+select b.UserId, c.PersonName as name, c.EMail, count(*) as cnt
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210831000000' 
+group by b.UserId, c.PersonName, c.EMail
+order by b.UserId
+
+取出系統，所有同仁未完成各種單據資料筆數【TypeId：OA加班,LN假單,MS變形】
+select b.UserId, c.PersonName as name, c.EMail, a.TypeId, count(*) as cnt
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210831000000' 
+group by b.UserId, c.PersonName, c.EMail, a.TypeId
+order by b.UserId
+
+-----------------------
+取出該同仁未完成筆數
+select b.UserId, c.PersonName as name, c.EMail, count(*) as cnt
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where b.UserId='F00115' and b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210831000000' 
+group by b.UserId, c.PersonName, c.EMail
+order by b.UserId
+
+取出該同仁未完成單據詳細資料(wfBill.BillState=2 and (wfActivity.State=0 or wfActivity.State=1)),且待處理人為自已 (wfActivity..kind → 0<副本>;1<審批>)
+select b.UserId, c.PersonName as name, c.EMail, a.TypeId, a.BillPKValueText, a.TransactionId, a.StartId, a.BillState, a.CurrentLevelNO, a.UpdateTime as atime, b.LevelNO, b.UserId, b.State, b.UpdateTime as btime
+from wfBill a left join wfActivity b on a.TransactionId=b.TransactionId left join [comGroupPerson] c on b.UserId=c.PersonId 
+where b.UserId='F00115' and b.kind=1 and a.BillState=2 and (b.State=0 or b.State=1) and a.UpdateTime>'20210831000000' 
+order by b.UserId, a.TypeId, a.TransactionId,b.LevelNO desc
+
+=============================================
+
+★ wfBill	單據審批資訊
+  TransactionId	事務編號	bigint
+  TypeId	單據類型	varchar	【OA加班,LN假單,MS變形】
+  BillPKValueText單號		varchar
+  CurrentLevelNO當前層級號	int
+  BillState	流程狀態	int	選項列表:0<無>;1<未送審>;2<審批中>;3<已審批>;4<被否決>;5<申請撤回中>
+  UpdateTime	最後辦理時間	bigint    (格林威治時間 +8)
+  StartId	起始人	varchar
+
+
+★ wfActivity	單據審批環節資訊
+  TransactionId	事務編號	bigint
+  Kind		環節類別	int	選項列表:0<副本>;1<審批>;2<委託審批>;3<委託提供意見>;13<加簽審批>;14<加簽副本>;4<判斷>;5<分支開始>;10<分支>;6<分支結束>;7<組織開始>;8<組織結束>;11<會簽開始>;12<會簽結束>;9<結束>
+  LevelNO	層級號	int
+  UserId	預計辦理人	varchar
+  State		狀態值	int	  選項列表:0<未處理>;3已簽核>;;1<已簽收>2<已審批>;4<已退回>;8<已否決>;
+                                                    16<被退回>;32<被否決>;64<原單已異動>;128<被催辦>;256<委託審批>;512<委託提供意見>"
+
+  UpdateTime	辦理時間	bigint    (格林威治時間 +8)
+
+
+
+
+=========================================
+
+=========================================
+
+=========================================
+
+
+
+
