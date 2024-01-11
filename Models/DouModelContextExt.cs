@@ -28,4 +28,17 @@ namespace iHub.Models
         public virtual DbSet<F22EmpWTOption> F22OptionMWT { get; set; }
         public virtual DbSet<F22Qdate> F22Qdate { get; set; }        
     }
+
+    public class T8ERPModelContext : DbContext
+    {
+        public T8ERPModelContext() : base("name=T8ERPModelContext")
+        {
+            Database.SetInitializer<T8ERPModelContext>(null);
+        }
+
+        public virtual DbSet<capCommBillType> capCommBillType { get; set; }
+        public virtual DbSet<comGroupPerson> comGroupPerson { get; set; }
+        public virtual DbSet<wfActivity> wfActivity { get; set; }
+        public virtual DbSet<wfBill> wfBill { get; set; }
+    }
 }

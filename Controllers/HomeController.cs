@@ -6,6 +6,9 @@ using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace iHub.Controllers
 {
@@ -82,6 +85,25 @@ namespace iHub.Controllers
                 }
 
                 ViewBag.Cards = cards;
+
+                //小提醒
+                //F00073 李曼君 F00174 張冠凱
+                List<string> empNos = new List<string>() { "F00073", "F00174" };
+                List<object> Erps = new List<object>();
+                List<object> ErpGroups = new List<object>();
+
+                ERPHelper helpr = new ERPHelper();
+                bool done = helpr.GetUnDoneBill<object>(empNos, ref Erps, ref ErpGroups);
+
+                foreach (object o in Erps)
+                {
+                    string text = new JavaScriptSerializer().Serialize(o);
+                    var data = (JObject)JsonConvert.DeserializeObject(text);
+                    string aa = data["LevelNO"].Value<string>();
+                }
+
+                ViewBag.Erps = Erps;
+                ViewBag.ErpGroups = ErpGroups;
             }
 
             return View();

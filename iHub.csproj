@@ -189,6 +189,10 @@
     </Compile>
     <Compile Include="Models\cmmMrq.cs" />
     <Compile Include="Models\DouModelContextExt.cs" />
+    <Compile Include="Models\ERP\capCommBillType.cs" />
+    <Compile Include="Models\ERP\comGroupPerson.cs" />
+    <Compile Include="Models\ERP\wfActivity.cs" />
+    <Compile Include="Models\ERP\wfBill.cs" />
     <Compile Include="Models\F22EmpWTOption.cs" />
     <Compile Include="Models\F22Qdate.cs" />
     <Compile Include="Models\POST.cs" />
@@ -196,8 +200,10 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="_core\BasicClass.cs" />
     <Compile Include="_core\Code.cs" />
     <Compile Include="_core\DateFormat.cs" />
+    <Compile Include="_core\ERPHelper.cs" />
     <Compile Include="_core\SysParam.cs" />
     <Compile Include="_core\XmlHelper.cs" />
   </ItemGroup>
