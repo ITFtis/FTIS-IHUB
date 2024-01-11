@@ -1,4 +1,8 @@
-﻿<!-- main info display start -->
+﻿@using Newtonsoft.Json;
+@using System.Web.Script.Serialization;
+@using Newtonsoft.Json.Linq;
+
+<!-- main info display start -->
 <div class="right-section-info mt-3 row gy-2">
     <!-- 待辦事項 start -->
     <div class="col-xl-4">
@@ -115,9 +119,29 @@
                             <img class="main-info-icons bell"
                                  src='~/Images/bell-solid.svg'
                                  alt="" />
-                            <span>小提醒</span>
-                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">1</span>
-                            <span>⠀⠀ ⠀(僅示範用)</span>
+                            <span>T8待簽核處理</span>
+                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
+                                @{
+                                    List<string> strERP = new List<string>();
+                                    int sumCounts = 0;
+                                    if (ViewBag.ErpGroups != null)
+                                    {
+                                        foreach (var v in ViewBag.ErpGroups)
+                                        {
+                                            string text = new JavaScriptSerializer().Serialize(v);
+                                            var data = (JObject)JsonConvert.DeserializeObject(text);
+                                            string PersonName = data["PersonName"].Value<string>();
+                                            string Counts = data["Counts"].Value<string>();
+                                            string TypeName = data["TypeName"].Value<string>();
+
+                                            sumCounts += int.Parse(Counts);
+                                            strERP.Add(PersonName + " " + TypeName + "(" + Counts + ")");
+                                        }
+                                    }
+                                }
+                                @sumCounts
+                            </span>
+                            @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle tips-angle"
                              src='~/Images/angle-up-solid.svg'
@@ -131,13 +155,13 @@
         <div class="collapse" id="tips-display">
             <div class="tips-display-body card card-body rounded-bottom pt-0">
                 @*<span class="todo-list-item fw-bold text-start mb-2 text-light fs-5">--建置中，僅示範用--</span>*@
-                <span class="fw-bold">--建置中，僅示範用--</span>
+                @*<span class="fw-bold">T8待簽核處理</span>*@
                 <p>
-                    透過有計畫的訓練、學習，逐步培育各階人才，以專業的精英陣容，成就本會「台灣頂尖」全方位產業顧問服務團隊。透過有計畫的訓練、學習，逐步培育各階人才，以專業的精英陣容，成就本會「台灣頂尖」全方位產業顧問服務團隊。
+                    @String.Join(", ", strERP)
                 </p>
                 <span class="text-end d-flex align-items-center justify-content-end">more</span>
                 @*<a href="#"
-        class="text-decoration-none text-end fw-bold text-white">more</a>*@
+                    class="text-decoration-none text-end fw-bold text-white">more</a>*@
             </div>
         </div>
     </div>
@@ -170,43 +194,42 @@
         }
 
         <!--<div class="news-item d-flex align-items-center">-->
-            @*<div class="news-date me-3">2023/05/31</div>*@
-            @*<a class="news-title" href="news-1.html">經濟部工業局112年「綠色技術與工程實務研討會」徵求論文</a>*@
-            <!--<div class="news-date me-3">112.11 更新</div>
+        @*<div class="news-date me-3">2023/05/31</div>*@
+        @*<a class="news-title" href="news-1.html">經濟部工業局112年「綠色技術與工程實務研討會」徵求論文</a>*@
+        <!--<div class="news-date me-3">112.11 更新</div>
             <span class="news-title">派外訓練申請表</span>
         </div>
 
         <div class="news-line mt-2"></div>
 
         <div class="news-item d-flex align-items-center mt-2">-->
-            @*<div class="news-date me-3">2023/05/29</div>
+        @*<div class="news-date me-3">2023/05/29</div>
             <a class="news-title" href="#">經濟部工業局112年度因應國際環保暨綠色工廠推動計畫「綠色工廠講習會」</a>*@
-            <!--<div class="news-date me-3">112.10 更新</div>
+        <!--<div class="news-date me-3">112.10 更新</div>
             <span class="news-title">113年度辦公室日曆表</span>
         </div>
 
         <div class="news-line mt-2"></div>
 
         <div class="news-item d-flex align-items-center mt-2">-->
-            @*<div class="news-date me-3">2023/05/29</div>
+        @*<div class="news-date me-3">2023/05/29</div>
             <a class="news-title" href="#">經濟部工業局「推動產業及中小企業升級轉型說明會」</a>*@
-            <!--<div class="news-date me-3">112.09 更新</div>
+        <!--<div class="news-date me-3">112.09 更新</div>
             <span class="news-title">財務多項表單</span>
         </div>-->
-
         @*<div class="news-line mt-2"></div>
 
-        <div class="news-item d-flex align-items-center mt-2">
-            <div class="news-date me-3">2023/05/12</div>
-            <a class="news-title" href="#">經濟部工業局「銅箔基板及印刷電路板製程空氣污染防制技術研討會」</a>
-        </div>
+            <div class="news-item d-flex align-items-center mt-2">
+                <div class="news-date me-3">2023/05/12</div>
+                <a class="news-title" href="#">經濟部工業局「銅箔基板及印刷電路板製程空氣污染防制技術研討會」</a>
+            </div>
 
-        <div class="news-line mt-2"></div>
+            <div class="news-line mt-2"></div>
 
-        <div class="news-item d-flex align-items-center mt-2">
-            <div class="news-date me-3">2023/05/05</div>
-            <a class="news-title" href="#">經濟部工業局112年度「低碳淨零人培開班資訊」</a>
-        </div>*@
+            <div class="news-item d-flex align-items-center mt-2">
+                <div class="news-date me-3">2023/05/05</div>
+                <a class="news-title" href="#">經濟部工業局112年度「低碳淨零人培開班資訊」</a>
+            </div>*@
     </div>
 
     <div class="mt-3 text-end">

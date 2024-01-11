@@ -87,20 +87,13 @@ namespace iHub.Controllers
                 ViewBag.Cards = cards;
 
                 //小提醒
-                //F00073 李曼君 F00174 張冠凱
-                List<string> empNos = new List<string>() { "F00073", "F00174" };
+                //F00073 李曼君 F00174 張冠凱 F00578 葉珍羽
+                List<string> empNos = new List<string>() { "F00073", "F00174", "F00578" };
                 List<object> Erps = new List<object>();
                 List<object> ErpGroups = new List<object>();
 
                 ERPHelper helpr = new ERPHelper();
                 bool done = helpr.GetUnDoneBill<object>(empNos, ref Erps, ref ErpGroups);
-
-                foreach (object o in Erps)
-                {
-                    string text = new JavaScriptSerializer().Serialize(o);
-                    var data = (JObject)JsonConvert.DeserializeObject(text);
-                    string aa = data["LevelNO"].Value<string>();
-                }
 
                 ViewBag.Erps = Erps;
                 ViewBag.ErpGroups = ErpGroups;

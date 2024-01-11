@@ -45,15 +45,20 @@ namespace iHub
                         { 
                             o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.TypeId, o.BillState, o.UpdateTime,
                             c.PersonName, c.EMail
-                        }).Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
+                        }).GroupJoin(e_capCommBillType.GetAll(), a => a.TypeId, b => b.TypeId, (o,c) => new
+                        {
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail,
+                            TypeName = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().TypeName
+                        })
+                        .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
                         .Where(a => a.BillState == 2 && a.UpdateTime > 20210831000000);
 
                 Erps = tmp.ToList<object>();
 
-                ErpGroups = tmp.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId })
+                ErpGroups = tmp.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
                         .Select(a => new
                         {
-                            a.Key.UserId, a.Key.PersonName, a.Key.EMail, a.Key.TypeId, cnt = a.Count(),
+                            a.Key.UserId, a.Key.PersonName, a.Key.EMail, a.Key.TypeId, a.Key.TypeName, Counts = a.Count(),
                         }).OrderBy(a => a.UserId)
                         .ToList<object>();                
             }
