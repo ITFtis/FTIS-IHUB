@@ -124,24 +124,22 @@
                             <span>T8待簽核處理</span>
                             <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
                                 @{
-                                    List<string> ERPs = new List<string>();
-                                    int sumERPs = 0;
                                     if (ViewBag.ErpGroups != null)
                                     {
+                                        int sumERPs = 0;
+
                                         foreach (var v in ViewBag.ErpGroups)
                                         {
                                             string text = new JavaScriptSerializer().Serialize(v);
                                             var data = (JObject)JsonConvert.DeserializeObject(text);
-                                            string PersonName = data["PersonName"].Value<string>();
                                             string Counts = data["Counts"].Value<string>();
-                                            string TypeName = data["TypeName"].Value<string>();
 
                                             sumERPs += int.Parse(Counts);
-                                            ERPs.Add(PersonName + " " + TypeName + "(" + Counts + ")");
                                         }
+
+                                        @sumERPs
                                     }
                                 }
-                                @sumERPs
                             </span>
                             @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
@@ -159,7 +157,31 @@
                 @*<span class="todo-list-item fw-bold text-start mb-2 text-light fs-5">--建置中，僅示範用--</span>*@
                 @*<span class="fw-bold">T8待簽核處理</span>*@
                 <p>
-                    @String.Join(", ", ERPs)
+                    @{
+                        if (ViewBag.ErpGroups != null)
+                        {
+                            int n = 0;
+
+                            <ul>
+
+                            @foreach (var v in ViewBag.ErpGroups)
+                            {
+                                n++;
+
+                                string text = new JavaScriptSerializer().Serialize(v);
+                                var data = (JObject)JsonConvert.DeserializeObject(text);
+                                string PersonName = data["PersonName"].Value<string>();
+                                string Counts = data["Counts"].Value<string>();
+                                string TypeName = data["TypeName"].Value<string>();
+                                <li>
+                                    @PersonName @TypeName
+                                    <a name="aErp" personname ="@PersonName" typename="@TypeName"  href="#">(@Counts)</a>
+                                </li>
+                            }
+
+                           </ul>
+                        }
+                    }
                 </p>
                 <span class="text-end d-flex align-items-center justify-content-end">more</span>
                 @*<a href="#"
