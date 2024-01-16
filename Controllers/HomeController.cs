@@ -88,14 +88,23 @@ namespace iHub.Controllers
 
                 //小提醒
                 //F00073 李曼君 F00174 張冠凱 F00578 葉珍羽
-                List<string> empNos = new List<string>() { "F00073", "F00174", "F00578" };
-                List<object> Erps = new List<object>();
-                List<object> ErpGroups = new List<object>();
+                List<string> UserIds = new List<string>() { "F00073", "F00174"};
+                
+                ERPHelper helper = new ERPHelper();
+                List<ErpClass> Erps = helper.GetUnDoneBill(UserIds);
 
-                ERPHelper helpr = new ERPHelper();
-                bool done = helpr.GetUnDoneBill<object>(empNos, ref Erps, ref ErpGroups);
-
-                ViewBag.Erps = Erps;
+                List<ErpGroupClass> ErpGroups = Erps.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
+                                .Select(a => new ErpGroupClass
+                                {
+                                    UserId = a.Key.UserId,
+                                    PersonName = a.Key.PersonName,
+                                    EMail = a.Key.EMail,
+                                    TypeId = a.Key.TypeId,
+                                    TypeName = a.Key.TypeName,
+                                    Counts = a.Count(),
+                                }).OrderBy(a => a.UserId)
+                                .ToList();                
+                    
                 ViewBag.ErpGroups = ErpGroups;
             }
 

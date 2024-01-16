@@ -126,18 +126,9 @@
                                 @{
                                     if (ViewBag.ErpGroups != null)
                                     {
-                                        int sumERPs = 0;
-
-                                        foreach (var v in ViewBag.ErpGroups)
-                                        {
-                                            string text = new JavaScriptSerializer().Serialize(v);
-                                            var data = (JObject)JsonConvert.DeserializeObject(text);
-                                            string Counts = data["Counts"].Value<string>();
-
-                                            sumERPs += int.Parse(Counts);
-                                        }
-
-                                        @sumERPs
+                                        var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
+                                        //待簽核數量
+                                        @datas.Sum(a => a.Counts);                                     
                                     }
                                 }
                             </span>
@@ -160,26 +151,19 @@
                     @{
                         if (ViewBag.ErpGroups != null)
                         {
-                            int n = 0;
+                            var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
 
                             <ul>
 
-                            @foreach (var v in ViewBag.ErpGroups)
-                            {
-                                n++;
+                                @foreach (var v in datas)
+                                {
+                                    <li>
+                                        @v.PersonName @v.TypeName
+                                        <a name="aErp" typename ="@v.TypeName" typeid="@v.TypeId" userid="@v.UserId" href="#">(@v.Counts)</a>
+                                    </li>
+                                }
 
-                                string text = new JavaScriptSerializer().Serialize(v);
-                                var data = (JObject)JsonConvert.DeserializeObject(text);
-                                string PersonName = data["PersonName"].Value<string>();
-                                string Counts = data["Counts"].Value<string>();
-                                string TypeName = data["TypeName"].Value<string>();
-                                <li>
-                                    @PersonName @TypeName
-                                    <a name="aErp" personname ="@PersonName" typename="@TypeName"  href="#">(@Counts)</a>
-                                </li>
-                            }
-
-                           </ul>
+                            </ul>
                         }
                     }
                 </p>

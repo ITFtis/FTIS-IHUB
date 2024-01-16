@@ -206,6 +206,7 @@
     <Compile Include="_core\ERPHelper.cs" />
     <Compile Include="_core\SysParam.cs" />
     <Compile Include="_core\XmlHelper.cs" />
+    <Compile Include="_core\_applyClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\DouMenuExt.xml" />
