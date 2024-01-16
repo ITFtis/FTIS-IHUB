@@ -39,34 +39,42 @@ namespace iHub
                     e_iquery = e_iquery.Where(a => empNos.Contains(a.UserId));
                 }
 
+                //員工系統條件查詢
                 var tmp = e_iquery.Join(e_wfBill.GetAll(), a => a.TransactionId, b => b.TransactionId, (o, c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.TypeId, c.BillState, c.UpdateTime
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.MakerId, c.MakeTime, c.TypeId, c.BillState, c.UpdateTime
                         }).Join(e_comGroupPerson.GetAll(), a => a.UserId, b => b.PersonId, (o, c) => new 
                         { 
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.TypeId, o.BillState, o.UpdateTime,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime,
                             c.PersonName, c.EMail
                         }).GroupJoin(e_capCommBillType.GetAll(), a => a.TypeId, b => b.TypeId, (o,c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail,
                             TypeName = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().TypeName
                         })
                         .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
                         .Where(a => a.BillState == 2 && a.UpdateTime > 20210831000000);
 
-                        result = tmp.Select(a => new ErpClass
-                        {
-                            TransactionId = a.TransactionId,
-                            LevelNO = a.LevelNO,
-                            UserId = a.UserId,
-                            kind = a.kind,
-                            State = a.State,
-                            TypeId = a.TypeId,
-                            BillState = a.BillState,
-                            UpdateTime = a.UpdateTime,
-                            PersonName = a.PersonName,
-                            EMail = a.EMail,
-                            TypeName = a.TypeName,
+                    //輸出
+                    result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
+                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail, o.TypeName,
+                        MakerName = c.FirstOrDefault() == null? "" : c.FirstOrDefault().PersonName
+                    })
+                    .Select(a => new ErpClass
+                    {
+                        TransactionId = a.TransactionId,
+                        LevelNO = a.LevelNO,
+                        UserId = a.UserId,
+                        kind = a.kind,
+                        State = a.State,
+                        TypeId = a.TypeId,
+                        BillState = a.BillState,
+                        UpdateTime = a.UpdateTime,
+                        PersonName = a.PersonName,
+                        EMail = a.EMail,
+                        TypeName = a.TypeName,
+                        MakerName = a.MakerName,
+                        MakeTime = a.MakeTime
                         }).ToList();
             }
             catch(Exception ex)

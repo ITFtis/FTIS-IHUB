@@ -87,29 +87,51 @@ namespace iHub.Controllers
                 ViewBag.Cards = cards;
 
                 //小提醒
-                //F00073 李曼君 F00174 張冠凱 F00578 葉珍羽
+                //F00073 李曼君 F00174 張冠凱 F00578 葉珍羽 F00115 陳志銘
                 List<string> UserIds = new List<string>() { "F00073", "F00174"};
                 
                 ERPHelper helper = new ERPHelper();
                 List<ErpClass> Erps = helper.GetUnDoneBill(UserIds);
 
-                List<ErpGroupClass> ErpGroups = Erps.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
-                                .Select(a => new ErpGroupClass
-                                {
-                                    UserId = a.Key.UserId,
-                                    PersonName = a.Key.PersonName,
-                                    EMail = a.Key.EMail,
-                                    TypeId = a.Key.TypeId,
-                                    TypeName = a.Key.TypeName,
-                                    Counts = a.Count(),
-                                }).OrderBy(a => a.UserId)
-                                .ToList();                
-                    
-                ViewBag.ErpGroups = ErpGroups;
+                //有待簽需要統計數量
+                if (Erps != null)
+                {
+                    List<ErpGroupClass> ErpGroups = Erps.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
+                                    .Select(a => new ErpGroupClass
+                                    {
+                                        UserId = a.Key.UserId,
+                                        PersonName = a.Key.PersonName,
+                                        EMail = a.Key.EMail,
+                                        TypeId = a.Key.TypeId,
+                                        TypeName = a.Key.TypeName,
+                                        Counts = a.Count(),
+                                    }).OrderBy(a => a.UserId)
+                                    .ToList();
+
+                    ViewBag.ErpGroups = ErpGroups;
+                }
             }
 
             return View();
         }
+
+        //姓名已存在(true:有)
+        public ActionResult GetUnDoneBillList(string userid, string typeid)
+        {
+            ERPHelper helper = new ERPHelper();
+            List<ErpClass> Erps = helper.GetUnDoneBill(new List<string>() { userid });
+            Erps = Erps.Where(a => a.TypeId == typeid).ToList();
+
+            if (helper.ErrorMessage != "")
+            {
+                return Json(new { result = false, errorMessage = helper.ErrorMessage }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { result = true, Erps = Erps }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //測試頁1
         public ActionResult Test1()
         {

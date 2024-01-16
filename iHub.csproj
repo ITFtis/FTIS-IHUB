@@ -202,6 +202,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="_core\BasicClass.cs" />
     <Compile Include="_core\Code.cs" />
+    <Compile Include="_core\Constant.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\ERPHelper.cs" />
     <Compile Include="_core\SysParam.cs" />

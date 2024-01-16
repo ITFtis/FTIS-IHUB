@@ -128,7 +128,12 @@
                                     {
                                         var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
                                         //待簽核數量
-                                        @datas.Sum(a => a.Counts);                                     
+                                        @datas.Sum(a => a.Counts);
+                                    }
+                                    else
+                                    {
+                                        int n = 0;
+                                        @n;
                                     }
                                 }
                             </span>
@@ -159,7 +164,7 @@
                                 {
                                     <li>
                                         @v.PersonName @v.TypeName
-                                        <a name="aErp" typename ="@v.TypeName" typeid="@v.TypeId" userid="@v.UserId" href="#">(@v.Counts)</a>
+                                        <a name="aErp" typename ="@v.TypeName" userid="@v.UserId" typeid="@v.TypeId" href="#">(@v.Counts)</a>
                                     </li>
                                 }
 

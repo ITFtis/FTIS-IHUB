@@ -65,6 +65,16 @@ namespace iHub
         /// 單據類型名稱
         /// </summary>
         public string TypeName { get; set; }
+
+        /// <summary>
+        /// 送審人姓名
+        /// </summary>
+        public string MakerName { get; set; }
+
+        /// <summary>
+        /// 送審時間
+        /// </summary>
+        public long MakeTime { get; set; }
     }
 
     public class ErpGroupClass

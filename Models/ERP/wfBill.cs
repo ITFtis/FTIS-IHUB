@@ -33,5 +33,15 @@ namespace iHub.Models
         [Required]
         [Display(Name = "最後辦理時間")]
         public long UpdateTime { get; set; }
+
+        [Required]
+        [Column(TypeName = "varchar")]
+        [StringLength(20)]
+        [Display(Name = "送審人")]
+        public string MakerId { get; set; }
+
+        [Required]
+        [Display(Name = "送審時間")]
+        public long MakeTime { get; set; }
     }
 }

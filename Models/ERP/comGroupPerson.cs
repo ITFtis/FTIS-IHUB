@@ -29,5 +29,28 @@ namespace iHub.Models
         [Column(TypeName = "nvarchar")]
         [StringLength(100)]
         public string EMail { get; set; }
+
+
+
+        static object lockGetAllDatas = new object();
+        public static IEnumerable<comGroupPerson> GetAllDatas(int cachetimer = 0)
+        {
+            if (cachetimer == 0) cachetimer = Constant.cacheTime;
+            
+            string key = "iHub.Models.comGroupPerson";
+            var allData = DouHelper.Misc.GetCache<IEnumerable<comGroupPerson>>(cachetimer, key);
+            lock (lockGetAllDatas)
+            {
+                if (allData == null)
+                {
+                    Dou.Models.DB.IModelEntity<comGroupPerson> modle = new Dou.Models.DB.ModelEntity<comGroupPerson>(new T8ERPModelContext());
+                    allData = modle.GetAll().OrderBy(a => a.PersonId).ToArray();
+
+                    DouHelper.Misc.AddCache(allData, key);
+                }
+            }
+
+            return allData;
+        }
     }
 }
