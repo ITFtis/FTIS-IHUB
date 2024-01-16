@@ -2,6 +2,8 @@
 @using System.Web.Script.Serialization;
 @using Newtonsoft.Json.Linq;
 
+<script src="~/Scripts/prj/Home.js"></script>
+
 <!-- main info display start -->
 <div class="right-section-info mt-3 row gy-2">
     <!-- 待辦事項 start -->
@@ -122,8 +124,8 @@
                             <span>T8待簽核處理</span>
                             <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
                                 @{
-                                    List<string> strERP = new List<string>();
-                                    int sumCounts = 0;
+                                    List<string> ERPs = new List<string>();
+                                    int sumERPs = 0;
                                     if (ViewBag.ErpGroups != null)
                                     {
                                         foreach (var v in ViewBag.ErpGroups)
@@ -134,12 +136,12 @@
                                             string Counts = data["Counts"].Value<string>();
                                             string TypeName = data["TypeName"].Value<string>();
 
-                                            sumCounts += int.Parse(Counts);
-                                            strERP.Add(PersonName + " " + TypeName + "(" + Counts + ")");
+                                            sumERPs += int.Parse(Counts);
+                                            ERPs.Add(PersonName + " " + TypeName + "(" + Counts + ")");
                                         }
                                     }
                                 }
-                                @sumCounts
+                                @sumERPs
                             </span>
                             @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
@@ -157,7 +159,7 @@
                 @*<span class="todo-list-item fw-bold text-start mb-2 text-light fs-5">--建置中，僅示範用--</span>*@
                 @*<span class="fw-bold">T8待簽核處理</span>*@
                 <p>
-                    @String.Join(", ", strERP)
+                    @String.Join(", ", ERPs)
                 </p>
                 <span class="text-end d-flex align-items-center justify-content-end">more</span>
                 @*<a href="#"
