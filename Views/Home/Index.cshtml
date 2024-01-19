@@ -128,15 +128,16 @@
                                     {
                                         var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
                                         //待簽核數量
-                                        @datas.Sum(a => a.Counts);
+                                        //@datas.Sum(a => a.Counts);
+                                        int n = 0; @n; //測試0資料畫面
                                     }
                                     else
                                     {
                                         int n = 0;
                                         @n;
                                     }
-                                }
-                            </span>
+                                                        }
+                                                    </span>
                             @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle tips-angle"
@@ -283,8 +284,18 @@
     }, 4000);
    
     /*  鎖定頁面設定 */
+    var LockMessage = [];
+    var num_tips = $('.tips-number').text();    //T8
+    if (num_tips != 0) {
+        LockMessage.push("T8待簽核處理");        
+    }
 
-    //LockFuntion();
+    if (LockMessage.length > 0) {                
+        var content = $('.banner-user').text() + '未完成工作';
+        $('.banner-user p').text(content);
+        $('.banner-user p').addClass('text-danger');        
+        LockFuntion();
+    }
 
     /*  鎖定頁面設定 end  */
 
