@@ -284,26 +284,33 @@
    
     /*  鎖定頁面設定 */
     var aryLock = [];
-    var num_tips = $('.tips-number').text();    //T8
+
+    //T8
+    var num_tips = $('.tips-number').text();    
     if (num_tips != 0) {
         aryLock.push("T8待簽核處理");
     }
 
     if (aryLock.length > 0) {                
-        ////var content = $('.banner-user').text() + '未完成工作';
-        ////$('.banner-user p').text(content);
-        ////$('.banner-user p').addClass('text-danger');
-        ////alert('有工作尚未完成，請先處理');
+        var msg = "尚未完成工作：" + "</br>";
+        msg += '<ul>';
+        $.each(aryLock, function (index, value) {
+            msg += '<li class="mt-2">' + value + '</li>';
+        });
 
-        var msg = "尚未完成工作：\n" + aryLock.join(',');
+        msg += '</ul>';
+
+        //有工作尚未完成，請先處理
+        setTimeout(function () {
+            jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
+        }, 100);
+
         LockFuntion(msg);
     }
 
     /*  鎖定頁面設定 end  */
 
     function LockFuntion(msg) {
-        //有工作尚未完成，請先處理
-
         //$('.align-items-center').trigger('click');
         //待辦事項
         //$('#todoList').addClass('show');
@@ -320,7 +327,7 @@
         $('.left-section .z-dou-menu button').removeAttr('data-bs-toggle');            
         $('.left-section .z-dou-menu button').click(function (e) {            
             e.preventDefault();
-            alert(msg);
+            jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
             return false;
         });
 
@@ -335,7 +342,7 @@
         {
             $('.navbar .align-items-center').find('*').tooltip('dispose');
             e.preventDefault();
-            alert(msg);
+            jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
             return false;
         });
 
@@ -345,7 +352,7 @@
         ////提示訊息
         $('.news-area-container').parent().find('*').click(function (e) {
             e.preventDefault();
-            alert(msg);
+            jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
             return false;
         });    
     }
