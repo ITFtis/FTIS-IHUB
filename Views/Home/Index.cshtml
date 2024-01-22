@@ -283,23 +283,25 @@
     }, 4000);
    
     /*  鎖定頁面設定 */
-    var LockMessage = [];
+    var aryLock = [];
     var num_tips = $('.tips-number').text();    //T8
     if (num_tips != 0) {
-        LockMessage.push("T8待簽核處理");        
+        aryLock.push("T8待簽核處理");
     }
 
-    if (LockMessage.length > 0) {                
+    if (aryLock.length > 0) {                
         ////var content = $('.banner-user').text() + '未完成工作';
         ////$('.banner-user p').text(content);
         ////$('.banner-user p').addClass('text-danger');
         ////alert('有工作尚未完成，請先處理');
-        LockFuntion();
+
+        var msg = "尚未完成工作：\n" + aryLock.join(',');
+        LockFuntion(msg);
     }
 
     /*  鎖定頁面設定 end  */
 
-    function LockFuntion() {
+    function LockFuntion(msg) {
         //有工作尚未完成，請先處理
 
         //$('.align-items-center').trigger('click');
@@ -312,20 +314,40 @@
 
         //Menu button
         ////$('.left-section').addClass('bg-secondary');
-        $('.left-section').find('*').prop('disabled', true);
+        ////停止功能
+        ////$('.left-section').find('*').prop('disabled', true);
+        ////提示訊息
+        $('.left-section .z-dou-menu button').removeAttr('data-bs-toggle');            
+        $('.left-section .z-dou-menu button').click(function (e) {            
+            e.preventDefault();
+            alert(msg);
+            return false;
+        });
 
         //快捷鍵
         ////$('.navbar .align-items-center').addClass('bg-secondary');
         //button
-        $('.navbar .align-items-center').find('*').prop('disabled', true);
+        //$('.navbar .align-items-center').find('*').prop('disabled', true);
         //<a>
-        $('.navbar .align-items-center').find('*').css('cursor', 'default')
-        $('.navbar .align-items-center').find('*').click(function (e) { e.preventDefault(); });
+        //$('.navbar .align-items-center').find('*').css('cursor', 'default');
+        ////提示訊息
+        $('.navbar .align-items-center').find('*').click(function (e)
+        {
+            $('.navbar .align-items-center').find('*').tooltip('dispose');
+            e.preventDefault();
+            alert(msg);
+            return false;
+        });
 
         //最新公告
         ////$('.news-area-container').parent().find('*').addClass('bg-secondary');
-        $('.news-area-container').parent().find('*').css('cursor', 'default');
-        $('.news-area-container').parent().find('*').click(function (e) { e.preventDefault(); });    
+        ////$('.news-area-container').parent().find('*').css('cursor', 'default');
+        ////提示訊息
+        $('.news-area-container').parent().find('*').click(function (e) {
+            e.preventDefault();
+            alert(msg);
+            return false;
+        });    
     }
 
 </script>
