@@ -88,8 +88,8 @@ namespace iHub.Controllers
 
                 //T8待簽核處理
                 //特定人待簽核資料(F00073 李曼君 F00174 張冠凱 F00578 葉珍羽 F00115 陳志銘)
-                List<string> UserIds = new List<string>() { "F00073", "F00174"};
-                //List<string> UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
+                //List<string> UserIds = new List<string>() { "F00073", "F00174"};
+                List<string> UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
 
                 ERPHelper helper = new ERPHelper();
                 List<ErpClass> Erps = helper.GetUnDoneBill(UserIds);
