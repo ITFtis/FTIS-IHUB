@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iHub.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -132,6 +133,22 @@ namespace iHub
             result = result.Append(new KeyValuePair<string, object>("512", "委託提供意見"));            
 
             return result;
+        }
+
+        /// <summary>
+        /// iHub 申請單轉換(OA加班單,LN請假單,MS調班單)
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static List<capCommBillType> GetIHubBillType()
+        {
+            List<capCommBillType> list = capCommBillType.GetAllDatas().ToList();
+
+            list.Where(a => a.TypeId == "OA").FirstOrDefault().TypeName = "加班單";
+            list.Where(a => a.TypeId == "LN").FirstOrDefault().TypeName = "請假單";
+            list.Where(a => a.TypeId == "MS").FirstOrDefault().TypeName = "調班單";
+
+            return list;
         }
 
         #endregion

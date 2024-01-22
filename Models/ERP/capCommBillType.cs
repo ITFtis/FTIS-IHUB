@@ -29,6 +29,27 @@ namespace iHub.Models
         [Column(TypeName = "nvarchar")]
         [StringLength(100)]
         public string TypeName { get; set; }
+
+        static object lockGetAllDatas = new object();
+        public static IEnumerable<capCommBillType> GetAllDatas(int cachetimer = 0)
+        {
+            if (cachetimer == 0) cachetimer = Constant.cacheTime;
+
+            string key = "iHub.Models.capCommBillType";
+            var allData = DouHelper.Misc.GetCache<IEnumerable<capCommBillType>>(cachetimer, key);
+            lock (lockGetAllDatas)
+            {
+                if (allData == null)
+                {
+                    Dou.Models.DB.IModelEntity<capCommBillType> modle = new Dou.Models.DB.ModelEntity<capCommBillType>(new T8ERPModelContext());
+                    allData = modle.GetAll().ToArray();
+
+                    DouHelper.Misc.AddCache(allData, key);
+                }
+            }
+
+            return allData;
+        }
     }
 
     public class capCommBillTypeSelectItems : Dou.Misc.Attr.SelectItemsClass

@@ -22,7 +22,7 @@ namespace iHub
         public List<ErpClass> GetUnDoneBill(List<string> empNos)
         {
             List<ErpClass> result = null;
-
+            
             try
             { 
                 var dbContextT8ERP = new T8ERPModelContext();
@@ -47,13 +47,15 @@ namespace iHub
                         { 
                             o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime,
                             c.PersonName, c.EMail
-                        }).GroupJoin(e_capCommBillType.GetAll(), a => a.TypeId, b => b.TypeId, (o,c) => new
+                        })
+                        .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
+                        .Where(a => a.BillState == 2 && a.UpdateTime > 20210831000000)
+                        .ToList()
+                        .GroupJoin(Code.GetIHubBillType(), a => a.TypeId, b => b.TypeId, (o,c) => new
                         {
                             o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail,
                             TypeName = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().TypeName
-                        })
-                        .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
-                        .Where(a => a.BillState == 2 && a.UpdateTime > 20210831000000);
+                        });
 
                     //輸出
                     result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 

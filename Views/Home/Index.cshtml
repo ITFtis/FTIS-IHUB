@@ -163,8 +163,8 @@
                                 @foreach (var v in datas)
                                 {
                                     <li>
-                                        @v.PersonName @v.TypeName
-                                        <a name="aErp" typename ="@v.TypeName" userid="@v.UserId" typeid="@v.TypeId" href="#">(@v.Counts)</a>
+                                        @v.TypeName：
+                                        <a name="aErp" typename ="@v.TypeName" userid="@v.UserId" typeid="@v.TypeId" href="#">@v.Counts</a>筆
                                     </li>
                                 }
 
