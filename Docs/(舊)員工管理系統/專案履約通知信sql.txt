@@ -1,0 +1,14 @@
+'取出警示日期(本日+15天) > 預定完成日date4(未完成)
+
+
+  Response.write "<br>--部門主管--<br>"
+ '取出 部門主管(cmmEmp..dckno) 的未完成工項，寫入通知信資料表
+ sqlck="select distinct a.dname, b.dckno as mno, c.name as name, c.email as email, a.pjds1, a.pjds2, a.date3 , a.cls, count(*) as cnt from pjPjds a left join cmmDep b on a.dcode=b.dcode left join cmmEmp c on b.dckno=c.mno where a.date4<='" & 警示日期 & "' and a.fnh<>'Y' and (a.cls is null or a.cls='N') group by a.dname, b.dckno, c.name, c.email, a.pjds1, a.pjds2, a.date3 , a.cls order by b.dckno, a.pjds1, a.pjds2"
+
+
+ '取出 計畫主持人(ckno) 的未完成工項，寫入通知信資料表
+ sqlck="select distinct dname, ckno as mno, ckname as name, ckemail as email, pjds1, pjds2, date3, cls, count(*) as cnt from pjPjds where date4<='" & 警示日期 & "' and fnh<>'Y' and (cls is null or cls='N') group by dname, ckno, ckname, ckemail, pjds1, pjds2, date3, cls order by ckno, pjds1, pjds2"
+
+
+ '取出 工項負責人1(prno) 的未完成工項，寫入通知信資料表
+ sqlck="select distinct dname, prno as mno, prname as name, premail as email, pjds1, pjds2, date3, cls, count(*) as cnt from pjPjds where date4<='" & 警示日期 & "' and fnh<>'Y' and (cls is null or cls='N') group by dname, prno, prname, premail, pjds1, pjds2, date3, cls order by prno, pjds1, pjds2"
