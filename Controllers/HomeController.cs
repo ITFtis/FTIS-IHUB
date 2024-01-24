@@ -125,8 +125,7 @@ namespace iHub.Controllers
                 {
                     List<MisPjGroupClass> alertPjsGroups = alertPjs.GroupBy(a => new { a.dname, a.mno, a.name, a.email, a.pjds1, a.pjds2, a.pjds2b, a.date3, a.cls })
                                     .Select(a => new MisPjGroupClass
-                                    {
-                                        //a.dname, a.dckno, a.name, a.email, a.pjds1, a.pjds2, a.date3, a.cls
+                                    {                                        
                                         dname = a.Key.dname,
                                         mno = a.Key.mno,
                                         name = a.Key.name,
@@ -150,7 +149,7 @@ namespace iHub.Controllers
         public ActionResult GetAlertPJList(string mno)
         {
             MisHelper helper = new MisHelper();
-            List<MisPjClass> Pjs = helper.GetAlertPJ(new List<string>() { mno });            
+            List<MisPjClass> AlertPJs = helper.GetAlertPJ(new List<string>() { mno });            
 
             if (helper.ErrorMessage != "")
             {
@@ -158,7 +157,7 @@ namespace iHub.Controllers
             }
             else
             {
-                return Json(new { result = true, Pjs = Pjs }, JsonRequestBehavior.AllowGet);
+                return Json(new { result = true, AlertPJs = AlertPJs }, JsonRequestBehavior.AllowGet);
             }
         }
 

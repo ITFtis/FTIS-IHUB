@@ -43,7 +43,7 @@
         });
     });
 
-    $("[name='aAlertPjsGroups']").on("click", function () {
+    $("[name='aAlertPjsGroup']").on("click", function () {
         var mno = $(this).attr('mno');
 
         helper.misc.showBusyIndicator();
@@ -58,7 +58,7 @@
                 if (data.result) {
 
                     content = '<ul>';
-                    $.each(data.Pjs, function (index, value) {
+                    $.each(data.AlertPJs, function (index, value) {
 
                         var msg = '<span>計畫名稱(' + this.pjds1 + ')</span>'
                             + '<span class="ps-3">預定完成日(' + this.date4 + ')</span>';
