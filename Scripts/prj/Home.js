@@ -31,23 +31,6 @@
                 } else {
                     alert("假單資料顯示失敗：\n" + data.errorMessage);
                 }
-
-                //if (data.result) {
-                    //var msg = '<ul>';
-                    //$.each(data.basicuser, function (index, value) {
-
-                    //    var strPosition = this.Position == null ? '' : this.Position;
-
-                    //    var content = '<a href="#" style="text-decoration: none" onclick = "GoEditSpecificData(\'' + this.PId + '\')">專家(' + this.PId + ' ' + this.Name + ' ' + strPosition + ')' + '</a>'
-                    //        + '<span class="ps-3">' + '建檔人(' + this.BName + ')' + '</span>';
-
-                    //    msg += '<li class="mt-2">' + content + '</li>';
-                    //});
-
-                    //msg += '</ul>';
-
-                    //result = msg;
-                //}
             },
             complete: function () {
                 helper.misc.hideBusyIndicator();
@@ -58,7 +41,47 @@
                 helper.misc.hideBusyIndicator();
             }
         });
+    });
 
-        //jspAlertMsg($("body"), { autoclose: 5000, content: msg }, null);
+    $("[name='aAlertPjsGroups']").on("click", function () {
+        var mno = $(this).attr('mno');
+
+        helper.misc.showBusyIndicator();
+        $.ajax({
+            url: app.siteRoot + 'Home/GetAlertPJList',
+            datatype: "json",
+            type: "Get",
+            data: { mno: mno },
+            async: false,
+            success: function (data) {
+
+                if (data.result) {
+
+                    content = '<ul>';
+                    $.each(data.Pjs, function (index, value) {
+
+                        var msg = '<span>計畫名稱(' + this.pjds1 + ')</span>'
+                            + '<span class="ps-3">預定完成日(' + this.date4 + ')</span>';
+
+                        content += '<li>' + msg + '</li>';
+                    });
+
+                    content += '</ul>';
+
+                    jspAlertMsg($("body"), { autoclose: 60 * 1000, content: content }, null);
+
+                } else {
+                    alert("假單資料顯示失敗：\n" + data.errorMessage);
+                }
+            },
+            complete: function () {
+                helper.misc.hideBusyIndicator();
+            },
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                alert(err.Message);
+                helper.misc.hideBusyIndicator();
+            }
+        });
     });
 })

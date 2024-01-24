@@ -22,8 +22,22 @@
                                  src='~/Images/list-ul-solid.svg'
                                  alt="" />
                             <span>待辦事項</span>
-                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">5</span>
-                            <span>⠀⠀(僅示範用)</span>
+                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">                                
+                                @{
+                                    if (ViewBag.ErpGroups != null)
+                                    {
+                                        var datas = ViewBag.AlertPjsGroups as List<iHub.MisPjGroupClass>;
+                                        //待簽核數量
+                                        @datas.Count();
+                                    }
+                                    else
+                                    {
+                                        int n = 0;
+                                        @n;
+                                    }
+                                }
+                            </span>
+                            @*<span>⠀⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle todo-angle"
                              src='~/Images/angle-up-solid.svg'
@@ -35,11 +49,24 @@
         </div>
 
         <div class="collapse" id="todoList">
-            <div class="todo-list-body card card-body rounded-bottom pt-0">
-                <span class="fw-bold">--建置中，僅示範用--</span>
-                <a href="#"
-                   class="todo-list-item fw-bold text-start mb-2 text-light fs-5">專案履約(5)</a>
-                <span class="text-end d-flex align-items-center justify-content-end">
+            <div class="todo-list-body card card-body rounded-bottom pt-0">                
+                @{ 
+                    <ul></ul>
+
+                    var AlertPjsGroups = ViewBag.AlertPjsGroups as List<iHub.MisPjGroupClass>;
+                    if (AlertPjsGroups != null && AlertPjsGroups.Count > 0)
+                    {
+                        <span>
+                            履約通知說明：
+                            <a name="aAlertPjsGroups" mno="@AlertPjsGroups.FirstOrDefault().mno" href="#">連結</a>
+                        </span>
+                        }
+                    }
+                @*<span class="fw-bold">--建置中，僅示範用--</span>
+        <a href="#"
+           class="todo-list-item fw-bold text-start mb-2 text-light fs-5">專案履約(5)</a>*@
+                <span class="text-end d-flex align-items-center justify-content-end"
+                      style="cursor:pointer" onclick='location.reload();'>
                     重新整理
                     <img class="todo-reload ms-1"
                          src='~/Images/arrows-rotate-solid.svg'

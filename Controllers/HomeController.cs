@@ -111,12 +111,57 @@ namespace iHub.Controllers
 
                     ViewBag.ErpGroups = ErpGroups;
                 }
+
+                //履約通知
+                //特定人待簽核資料(00073 李曼君, 00027 蔡宏達, 00003 許瑛華)
+                UserIds = new List<string>() { "00027" };
+                //UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
+
+                MisHelper pjHelper = new MisHelper();
+                List<MisPjClass> alertPjs = pjHelper.GetAlertPJ(UserIds);
+
+                //有履約通知要統計數量
+                if (Erps != null)
+                {
+                    List<MisPjGroupClass> alertPjsGroups = alertPjs.GroupBy(a => new { a.dname, a.mno, a.name, a.email, a.pjds1, a.pjds2, a.pjds2b, a.date3, a.cls })
+                                    .Select(a => new MisPjGroupClass
+                                    {
+                                        //a.dname, a.dckno, a.name, a.email, a.pjds1, a.pjds2, a.date3, a.cls
+                                        dname = a.Key.dname,
+                                        mno = a.Key.mno,
+                                        name = a.Key.name,
+                                        email = a.Key.email,
+                                        pjds1 = a.Key.pjds1,
+                                        pjds2 = a.Key.pjds2,                                        
+                                        date3 = a.Key.date3,
+                                        cls = a.Key.cls,
+                                        Counts = a.Count(),
+                                    }).OrderBy(a => a.name)
+                                    .ToList();
+
+                    ViewBag.AlertPjsGroups = alertPjsGroups;
+                }
             }
 
             return View();
         }
 
-        //姓名已存在(true:有)
+        
+        public ActionResult GetAlertPJList(string mno)
+        {
+            MisHelper helper = new MisHelper();
+            List<MisPjClass> Pjs = helper.GetAlertPJ(new List<string>() { mno });            
+
+            if (helper.ErrorMessage != "")
+            {
+                return Json(new { result = false, errorMessage = helper.ErrorMessage }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { result = true, Pjs = Pjs }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult GetUnDoneBillList(string userid, string typeid)
         {
             ERPHelper helper = new ERPHelper();

@@ -195,6 +195,9 @@
     <Compile Include="Models\ERP\wfBill.cs" />
     <Compile Include="Models\F22EmpWTOption.cs" />
     <Compile Include="Models\F22Qdate.cs" />
+    <Compile Include="Models\Mis\cmmDep.cs" />
+    <Compile Include="Models\Mis\cmmEmp.cs" />
+    <Compile Include="Models\Mis\pjPjds.cs" />
     <Compile Include="Models\POST.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
@@ -205,6 +208,8 @@
     <Compile Include="_core\Constant.cs" />
     <Compile Include="_core\DateFormat.cs" />
     <Compile Include="_core\ERPHelper.cs" />
+    <Compile Include="_core\MisClass.cs" />
+    <Compile Include="_core\MisHelper.cs" />
     <Compile Include="_core\SysParam.cs" />
     <Compile Include="_core\XmlHelper.cs" />
     <Compile Include="_core\_applyClass.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using iHub.Models.Mis;
 
 namespace iHub.Models
 {
@@ -40,5 +41,17 @@ namespace iHub.Models
         public virtual DbSet<comGroupPerson> comGroupPerson { get; set; }
         public virtual DbSet<wfActivity> wfActivity { get; set; }
         public virtual DbSet<wfBill> wfBill { get; set; }
+    }
+
+    public class MisModelContext : DbContext
+    {
+        public MisModelContext() : base("name=MisModelContext")
+        {
+            Database.SetInitializer<MisModelContext>(null);
+        }
+
+        public virtual DbSet<pjPjds> pjPjds { get; set; }
+        public virtual DbSet<cmmDep> cmmDep { get; set; }
+        public virtual DbSet<cmmEmp> cmmEmp { get; set; }
     }
 }
