@@ -15,7 +15,7 @@
                 if (data.result) {
 
                     content = '<ul>';
-                    $.each(data.Erps, function (index, value) {
+                    $.each(data.UnErps, function (index, value) {
 
                         var msg = '<span>單據編號(' + this.TransactionId + '&nbsp;&nbsp;' + this.TypeName + ')</span>'                            
                             + '<span class="ps-3">送審人(' + this.MakerName + ')</span>'

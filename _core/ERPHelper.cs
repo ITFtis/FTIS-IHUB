@@ -19,9 +19,9 @@ namespace iHub
         /// <param name="erp">ref 清單</param>
         /// <param name="erp_group">ref 統計</param>
         /// <returns></returns>
-        public List<ErpClass> GetUnDoneBill(List<string> empNos)
+        public List<ErpCheckClass> GetUnDoneBill(List<string> empNos)
         {
-            List<ErpClass> result = null;
+            List<ErpCheckClass> result = null;
             
             try
             { 
@@ -62,7 +62,7 @@ namespace iHub
                         o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail, o.TypeName,
                         MakerName = c.FirstOrDefault() == null? "" : c.FirstOrDefault().PersonName
                     })
-                    .Select(a => new ErpClass
+                    .Select(a => new ErpCheckClass
                     {
                         TransactionId = a.TransactionId,
                         LevelNO = a.LevelNO,

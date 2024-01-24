@@ -92,13 +92,13 @@ namespace iHub.Controllers
                 List<string> UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
 
                 ERPHelper helper = new ERPHelper();
-                List<ErpClass> Erps = helper.GetUnDoneBill(UserIds);
+                List<ErpCheckClass> unErps = helper.GetUnDoneBill(UserIds);
 
                 //有待簽需要統計數量
-                if (Erps != null)
+                if (unErps != null)
                 {
-                    List<ErpGroupClass> ErpGroups = Erps.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
-                                    .Select(a => new ErpGroupClass
+                    List<ErpCheckGroupClass> UnErpGroups = unErps.GroupBy(a => new { a.UserId, a.PersonName, a.EMail, a.TypeId, a.TypeName })
+                                    .Select(a => new ErpCheckGroupClass
                                     {
                                         UserId = a.Key.UserId,
                                         PersonName = a.Key.PersonName,
@@ -109,19 +109,19 @@ namespace iHub.Controllers
                                     }).OrderBy(a => a.UserId)
                                     .ToList();
 
-                    ViewBag.ErpGroups = ErpGroups;
+                    ViewBag.UnErpGroups = UnErpGroups;
                 }
 
                 //履約通知
                 //特定人待簽核資料(00073 李曼君, 00027 蔡宏達, 00003 許瑛華)
-                UserIds = new List<string>() { "00027" };
-                //UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
+                //UserIds = new List<string>() { "00027" };
+                UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
 
                 MisHelper pjHelper = new MisHelper();
                 List<MisPjClass> alertPjs = pjHelper.GetAlertPJ(UserIds);
 
                 //有履約通知要統計數量
-                if (Erps != null)
+                if (alertPjs != null)
                 {
                     List<MisPjGroupClass> alertPjsGroups = alertPjs.GroupBy(a => new { a.dname, a.mno, a.name, a.email, a.pjds1, a.pjds2, a.pjds2b, a.date3, a.cls })
                                     .Select(a => new MisPjGroupClass
@@ -164,8 +164,8 @@ namespace iHub.Controllers
         public ActionResult GetUnDoneBillList(string userid, string typeid)
         {
             ERPHelper helper = new ERPHelper();
-            List<ErpClass> Erps = helper.GetUnDoneBill(new List<string>() { userid });
-            Erps = Erps.Where(a => a.TypeId == typeid).ToList();
+            List<ErpCheckClass> UnErps = helper.GetUnDoneBill(new List<string>() { userid });
+            UnErps = UnErps.Where(a => a.TypeId == typeid).ToList();
 
             if (helper.ErrorMessage != "")
             {
@@ -173,7 +173,7 @@ namespace iHub.Controllers
             }
             else
             {
-                return Json(new { result = true, Erps = Erps }, JsonRequestBehavior.AllowGet);
+                return Json(new { result = true, UnErps = UnErps }, JsonRequestBehavior.AllowGet);
             }
         }
 

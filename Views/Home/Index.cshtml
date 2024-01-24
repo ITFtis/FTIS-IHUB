@@ -24,7 +24,7 @@
                             <span>待辦事項</span>
                             <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">                                
                                 @{
-                                    if (ViewBag.ErpGroups != null)
+                                    if (ViewBag.AlertPjsGroups != null)
                                     {
                                         var datas = ViewBag.AlertPjsGroups as List<iHub.MisPjGroupClass>;
                                         //待簽核數量
@@ -151,9 +151,9 @@
                             <span>T8待簽核處理</span>
                             <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
                                 @{
-                                    if (ViewBag.ErpGroups != null)
+                                    if (ViewBag.UnErpGroups != null)
                                     {
-                                        var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
+                                        var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
                                         //待簽核數量
                                         @datas.Sum(a => a.Counts);                                        
                                     }
@@ -181,9 +181,9 @@
                 @*<span class="fw-bold">T8待簽核處理</span>*@
                 <p>
                     @{
-                        if (ViewBag.ErpGroups != null)
+                        if (ViewBag.UnErpGroups != null)
                         {
-                            var datas = ViewBag.ErpGroups as List<iHub.ErpGroupClass>;
+                            var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
 
                             <ul>
 

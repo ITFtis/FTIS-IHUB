@@ -207,6 +207,7 @@
     <Compile Include="_core\Code.cs" />
     <Compile Include="_core\Constant.cs" />
     <Compile Include="_core\DateFormat.cs" />
+    <Compile Include="_core\ERPClass.cs" />
     <Compile Include="_core\ERPHelper.cs" />
     <Compile Include="_core\MisClass.cs" />
     <Compile Include="_core\MisHelper.cs" />
