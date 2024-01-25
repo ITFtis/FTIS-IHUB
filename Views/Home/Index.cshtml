@@ -343,20 +343,11 @@
 
     /*  鎖定頁面設定 end  */
 
-    function LockFuntion(msg) {
-        //$('.align-items-center').trigger('click');
-        //待辦事項
-        //$('#todoList').addClass('show');
-        //上下班打卡
-        //$('#hr-display').addClass('show');    
+    function LockFuntion(msg) { 
         //T8待簽核處理
         $('#tips-display').addClass('show');
 
         //Menu button
-        ////$('.left-section').addClass('bg-secondary');
-        ////停止功能
-        ////$('.left-section').find('*').prop('disabled', true);
-        ////提示訊息
         $('.left-section .z-dou-menu button').removeAttr('data-bs-toggle');            
         $('.left-section .z-dou-menu button').click(function (e) {            
             e.preventDefault();
@@ -365,11 +356,6 @@
         });
 
         //快捷鍵
-        ////$('.navbar .align-items-center').addClass('bg-secondary');
-        //button
-        //$('.navbar .align-items-center').find('*').prop('disabled', true);
-        //<a>
-        //$('.navbar .align-items-center').find('*').css('cursor', 'default');
         ////提示訊息
         $('.navbar .align-items-center').find('*').click(function (e)
         {
@@ -380,8 +366,6 @@
         });
 
         //最新公告
-        ////$('.news-area-container').parent().find('*').addClass('bg-secondary');
-        ////$('.news-area-container').parent().find('*').css('cursor', 'default');
         ////提示訊息
         $('.news-area-container').parent().find('*').click(function (e) {
             e.preventDefault();
