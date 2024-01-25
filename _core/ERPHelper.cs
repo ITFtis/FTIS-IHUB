@@ -60,7 +60,7 @@ namespace iHub
                     //輸出
                     result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
                         o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail, o.TypeName,
-                        MakerName = c.FirstOrDefault() == null? "" : c.FirstOrDefault().PersonName
+                        MakerName = c.FirstOrDefault() == null? o.MakerId : c.FirstOrDefault().PersonName
                     })
                     .Select(a => new ErpCheckClass
                     {
