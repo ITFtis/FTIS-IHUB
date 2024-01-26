@@ -41,23 +41,25 @@ namespace iHub
 
                 //員工系統條件查詢
                 DateTime alertDate = DateTime.Parse(DateTime.Now.ToShortDateString()).AddDays(15); //DateTime.Now.AddDays(15);
-                var tmp = e_iquery.Join(e_dep, a => a.dcode, b => b.dcode, (o, c) => new
+                var v1 = e_iquery.Join(e_dep, a => a.dcode, b => b.dcode, (o, c) => new
                         {
                             o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh,
                             dckno = c.dckno
-                        })
-                        .GroupJoin(e_cmmEmp.GetAll(), a => a.dckno, b => b.mno, (o, c) => new 
+                        })                                                
+                        .Where(a => a.fnh != null && a.fnh != "Y" && (a.cls == null || a.cls == "N"))                        
+                        .Where(a => a.pjds2 != "是否變更合約")
+                        .AsEnumerable()
+                        .Where(a => DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) <= alertDate)
+                        .ToList();
+                        
+
+                var tmp = v1.GroupJoin(e_cmmEmp.GetAll(), a => a.dckno, b => b.mno, (o, c) => new 
                         { 
                             o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh, o.dckno,
                             name = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().name,
                             email = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().email,
                             mno = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().mno,
-                        })                        
-                        .Where(a => a.fnh != null && a.fnh != "Y" && (a.cls == null || a.cls == "N"))                        
-                        .Where(a => a.pjds2 != "是否變更合約")
-                        .AsEnumerable()
-                        .Where(a => DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) <= alertDate)
-                        .OrderBy(a => a.date4).ToList();
+                        }).OrderBy(a => a.date4).ToList();
 
                 //輸出
                 result = tmp.Select(a => new MisPjClass
