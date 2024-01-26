@@ -79,19 +79,31 @@ namespace iHub
                             mno = o.prno,
                 });
 
-                var tmp = v1;
+                var tmp = v1.Concat(v2).Concat(v3);
 
                 //輸出
-                result = tmp.Select(a => new MisPjClass
+                result = tmp
+                .Select(a => new
                 {
                     dname = a.dname,
                     pjds1 = a.pjds1,
                     pjds2 = a.pjds2,
-                    pjds2b = a.pjds2b,
                     date3 = a.date3,
                     cls = a.cls,
                     dcode = a.dcode,
-                    date4 = a.date4,
+                    fnh = a.fnh,
+                    mno = a.mno,
+                    name = a.name,
+                    email = a.email,
+                }).Distinct()
+                .Select(a => new MisPjClass
+                {
+                    dname = a.dname,
+                    pjds1 = a.pjds1,
+                    pjds2 = a.pjds2,
+                    date3 = a.date3,
+                    cls = a.cls,
+                    dcode = a.dcode,
                     fnh = a.fnh,
                     mno = a.mno,
                     name = a.name,
