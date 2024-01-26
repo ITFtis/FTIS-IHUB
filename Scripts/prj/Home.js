@@ -61,15 +61,15 @@
                     $.each(data.AlertPJs, function (index, value) {
 
                         var msg = '<span>' + this.pjds1 + '</span>'
-                            + '<span class="ps-3">預定完成(' + this.date4 + ')</span>'
-                            + '<span class="ps-3">合約規範(' + this.date3 + ')</span>';
+                            + '<span class="ps-3">預定完成(' + this.date4 + ' ' + ')   ' + this.date4_diffday + '天</span>'
+                            + '<span class="ps-3">合約規範(' + this.date3 + ' ' + ')   ' + this.date3_diffday + '天</span>';
 
-                        content += '<li>' + msg + '</li>';
+                        content += '<li class="list-group">' + msg + '</li>';
                     });
 
                     content += '</ul>';
 
-                    jspAlertMsg($("body"), { autoclose: 60 * 1000, content: content, classes: 'modal-lg' }, null);
+                    jspAlertMsg($("body"), { autoclose: 5 * 60 * 1000, content: content }, null);
 
                 } else {
                     alert("假單資料顯示失敗：\n" + data.errorMessage);

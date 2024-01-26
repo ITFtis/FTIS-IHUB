@@ -37,6 +37,11 @@ namespace iHub
         public string date3 { get; set; }
 
         /// <summary>
+        /// 合約規範日期 與當日差異天數
+        /// </summary>
+        public int? date3_diffday { get; set; }
+
+        /// <summary>
         /// 完成與否
         /// </summary>
         public string fnh { get; set; }
@@ -55,6 +60,11 @@ namespace iHub
         /// 預定完成日
         /// </summary>
         public string date4 { get; set; }
+
+        /// <summary>
+        /// 預定完成日 與當日差異天數
+        /// </summary>
+        public int? date4_diffday { get; set; }
 
         /// <summary>
         /// 員編
