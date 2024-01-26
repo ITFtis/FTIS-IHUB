@@ -26,6 +26,15 @@ namespace iHub.Models.Mis
         [Display(Name = "部門簡稱")]
         public string dname { get; set; }
 
+        [Display(Name = "計畫主持人職號")]
+        public string ckno { get; set; }
+
+        [Display(Name = "計畫主持人姓名")]
+        public string ckname { get; set; }
+
+        [Display(Name = "計畫主持人email")]
+        public string ckemail { get; set; }
+
         [Display(Name = "計畫名稱")]
         public string pjds1 { get; set; }
 
@@ -34,6 +43,15 @@ namespace iHub.Models.Mis
 
         [Display(Name = "工作項目(細項)")]
         public string pjds2b { get; set; }
+
+        [Display(Name = "工項負責人職號")]
+        public string prno { get; set; }
+
+        [Display(Name = "工項負責人姓名")]
+        public string prname { get; set; }
+
+        [Display(Name = "工項負責人email")]
+        public string premail { get; set; }
 
         [Display(Name = "合約規範日期")]
         public string date3 { get; set; }
