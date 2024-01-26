@@ -60,15 +60,16 @@
                     content = '<ul>';
                     $.each(data.AlertPJs, function (index, value) {
 
-                        var msg = '<span>計畫名稱(' + this.pjds1 + ')</span>'
-                            + '<span class="ps-3">預定完成日(' + this.date4 + ')</span>';
+                        var msg = '<span>' + this.pjds1 + '</span>'
+                            + '<span class="ps-3">預定完成(' + this.date4 + ')</span>'
+                            + '<span class="ps-3">合約規範(' + this.date3 + ')</span>';
 
                         content += '<li>' + msg + '</li>';
                     });
 
                     content += '</ul>';
 
-                    jspAlertMsg($("body"), { autoclose: 60 * 1000, content: content }, null);
+                    jspAlertMsg($("body"), { autoclose: 60 * 1000, content: content, classes: 'modal-lg' }, null);
 
                 } else {
                     alert("假單資料顯示失敗：\n" + data.errorMessage);
