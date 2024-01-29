@@ -88,7 +88,7 @@ namespace iHub.Controllers
 
                 //T8待簽核處理
                 //特定人待簽核資料(F00073 李曼君 F00174 張冠凱 F00578 葉珍羽 F00115 陳志銘 F01404 蔡育霖 F00043	曾炳勳)
-                //List<string> UserIds = new List<string>() { "F00578" };
+                //List<string> UserIds = new List<string>() { "F00073", "F00174" };
                 List<string> UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
 
                 ERPHelper helper = new ERPHelper();
@@ -114,8 +114,8 @@ namespace iHub.Controllers
 
                 //履約通知
                 //特定人待簽核資料(00073 李曼君, 00027 蔡宏達, 00003 許瑛華)
-                UserIds = new List<string>() { "00027" };
-                //UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
+                //UserIds = new List<string>() { "00027" };
+                UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
 
                 MisHelper pjHelper = new MisHelper();
                 List<MisPjClass> alertPjs = pjHelper.GetAlertPJ(UserIds);
@@ -140,6 +140,11 @@ namespace iHub.Controllers
 
                     ViewBag.AlertPjsGroups = alertPjsGroups;
                 }
+
+                //最高領導者 (F00011 林萊娣)
+                List<string> IsSupers = new List<string>() { "xxxxx", "F00011" };
+                ViewBag.IsSuper = IsSupers.Contains(Dou.Context.CurrentUserBase.Id) ? true : false;
+
             }
 
             return View();

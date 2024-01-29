@@ -314,17 +314,25 @@
     setTimeout(() => {
         bell.classList.remove('onload');
     }, 4000);
-   
+
     /*  鎖定頁面設定 */
     var aryLock = [];
 
     //T8
-    var num_tips = $('.tips-number').text();    
+    var num_tips = $('.tips-number').text();
     if (num_tips != 0) {
+        //T8待簽核處理
+        $('#tips-display').addClass('show');
+        //$('.align-items-center').trigger('click');
+        //待辦事項
+        //$('#todoList').addClass('show');
+        //上下班打卡
+        //$('#hr-display').addClass('show');
+
         aryLock.push("T8待簽核處理");
     }
 
-    if (aryLock.length > 0) {                
+    if (aryLock.length > 0) {
         var msg = "尚未完成工作：" + "</br>";
         msg += '<ul>';
         $.each(aryLock, function (index, value) {
@@ -338,23 +346,19 @@
             jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
         }, 100);
 
-        LockFuntion(msg);
+        //最高領導者 不Lock
+        //if (!'@ViewBag.IsSuper') {
+        if (!@Json.Encode(ViewBag.IsSuper)) {
+            LockFuntion(msg);
+        }
     }
 
     /*  鎖定頁面設定 end  */
 
     function LockFuntion(msg) {
-        //$('.align-items-center').trigger('click');
-        //待辦事項
-        //$('#todoList').addClass('show');
-        //上下班打卡
-        //$('#hr-display').addClass('show');   
-        //T8待簽核處理
-        $('#tips-display').addClass('show');
-
         //Menu button
-        $('.left-section .z-dou-menu button').removeAttr('data-bs-toggle');            
-        $('.left-section .z-dou-menu button').click(function (e) {            
+        $('.left-section .z-dou-menu button').removeAttr('data-bs-toggle');
+        $('.left-section .z-dou-menu button').click(function (e) {
             e.preventDefault();
             jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
             return false;
@@ -376,7 +380,7 @@
             e.preventDefault();
             jspAlertMsg($("body"), { autoclose: 3000, content: msg, classes: 'modal-sm' });
             return false;
-        });    
+        });
     }
 
 </script>
