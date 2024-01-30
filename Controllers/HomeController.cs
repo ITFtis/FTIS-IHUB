@@ -123,22 +123,22 @@ namespace iHub.Controllers
                 //有履約通知要統計數量
                 if (alertPjs != null)
                 {
-                    List<MisPjGroupClass> alertPjsGroups = alertPjs.GroupBy(a => new { a.dname, a.mno, a.name, a.email, a.pjds1, a.pjds2, a.pjds2b, a.date3, a.cls })
-                                    .Select(a => new MisPjGroupClass
-                                    {                                        
-                                        dname = a.Key.dname,
-                                        mno = a.Key.mno,
-                                        name = a.Key.name,
-                                        email = a.Key.email,
-                                        pjds1 = a.Key.pjds1,
-                                        pjds2 = a.Key.pjds2,                                        
-                                        date3 = a.Key.date3,
-                                        cls = a.Key.cls,
-                                        Counts = a.Count(),
-                                    }).OrderBy(a => a.name)
-                                    .ToList();
+                    ////List<MisPjGroupClass> alertPjsGroups = alertPjs.GroupBy(a => new { a.dname, a.mno, a.name, a.email, a.pjds1, a.pjds2, a.pjds2b, a.date3, a.cls })
+                    ////                .Select(a => new MisPjGroupClass
+                    ////                {                                        
+                    ////                    dname = a.Key.dname,
+                    ////                    mno = a.Key.mno,
+                    ////                    name = a.Key.name,
+                    ////                    email = a.Key.email,
+                    ////                    pjds1 = a.Key.pjds1,
+                    ////                    pjds2 = a.Key.pjds2,                                        
+                    ////                    date3 = a.Key.date3,
+                    ////                    cls = a.Key.cls,
+                    ////                    Counts = a.Count(),
+                    ////                }).OrderBy(a => a.name)
+                    ////                .ToList();
 
-                    ViewBag.AlertPjsGroups = alertPjsGroups;
+                    ViewBag.AlertPjs = alertPjs;
                 }
 
                 //最高領導者 (F00011 林萊娣)

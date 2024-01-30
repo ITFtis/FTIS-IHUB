@@ -43,7 +43,7 @@
         });
     });
 
-    $("[name='aAlertPjsGroup']").on("click", function () {
+    $("[name='aAlertPjs']").on("click", function () {
         var mno = $(this).attr('mno');
 
         helper.misc.showBusyIndicator();
@@ -60,7 +60,7 @@
                     content = '<ul>';
                     $.each(data.AlertPJs, function (index, value) {
 
-                        var msg = '<span>' + this.pjds1 + '</span>'
+                        var msg = '<span>(' + (index + 1) + ')' + this.pjds1 + '</span>'
                             + '<span class="ps-3">預定完成(' + this.date4 + ' ' + ')   ' + this.date4_diffday + '天</span>'
                             + '<span class="ps-3">合約規範(' + this.date3 + ' ' + ')   ' + this.date3_diffday + '天</span>';
 

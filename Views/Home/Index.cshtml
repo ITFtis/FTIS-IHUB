@@ -2,11 +2,11 @@
 @using System.Web.Script.Serialization;
 @using Newtonsoft.Json.Linq;
 
-<script src="~/Scripts/prj/Home.js?v=20240126001"></script>
+<script src="~/Scripts/prj/Home.js?v=20240130001"></script>
 
 <!-- main info display start -->
 <div class="right-section-info mt-3 row gy-2">
-    <!-- 待辦事項 start -->
+    <!-- 待辦履約計畫 start -->
     <div class="col-xl-4">
         <div class="mb-0 d-flex flex-column align-items-center rounded-top p-2 todo-list-container">
             <a class="info-btn todo-list-title btn btn-primary fw-bold fs-5 pt-0"
@@ -21,12 +21,12 @@
                             <img class="main-info-icons"
                                  src='~/Images/list-ul-solid.svg'
                                  alt="" />
-                            <span>待辦事項</span>
-                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">                                
+                            <span>待辦履約計畫</span>
+                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
                                 @{
-                                    if (ViewBag.AlertPjsGroups != null)
+                                    if (ViewBag.AlertPjs != null)
                                     {
-                                        var datas = ViewBag.AlertPjsGroups as List<iHub.MisPjGroupClass>;
+                                        var datas = ViewBag.AlertPjs as List<iHub.MisPjClass>;
                                         //待簽核數量
                                         @datas.Count();
                                     }
@@ -49,22 +49,22 @@
         </div>
 
         <div class="collapse" id="todoList">
-            <div class="todo-list-body card card-body rounded-bottom pt-0">                
-                @{ 
+            <div class="todo-list-body card card-body rounded-bottom pt-0">
+                @{
                     <ul></ul>
 
-                    var AlertPjsGroups = ViewBag.AlertPjsGroups as List<iHub.MisPjGroupClass>;
-                    if (AlertPjsGroups != null && AlertPjsGroups.Count > 0)
+                    var AlertPjs = ViewBag.AlertPjs as List<iHub.MisPjClass>;
+                    if (AlertPjs != null && AlertPjs.Count > 0)
                     {
                         <span>
                             履約通知說明：
-                            <a name="aAlertPjsGroup" mno="@AlertPjsGroups.FirstOrDefault().mno" href="#">連結</a>
+                            <a name="aAlertPjs" mno="@AlertPjs.FirstOrDefault().mno" href="#">連結</a>
                         </span>
-                        }
                     }
+                }
                 @*<span class="fw-bold">--建置中，僅示範用--</span>
-        <a href="#"
-           class="todo-list-item fw-bold text-start mb-2 text-light fs-5">專案履約(5)</a>*@
+                    <a href="#"
+                       class="todo-list-item fw-bold text-start mb-2 text-light fs-5">專案履約(5)</a>*@
                 <span class="text-end d-flex align-items-center justify-content-end"
                       style="cursor:pointer" onclick='location.reload();'>
                     重新整理
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <!-- 待辦事項 end -->
+    <!-- 待辦履約計畫 end -->
     <!-- 上下班刷卡資訊 start -->
     <div class="col-xl-4">
         <div class="mb-0 d-flex flex-column align-items-center rounded-top p-2 hr-display-container">
@@ -155,15 +155,15 @@
                                     {
                                         var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
                                         //待簽核數量
-                                        @datas.Sum(a => a.Counts);                                        
+                                        @datas.Sum(a => a.Counts);
                                     }
                                     else
                                     {
                                         int n = 0;
                                         @n;
                                     }
-                                                        }
-                                                    </span>
+                                }
+                            </span>
                             @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle tips-angle"
@@ -191,7 +191,7 @@
                                 {
                                     <li>
                                         @v.TypeName：
-                                        <a name="aErp" typename ="@v.TypeName" userid="@v.UserId" typeid="@v.TypeId" href="#">@v.Counts</a>筆
+                                        <a name="aErp" typename="@v.TypeName" userid="@v.UserId" typeid="@v.TypeId" href="#">@v.Counts</a>筆
                                     </li>
                                 }
 
@@ -324,7 +324,7 @@
         //T8待簽核處理
         $('#tips-display').addClass('show');
         //$('.align-items-center').trigger('click');
-        //待辦事項
+        //待辦履約計畫
         //$('#todoList').addClass('show');
         //上下班打卡
         //$('#hr-display').addClass('show');
