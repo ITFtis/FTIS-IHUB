@@ -22,8 +22,7 @@
                                  src='~/Images/list-ul-solid.svg'
                                  alt="" />
                             <span>待辦履約計畫</span>
-                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
-                                @{
+                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@{
                                     if (ViewBag.AlertPjs != null)
                                     {
                                         var datas = ViewBag.AlertPjs as List<iHub.MisPjClass>;
@@ -35,8 +34,7 @@
                                         int n = 0;
                                         @n;
                                     }
-                                }
-                            </span>
+                                }</span>
                             @*<span>⠀⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle todo-angle"
@@ -149,8 +147,7 @@
                                  src='~/Images/bell-solid.svg'
                                  alt="" />
                             <span>T8待簽核處理</span>
-                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">
-                                @{
+                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@{
                                     if (ViewBag.UnErpGroups != null)
                                     {
                                         var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
@@ -162,8 +159,7 @@
                                         int n = 0;
                                         @n;
                                     }
-                                }
-                            </span>
+                                }</span>
                             @*<span>⠀⠀ ⠀(僅示範用)</span>*@
                         </div>
                         <img class="info-angle tips-angle"
