@@ -2,7 +2,7 @@
 @using System.Web.Script.Serialization;
 @using Newtonsoft.Json.Linq;
 
-<script src="~/Scripts/prj/Home.js?v=20240130001"></script>
+<script src="~/Scripts/prj/Home.js?v=20240131002"></script>
 
 <!-- main info display start -->
 <div class="right-section-info mt-3 row gy-2">
@@ -22,20 +22,23 @@
                                  src='~/Images/list-ul-solid.svg'
                                  alt="" />
                             <span>待辦履約計畫</span>
-                            <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@{
-                                    if (ViewBag.AlertPjs != null)
-                                    {
-                                        var datas = ViewBag.AlertPjs as List<iHub.MisPjClass>;
-                                        //待簽核數量
-                                        @datas.Count();
-                                    }
-                                    else
-                                    {
-                                        int n = 0;
-                                        @n;
-                                    }
-                                }</span>
-                            @*<span>⠀⠀(僅示範用)</span>*@
+                            @{
+                                int pjsCount1 = 0;
+                                int pjsCount2 = 0;
+                                if (ViewBag.AlertPjs != null)
+                                {
+                                    var datas = ViewBag.AlertPjs as List<iHub.MisPjClass>;
+                                    //待辦履約數量
+                                    pjsCount1 = @datas.Where(a => a.alertState == "1").Count();
+                                    pjsCount2 = @datas.Where(a => a.alertState == "2").Count();
+                                }
+                                else
+                                {
+                                    pjsCount1 = 0;
+                                    pjsCount2 = 0;
+                                }
+                            }
+                        <span class="todo-list-number bg-white rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@(pjsCount1 + pjsCount2)</span>                            
                         </div>
                         <img class="info-angle todo-angle"
                              src='~/Images/angle-up-solid.svg'
@@ -147,20 +150,20 @@
                                  src='~/Images/bell-solid.svg'
                                  alt="" />
                             <span>T8待簽核處理</span>
-                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@{
-                                    if (ViewBag.UnErpGroups != null)
-                                    {
-                                        var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
-                                        //待簽核數量
-                                        @datas.Sum(a => a.Counts);
-                                    }
-                                    else
-                                    {
-                                        int n = 0;
-                                        @n;
-                                    }
-                                }</span>
-                            @*<span>⠀⠀ ⠀(僅示範用)</span>*@
+                            @{
+                                int unErpCount = 0;
+                                if (ViewBag.UnErpGroups != null)
+                                {
+                                    var datas = ViewBag.UnErpGroups as List<iHub.ErpCheckGroupClass>;
+                                    //待簽核數量
+                                    unErpCount = @datas.Sum(a => a.Counts);
+                                }
+                                else
+                                {
+                                    unErpCount = 0;
+                                }
+                            }
+                            <span class="tips-number rounded-circle d-flex align-items-center justify-content-center ms-2 fw-bold">@unErpCount</span>
                         </div>
                         <img class="info-angle tips-angle"
                              src='~/Images/angle-up-solid.svg'
@@ -314,25 +317,31 @@
     /*  鎖定頁面設定 */
     var aryLock = [];
 
-    //T8
+    //T8待簽核處理
     var num_tips = $('.tips-number').text();
-    if (num_tips != 0) {
-        //T8待簽核處理
-        $('#tips-display').addClass('show');
-        //$('.align-items-center').trigger('click');
-        //待辦履約計畫
-        //$('#todoList').addClass('show');
-        //上下班打卡
-        //$('#hr-display').addClass('show');
+    if (num_tips != 0) {        
+        $('#tips-display').addClass('show');        
+        aryLock.push("T8待簽核：" + num_tips + "筆");
+    }
 
-        aryLock.push("T8待簽核處理");
+    //待辦履約計畫
+    var num_todo = $('.todo-list-number').text();
+    if (num_todo != 0) {        
+        $('#todoList').addClass('show');
+
+        if (@pjsCount1> 0) {
+            aryLock.push("履約(通知)：" + @pjsCount1 + "筆");
+        }
+        if (@pjsCount2> 0) {
+            aryLock.push("履約(鎖定)：" + @pjsCount2 + "筆");
+        }
     }
 
     if (aryLock.length > 0) {
         var msg = "尚未完成工作：" + "</br>";
         msg += '<ul>';
         $.each(aryLock, function (index, value) {
-            msg += '<li class="mt-2">' + value + '</li>';
+            msg += '<li class="mt-2">(' + (index + 1) + ')' + value + '</li>';
         });
 
         msg += '</ul>';
