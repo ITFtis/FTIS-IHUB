@@ -314,26 +314,24 @@
         bell.classList.remove('onload');
     }, 4000);
 
-    /*  鎖定頁面設定 */
+    /*  鎖住頁面設定 */
     var aryLock = [];
 
     //T8待簽核處理
-    var num_tips = $('.tips-number').text();
-    if (num_tips != 0) {        
-        $('#tips-display').addClass('show');        
-        aryLock.push("T8待簽核：" + num_tips + "筆");
+    if (@unErpCount != 0) {
+        $('#tips-display').addClass('show');
+        aryLock.push("T8待簽核：" + @unErpCount + "筆");
     }
 
-    //待辦履約計畫
-    var num_todo = $('.todo-list-number').text();
-    if (num_todo != 0) {        
+    //待辦履約計畫(1.通知2.鎖住)
+    if (@pjsCount1 != 0 || @pjsCount2 != 0) {
         $('#todoList').addClass('show');
 
         if (@pjsCount1> 0) {
             aryLock.push("履約(通知)：" + @pjsCount1 + "筆");
         }
         if (@pjsCount2> 0) {
-            aryLock.push("履約(鎖定)：" + @pjsCount2 + "筆");
+            aryLock.push("履約(鎖住)：" + @pjsCount2 + "筆");
         }
     }
 
@@ -352,13 +350,15 @@
         }, 100);
 
         //最高領導者 不Lock
-        //if (!'@ViewBag.IsSuper') {
         if (!@Json.Encode(ViewBag.IsSuper)) {
-            LockFuntion(msg);
+            //有鎖住項目
+            if (@unErpCount != 0 || @pjsCount2 != 0) {                
+                LockFuntion(msg);
+            }
         }
     }
 
-    /*  鎖定頁面設定 end  */
+    /*  鎖住頁面設定 end  */
 
     function LockFuntion(msg) {
         //Menu button
