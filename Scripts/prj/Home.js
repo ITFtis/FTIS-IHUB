@@ -78,9 +78,9 @@
                         }
 
                         var msg = '<span>(' + (index + 1) + ')' + this.pjds1 + '</span>'
-                            + '<span class="ps-3">工作項目：' + this.pjds2 + '</span>'
-                            + '<span class="ps-3">預定完成(' + this.date4 + ' ' + ')   ' + date4_desc + '</span>'
-                            + '<span class="ps-3">合約規範(' + this.date3 + ' ' + ')   ' + date3_desc + '</span>';
+                            + '<span class="ps-3">工作項目：' + '<label class="text-danger">(' + this.alertStateName + ')&nbsp;&nbsp;</label>' + this.pjds2 +  '</span>'
+                            + '<span class="ps-3">預定完成(' + this.date4 + '&nbsp;' + ')   ' + date4_desc + '</span>'
+                            + '<span class="ps-3">合約規範(' + this.date3 + '&nbsp;' + ')   ' + date3_desc + '</span>';
 
                         content += '<li class="list-group pb-3">' + msg + '</li>';
                     });

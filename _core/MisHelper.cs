@@ -81,40 +81,53 @@ namespace iHub
 
                 var tmp = v1.Concat(v2).Concat(v3);
 
-                //輸出
-                result = tmp
-                .Select(a => new
+                //distinct 輸出
+                var vs = tmp
+                    .Select(a => new
+                    {
+                        dname = a.dname, pjds1 = a.pjds1, pjds2 = a.pjds2, pjds2b = a.pjds2b, date3 = a.date3, date4 = a.date4,
+                        cls = a.cls, dcode = a.dcode, fnh = a.fnh, mno = a.mno, name = a.name, email = a.email,
+                    }).Distinct()
+                    .Select(a => new
+                    {
+                        dname = a.dname,
+                        pjds1 = a.pjds1,
+                        pjds2 = a.pjds2,
+                        pjds2b = a.pjds2b,
+                        date3 = a.date3,
+                        date3_diffday = (DateTime.ParseExact(a.date3, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
+                        date4 = a.date4,
+                        date4_diffday = (DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
+                        cls = a.cls,
+                        dcode = a.dcode,
+                        fnh = a.fnh,
+                        mno = a.mno,
+                        name = a.name,
+                        email = a.email,
+                    });
+
+                //結果
+                //預定完成日(date4) 15天內「通知」  合約規範日期(date3) 3天內「鎖住」
+                result = vs.Select(a => new MisPjClass
                 {
                     dname = a.dname,
                     pjds1 = a.pjds1,
                     pjds2 = a.pjds2,
                     pjds2b = a.pjds2b,
                     date3 = a.date3,
+                    date3_diffday = a.date3_diffday,
                     date4 = a.date4,
+                    date4_diffday = a.date4_diffday,
                     cls = a.cls,
                     dcode = a.dcode,
                     fnh = a.fnh,
                     mno = a.mno,
                     name = a.name,
                     email = a.email,
-                }).Distinct()
-                .Select(a => new MisPjClass
-                {
-                    dname = a.dname,
-                    pjds1 = a.pjds1,
-                    pjds2 = a.pjds2,
-                    pjds2b = a.pjds2b,
-                    date3 = a.date3,
-                    date3_diffday = (DateTime.ParseExact(a.date3, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
-                    date4 = a.date4,
-                    date4_diffday = (DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
-                    cls = a.cls,
-                    dcode = a.dcode,
-                    fnh = a.fnh,
-                    mno = a.mno,
-                    name = a.name,
-                    email = a.email,
-                }).OrderBy(a => a.date4).ToList();
+                    alertState = Code.ToAlertState(a.date4_diffday, a.date3_diffday),
+                    alertStateName = Code.GetAlertState().Where(p => p.Key == Code.ToAlertState(a.date4_diffday, a.date3_diffday)).FirstOrDefault().Value.ToString(),
+                })
+                .OrderBy(a => a.date4).ToList();
             }
             catch(Exception ex)
             {
