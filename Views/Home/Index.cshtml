@@ -351,8 +351,9 @@
 
         //最高領導者 不Lock
         if (!@Json.Encode(ViewBag.IsSuper)) {
-            //有鎖住項目
-            if (@unErpCount != 0 || @pjsCount2 != 0) {                
+            //有鎖住項目(履約先不要鎖)
+            //if (@unErpCount != 0 || @pjsCount2 != 0) {
+            if (@unErpCount != 0) {
                 LockFuntion(msg);
             }
         }
