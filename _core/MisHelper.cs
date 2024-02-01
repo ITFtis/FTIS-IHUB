@@ -34,7 +34,7 @@ namespace iHub
                 DateTime alertDate = DateTime.Parse(DateTime.Now.ToShortDateString()).AddDays(15); //DateTime.Now.AddDays(15);
                 var datas = e_pjPjds.GetAll()
                         .Where(a => a.fnh != null && a.fnh != "Y" && (a.cls == null || a.cls == "N"))                        
-                        .Where(a => a.pjds2 != "是否變更合約")
+                        .Where(a => a.pjds2 != "是否變更合約" && a.pjds2 != "人事費核帳")
                         .AsEnumerable()
                         .Where(a => DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) <= alertDate)
                         .ToList();
