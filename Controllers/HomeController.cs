@@ -115,7 +115,7 @@ namespace iHub.Controllers
                 //履約通知
                 //特定人待簽核資料(00073 李曼君, 00027 蔡宏達, 00003 許瑛華)
                 //UserIds = new List<string>() { "00027" };
-                UserIds = new List<string>() { Dou.Context.CurrentUserBase.Id };
+                UserIds = new List<string>() { Code.ToMno5(Dou.Context.CurrentUserBase.Id) };
 
                 MisHelper pjHelper = new MisHelper();
                 List<MisPjClass> alertPjs = pjHelper.GetAlertPJ(UserIds);

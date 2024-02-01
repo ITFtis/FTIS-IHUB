@@ -104,6 +104,19 @@ namespace iHub
             return state;
         }
 
+        /// <summary>
+        /// (舊)員工系統編號5碼
+        /// </summary>
+        /// <param name="mno"></param>
+        /// <returns></returns>
+        public static string ToMno5(string mno)
+        {
+            if (mno.Length < 6)
+                return mno;
+
+            return mno.Substring(1, 5);            
+        }
+
         #endregion
 
         #region  T8ERP
