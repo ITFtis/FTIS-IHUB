@@ -72,8 +72,9 @@ namespace iHub
                           .Where(a => (today - DateTime.ParseExact(a.BeginDate.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture)).Days >= nDay)
                           .Select(a => a.BillNo).ToList();
 
-                tmp = tmp.Where(a => a.TypeId != "OA" || 
-                                    (a.TypeId == "OA" && hrms.Contains(a.BillPKValueText)));
+                tmp = tmp.Where(a => a.TypeId != "OA"
+                                    || (a.TypeId == "OA" && a.UserId != a.MakerId)
+                                    || (a.TypeId == "OA" && a.UserId == a.MakerId && hrms.Contains(a.BillPKValueText)));
 
                 //輸出
                 result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
