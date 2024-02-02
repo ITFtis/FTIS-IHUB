@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using iHub.Models.Mis;
+using iHub.Models.ERP;
 
 namespace iHub.Models
 {
@@ -41,6 +42,7 @@ namespace iHub.Models
         public virtual DbSet<comGroupPerson> comGroupPerson { get; set; }
         public virtual DbSet<wfActivity> wfActivity { get; set; }
         public virtual DbSet<wfBill> wfBill { get; set; }
+        public virtual DbSet<hrmOTApplyTime> hrmOTApplyTime { get; set; }
     }
 
     public class MisModelContext : DbContext

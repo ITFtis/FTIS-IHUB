@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.Util;
 using iHub.Models;
+using iHub.Models.ERP;
 
 
 namespace iHub
 {
     public class ERPHelper : BasicClass
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// 取出系統，所有同仁未完成各種單據資料筆數【TypeId：OA加班,LN假單,MS變形】
         /// </summary>
@@ -42,10 +46,10 @@ namespace iHub
                 //員工系統條件查詢
                 var tmp = e_iquery.Join(e_wfBill.GetAll(), a => a.TransactionId, b => b.TransactionId, (o, c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.MakerId, c.MakeTime, c.TypeId, c.BillState, c.UpdateTime
-                        }).Join(e_comGroupPerson.GetAll(), a => a.UserId, b => b.PersonId, (o, c) => new 
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.MakerId, c.MakeTime, c.TypeId, c.BillState, c.UpdateTime, c.BillPKValueText,
+                }).Join(e_comGroupPerson.GetAll(), a => a.UserId, b => b.PersonId, (o, c) => new 
                         { 
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText,
                             c.PersonName, c.EMail
                         })
                         .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
@@ -53,13 +57,27 @@ namespace iHub
                         .ToList()
                         .GroupJoin(Code.GetIHubBillType(), a => a.TypeId, b => b.TypeId, (o,c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.PersonName, o.EMail,
                             TypeName = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().TypeName
                         });
 
-                    //輸出
-                    result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
-                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.PersonName, o.EMail, o.TypeName,
+                //特殊(加班單)，送審人->主審->回送審人->主審，於第三步驗證(若"當下時間"超過"實際加班時間"，將於次一日開始提醒)
+                Dou.Models.DB.IModelEntity<hrmOTApplyTime> e_hrmOTApplyTime = new Dou.Models.DB.ModelEntity<hrmOTApplyTime>(dbContextT8ERP);
+                int nDay = 1;//隔天通知
+                DateTime today = DateTime.Parse(DateTime.Now.ToShortDateString());
+                List<string> BillNos = tmp.Where(a => a.TypeId == "OA")
+                                        .Select(a => a.BillPKValueText).ToList();                                
+                var hrms = e_hrmOTApplyTime.GetAll().Where(a => BillNos.Contains(a.BillNo))
+                          .AsEnumerable()
+                          .Where(a => (today - DateTime.ParseExact(a.BeginDate.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture)).Days >= nDay)
+                          .Select(a => a.BillNo).ToList();
+
+                tmp = tmp.Where(a => a.TypeId != "OA" || 
+                                    (a.TypeId == "OA" && hrms.Contains(a.BillPKValueText)));
+
+                //輸出
+                result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
+                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.PersonName, o.EMail, o.TypeName,
                         MakerName = c.FirstOrDefault() == null? o.MakerId : c.FirstOrDefault().PersonName
                     })
                     .Select(a => new ErpCheckClass
@@ -81,6 +99,8 @@ namespace iHub
             }
             catch(Exception ex)
             {
+                logger.Error(ex.Message);
+                logger.Error(ex.StackTrace);
                 _errorMessage = ex.Message;
                 return null;
             }

@@ -43,5 +43,10 @@ namespace iHub.Models
         [Required]
         [Display(Name = "送審時間")]
         public long MakeTime { get; set; }
+
+        [Column(TypeName = "varchar")]
+        [StringLength(20)]
+        [Display(Name = "單號")]
+        public string BillPKValueText { get; set; }
     }
 }
