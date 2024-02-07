@@ -21,7 +21,7 @@
 
                         var aLink = '';
                         if (this.AccessId != '') {                            
-                            aLink = '<a href="' + (urlSign + this.AccessId) + '">連結</a>';
+                            aLink = '<a target="blank" href="' + (urlSign + this.AccessId) + '">連結</a>';
                         }
 
                         var msg = '<span>單據編號(' + this.TransactionId + '&nbsp;&nbsp;' + this.TypeName + ')</span>'                            
