@@ -48,5 +48,11 @@ namespace iHub.Models
         [StringLength(20)]
         [Display(Name = "單號")]
         public string BillPKValueText { get; set; }
+
+        [Display(Name = "功能")]        
+        public int SourceTag { get; set; }
+                
+        [Display(Name = "內部標識號")]
+        public long BillPKValue { get; set; }
     }
 }

@@ -46,10 +46,10 @@ namespace iHub
                 //員工系統條件查詢
                 var tmp = e_iquery.Join(e_wfBill.GetAll(), a => a.TransactionId, b => b.TransactionId, (o, c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.MakerId, c.MakeTime, c.TypeId, c.BillState, c.UpdateTime, c.BillPKValueText,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, c.MakerId, c.MakeTime, c.TypeId, c.BillState, c.UpdateTime, c.BillPKValueText, c.SourceTag, c.BillPKValue,
                 }).Join(e_comGroupPerson.GetAll(), a => a.UserId, b => b.PersonId, (o, c) => new 
                         { 
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.SourceTag, o.BillPKValue,
                             c.PersonName, c.EMail
                         })
                         .Where(a => a.kind == 1).Where(a => a.State == 0 || a.State == 1)
@@ -57,7 +57,7 @@ namespace iHub
                         .ToList()
                         .GroupJoin(Code.GetIHubBillType(), a => a.TypeId, b => b.TypeId, (o,c) => new
                         {
-                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.PersonName, o.EMail,
+                            o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.SourceTag, o.BillPKValue, o.PersonName, o.EMail,
                             TypeName = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().TypeName
                         });
 
@@ -77,10 +77,19 @@ namespace iHub
                                     || (a.TypeId == "OA" && a.UserId == a.MakerId && hrms.Contains(a.BillPKValueText)));
 
                 //輸出
+                Dou.Models.DB.IModelEntity<webUrlAccess> e_webUrlAccess = new Dou.Models.DB.ModelEntity<webUrlAccess>(dbContextT8ERP);
+
+
                 result = tmp.GroupJoin(e_comGroupPerson.GetAll(), a => a.MakerId, b => b.PersonId, (o, c) => new { 
-                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.PersonName, o.EMail, o.TypeName,
+                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.SourceTag, o.BillPKValue, o.PersonName, o.EMail, o.TypeName,
                         MakerName = c.FirstOrDefault() == null? o.MakerId : c.FirstOrDefault().PersonName
                     })
+                    .GroupJoin(e_webUrlAccess.GetAll().Where(a => empNos.Contains(a.UserId)), 
+                        a => new { a.MakerId, a.SourceTag, BillPKValue = a.BillPKValue.ToString() },
+                        b => new { MakerId = b.UserId, b.SourceTag, BillPKValue = b.PKValues }, (o, c) => new { 
+                        o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.SourceTag, o.BillPKValue, o.PersonName, o.EMail, o.TypeName, o.MakerName,
+                        AccessId = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().Id                        
+                    })                    
                     .Select(a => new ErpCheckClass
                     {
                         TransactionId = a.TransactionId,
@@ -95,8 +104,9 @@ namespace iHub
                         EMail = a.EMail,
                         TypeName = a.TypeName,
                         MakerName = a.MakerName,
-                        MakeTime = a.MakeTime
-                        }).ToList();
+                        MakeTime = a.MakeTime,
+                        AccessId = a.AccessId,
+                    }).ToList();
             }
             catch(Exception ex)
             {

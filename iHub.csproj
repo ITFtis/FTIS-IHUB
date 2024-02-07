@@ -196,6 +196,7 @@
     <Compile Include="Models\ERP\capCommBillType.cs" />
     <Compile Include="Models\ERP\comGroupPerson.cs" />
     <Compile Include="Models\ERP\hrmOTApplyTime.cs" />
+    <Compile Include="Models\ERP\webUrlAccess.cs" />
     <Compile Include="Models\ERP\wfActivity.cs" />
     <Compile Include="Models\ERP\wfBill.cs" />
     <Compile Include="Models\F22EmpWTOption.cs" />

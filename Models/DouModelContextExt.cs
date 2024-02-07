@@ -42,7 +42,8 @@ namespace iHub.Models
         public virtual DbSet<comGroupPerson> comGroupPerson { get; set; }
         public virtual DbSet<wfActivity> wfActivity { get; set; }
         public virtual DbSet<wfBill> wfBill { get; set; }
-        public virtual DbSet<hrmOTApplyTime> hrmOTApplyTime { get; set; }
+        public virtual DbSet<hrmOTApplyTime> hrmOTApplyTime { get; set; }       
+        public virtual DbSet<webUrlAccess> webUrlAccess { get; set; }
     }
 
     public class MisModelContext : DbContext

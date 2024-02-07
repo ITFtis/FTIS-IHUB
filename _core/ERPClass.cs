@@ -75,6 +75,11 @@ namespace iHub
         /// 送審時間
         /// </summary>
         public long MakeTime { get; set; }
+
+        /// <summary>
+        /// 超鏈接控管 編號
+        /// </summary>
+        public string AccessId { get; set; }
     }
 
     public class ErpCheckGroupClass
