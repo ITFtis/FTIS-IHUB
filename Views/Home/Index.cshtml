@@ -52,16 +52,20 @@
         <div class="collapse" id="todoList">
             <div class="todo-list-body card card-body rounded-bottom pt-0">
                 @{
-                    <ul></ul>
-
-                    var AlertPjs = ViewBag.AlertPjs as List<iHub.MisPjClass>;
-                    if (AlertPjs != null && AlertPjs.Count > 0)
-                    {
-                        <span>
-                            履約通知說明：
-                            <a name="aAlertPjs" mno="@AlertPjs.FirstOrDefault().mno" href="#">連結</a>
-                        </span>
-                    }
+                    <ul>
+                        @{ 
+                            var AlertPjs = ViewBag.AlertPjs as List<iHub.MisPjClass>;
+                            if (AlertPjs != null && AlertPjs.Count > 0)
+                            {
+                                <li>                            
+                                    <a name="aAlertPjs" mno="@AlertPjs.FirstOrDefault().mno" href="#">(待辦)計畫項目清單</a>
+                                </li>
+                                <li class="mt-2">
+                                    <a target="_blank"  href="https://mis.ftis.org.tw/">線上管理系統入口</a>
+                                </li>
+                            }
+                        }
+                    </ul>
                 }
                 @*<span class="fw-bold">--建置中，僅示範用--</span>
                     <a href="#"
