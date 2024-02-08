@@ -14,14 +14,14 @@
 
                 if (data.result) {
 
-                    var urlSign = 'http://eip.ftis.org.tw/FastView.aspx?action=flow&groupid=ERP&accessId=';
+                    var urlSign = 'http://eip.ftis.org.tw/FastView.aspx?action=flow&groupid=erp&accessId=';
 
                     content = '<ul>';
                     $.each(data.UnErps, function (index, value) {
 
                         var aLink = '';
                         if (this.AccessId != '') {                            
-                            aLink = '<a target="blank" href="' + (urlSign + this.AccessId) + '">連結</a>';
+                            aLink = '<a target="_blank" href="' + (urlSign + this.AccessId) + '">連結</a>';
                         }
 
                         var msg = '<span>單據編號(' + this.TransactionId + '&nbsp;&nbsp;' + this.TypeName + ')</span>'                            
