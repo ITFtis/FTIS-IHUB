@@ -14,7 +14,7 @@ namespace iHub
         /// <summary>
         /// 事務編號
         /// </summary>
-        public long TransactionId { get; set; }
+        public string TransactionId { get; set; }
 
         /// <summary>
         /// 層級號

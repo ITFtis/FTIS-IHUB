@@ -85,14 +85,14 @@ namespace iHub
                         MakerName = c.FirstOrDefault() == null? o.MakerId : c.FirstOrDefault().PersonName
                     })
                     .GroupJoin(e_webUrlAccess.GetAll().Where(a => empNos.Contains(a.UserId)), 
-                        a => new { a.MakerId, a.SourceTag, BillPKValue = a.BillPKValue.ToString() },
-                        b => new { MakerId = b.UserId, b.SourceTag, BillPKValue = b.PKValues }, (o, c) => new { 
+                        a => new { a.UserId, a.SourceTag, BillPKValue = a.BillPKValue.ToString() },
+                        b => new { b.UserId, b.SourceTag, BillPKValue = b.PKValues }, (o, c) => new { 
                         o.TransactionId, o.LevelNO, o.UserId, o.kind, o.State, o.MakerId, o.MakeTime, o.TypeId, o.BillState, o.UpdateTime, o.BillPKValueText, o.SourceTag, o.BillPKValue, o.PersonName, o.EMail, o.TypeName, o.MakerName,
                         AccessId = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().Id                        
                     })                    
                     .Select(a => new ErpCheckClass
                     {
-                        TransactionId = a.TransactionId,
+                        TransactionId = a.TransactionId.ToString(),
                         LevelNO = a.LevelNO,
                         UserId = a.UserId,
                         kind = a.kind,
