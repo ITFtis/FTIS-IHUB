@@ -85,19 +85,22 @@ namespace iHub
         /// </summary>
         /// <param name="date4_diffday">預定完成日 與當日差異天數</param>
         /// <param name="date3_diffday">合約規範日期 與當日差異天數</param>
+        /// <param name="iHubBlock">iHub上鎖 Y/N (N:不鎖住)</param>
         /// <returns></returns>
-        public static string ToAlertState(int date4_diffday, int date3_diffday)
+        public static string ToAlertState(int date4_diffday, int date3_diffday, string iHubBlock)
         {
             int defDay1 = 15;   //預定完成日(date4) 15天內「通知」
             int defDay2 = 3;    //合約規範日期(date3) 3天內「鎖住」  
 
             string state = "0";
-            if (date3_diffday <= defDay2)
+            if (date3_diffday <= defDay2 && iHubBlock != "N")
             {
+                //鎖住
                 state = "2";
             }
             else if (date4_diffday <= defDay1)
             {
+                //通知
                 state = "1";
             }
 

@@ -49,11 +49,11 @@ namespace iHub
 
                 var v1 = datas.Join(e_dep, a => a.dcode, b => b.dcode, (o, c) => new
                         {
-                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh,
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
                             dckno = c.dckno
                         }).GroupJoin(e_cmmEmp.GetAll(), a => a.dckno, b => b.mno, (o, c) => new 
                         { 
-                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh,
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
                             name = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().name,
                             email = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().email,
                             mno = c.FirstOrDefault() == null ? "" : c.FirstOrDefault().mno,
@@ -63,7 +63,7 @@ namespace iHub
                 var v2 = datas.Where(a => empNos.Any(b => b == a.ckno))
                          .Select(o => new 
                         { 
-                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh,
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
                             name = o.ckname,
                             email = o.ckemail,
                             mno = o.ckno,
@@ -73,7 +73,7 @@ namespace iHub
                 var v3 = datas.Where(a => empNos.Any(b => b == a.prno))
                          .Select(o => new 
                         { 
-                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.fnh,
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
                             name = o.prname,
                             email = o.premail,
                             mno = o.prno,
@@ -85,7 +85,7 @@ namespace iHub
                 var vs = tmp
                     .Select(a => new
                     {
-                        dname = a.dname, pjds1 = a.pjds1, pjds2 = a.pjds2, pjds2b = a.pjds2b, date3 = a.date3, date4 = a.date4,
+                        dname = a.dname, pjds1 = a.pjds1, pjds2 = a.pjds2, pjds2b = a.pjds2b, date3 = a.date3, date4 = a.date4, ihub = a.ihub,
                         cls = a.cls, dcode = a.dcode, fnh = a.fnh, mno = a.mno, name = a.name, email = a.email,
                     }).Distinct()
                     .Select(a => new
@@ -98,6 +98,7 @@ namespace iHub
                         date3_diffday = (DateTime.ParseExact(a.date3, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
                         date4 = a.date4,
                         date4_diffday = (DateTime.ParseExact(a.date4, "yyyyMMdd", CultureInfo.InvariantCulture) - DateTime.Parse(DateTime.Now.ToShortDateString())).Days,
+                        ihub = a.ihub,
                         cls = a.cls,
                         dcode = a.dcode,
                         fnh = a.fnh,
@@ -124,8 +125,8 @@ namespace iHub
                     mno = a.mno,
                     name = a.name,
                     email = a.email,
-                    alertState = Code.ToAlertState(a.date4_diffday, a.date3_diffday),
-                    alertStateName = Code.GetAlertState().Where(p => p.Key == Code.ToAlertState(a.date4_diffday, a.date3_diffday)).FirstOrDefault().Value.ToString(),
+                    alertState = Code.ToAlertState(a.date4_diffday, a.date3_diffday, a.ihub),
+                    alertStateName = Code.GetAlertState().Where(p => p.Key == Code.ToAlertState(a.date4_diffday, a.date3_diffday, a.ihub)).FirstOrDefault().Value.ToString(),
                 })
                 .OrderBy(a => a.date4).ToList();
             }

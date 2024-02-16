@@ -66,6 +66,12 @@ namespace iHub.Models.Mis
         public string fnh { get; set; }
 
         [Display(Name = "結案與否")]
-        public string cls { get; set; }       
+        public string cls { get; set; }
+
+        /// <summary>
+        /// Y/N (N:不鎖住)
+        /// </summary>
+        [Display(Name = "iHub上鎖")]
+        public string ihub { get; set; }
     }
 }
