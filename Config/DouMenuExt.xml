@@ -73,7 +73,7 @@
 		<Index>4</Index>
 		<AllowAnonymous>false</AllowAnonymous>
 		<IsPromptUI>true</IsPromptUI>
-		<Url>http://120.100.100.176/mrbs/day.php?year=2023&amp;month=08&amp;day=21&amp;area=1&amp;room=1</Url>
+		<Url>http://120.100.100.176/mrbs</Url>
 	</MenuDefAttribute>
 
 	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
