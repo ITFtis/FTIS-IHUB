@@ -67,6 +67,16 @@
 		<Url>https://pj4.ftis.org.tw/iHub/DocsWeb/資訊系統懶人包.pdf</Url>
 	</MenuDefAttribute>
 	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>odoc</Id>
+		<Name>電子公文承辦人使用手冊</Name>
+		<MenuPath>操作手冊專區</MenuPath>
+		<ActionController>HtmlIframeOtherMainLayout</ActionController>
+		<Index>3</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>false</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/iHub/DocsWeb/電子公文承辦人使用手冊.pdf</Url>
+	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
 		<Id>ReserveMeetingRoom</Id>
 		<Name>會議室_設備預約系統</Name>
 		<MenuPath>行政管理與系統預約專區</MenuPath>
