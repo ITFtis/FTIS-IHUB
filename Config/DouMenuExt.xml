@@ -196,4 +196,13 @@
 		<IsPromptUI>true</IsPromptUI>
 		<Url>https://pj4.ftis.org.tw/SCMS/User/Sso</Url>
 	</MenuDefAttribute>
+	<MenuDefAttribute xsi:type="HtmlIFrameMenuDefAttribute">
+		<Id>ProjectEsdms</Id>
+		<Name>專家資料庫</Name>
+		<MenuPath>專案管理專區</MenuPath>		
+		<Index>5</Index>
+		<AllowAnonymous>false</AllowAnonymous>
+		<IsPromptUI>true</IsPromptUI>
+		<Url>https://pj4.ftis.org.tw/Esdms</Url>
+	</MenuDefAttribute>
 </ArrayOfMenuDefAttribute>
