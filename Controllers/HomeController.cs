@@ -145,6 +145,13 @@ namespace iHub.Controllers
                 List<string> IsSupers = new List<string>() { "xxxxx", "F00011" };
                 ViewBag.IsSuper = IsSupers.Contains(Dou.Context.CurrentUserBase.Id) ? true : false;
 
+                //Test 測試開放履約鎖定(不鎖 F00073 曼副, F00027 蔡宏達)
+                List<string> testLockAlertNot = new List<string>() { "F00073", "F00027" };
+                if (!testLockAlertNot.Contains(Dou.Context.CurrentUserBase.Id))
+                {
+                    string testPjds1 = "112-113應回收廢棄物稽核認證團體(廢機動車輛類-乙計畫)";  //大洋塑膠工業股份有限公司-耗能設備節能改善效益檢測分析專案
+                    ViewBag.IsTestLockAlert = alertPjs.Where(a => a.alertState == "2").Any(a => a.pjds1 == testPjds1) ? true : false;
+                }
             }
 
             return View();
