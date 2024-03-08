@@ -32,7 +32,7 @@ namespace iHub
                                 
                 //員工系統條件查詢
                 DateTime alertDate = DateTime.Parse(DateTime.Now.ToShortDateString()).AddDays(15); //DateTime.Now.AddDays(15);
-                var datas = e_pjPjds.GetAll()
+                var datas = e_pjPjds.GetAll()                        
                         .Where(a => a.fnh != null && a.fnh != "Y" && (a.cls == null || a.cls == "N"))                        
                         .Where(a => a.pjds2 != "是否變更合約" && a.pjds2 != "人事費核帳")
                         .AsEnumerable()
@@ -79,7 +79,48 @@ namespace iHub
                             mno = o.prno,
                 });
 
-                var tmp = v1.Concat(v2).Concat(v3);
+                //3_2.工項負責人2 prno2
+                var pp2 = datas.Where(a => empNos.Any(b => b == a.prno2))
+                         .Select(o => new 
+                        { 
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
+                            name = o.prname2,
+                            email = o.premail2,
+                            mno = o.prno2,
+                });
+
+                //3_3.工項負責人3 prno3
+                var pp3 = datas.Where(a => empNos.Any(b => b == a.prno3))
+                         .Select(o => new 
+                        { 
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
+                            name = o.prname3,
+                            email = o.premail3,
+                            mno = o.prno3,
+                });
+
+                //3_4.工項負責人4 prno4
+                var pp4 = datas.Where(a => empNos.Any(b => b == a.prno4))
+                         .Select(o => new 
+                        { 
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
+                            name = o.prname4,
+                            email = o.premail4,
+                            mno = o.prno4,
+                });
+
+                //3_5.工項負責人5 prno5
+                var pp5 = datas.Where(a => empNos.Any(b => b == a.prno5))
+                         .Select(o => new 
+                        { 
+                            o.dname, o.pjds1, o.pjds2, o.pjds2b, o.date3, o.cls, o.dcode, o.date4, o.ihub, o.fnh,
+                            name = o.prname5,
+                            email = o.premail5,
+                            mno = o.prno5,
+                });
+
+                var tmp = v1.Concat(v2).Concat(v3)
+                          .Concat(pp2).Concat(pp3).Concat(pp4).Concat(pp5);
 
                 //distinct 輸出
                 var vs = tmp

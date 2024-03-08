@@ -53,6 +53,42 @@ namespace iHub.Models.Mis
         [Display(Name = "工項負責人email")]
         public string premail { get; set; }
 
+        [Display(Name = "工項負責人2職號")]
+        public string prno2 { get; set; }
+
+        [Display(Name = "工項負責人2姓名")]
+        public string prname2 { get; set; }
+
+        [Display(Name = "工項負責人2email")]
+        public string premail2 { get; set; }
+
+        [Display(Name = "工項負責人3職號")]
+        public string prno3 { get; set; }
+
+        [Display(Name = "工項負責人3姓名")]
+        public string prname3 { get; set; }
+
+        [Display(Name = "工項負責人3email")]
+        public string premail3 { get; set; }
+
+        [Display(Name = "工項負責人4職號")]
+        public string prno4 { get; set; }
+
+        [Display(Name = "工項負責人4姓名")]
+        public string prname4 { get; set; }
+
+        [Display(Name = "工項負責人4email")]
+        public string premail4 { get; set; }
+
+        [Display(Name = "工項負責人5職號")]
+        public string prno5 { get; set; }
+
+        [Display(Name = "工項負責人5姓名")]
+        public string prname5 { get; set; }
+
+        [Display(Name = "工項負責人5email")]
+        public string premail5 { get; set; }
+
         [Display(Name = "合約規範日期")]
         public string date3 { get; set; }
 
