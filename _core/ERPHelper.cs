@@ -72,9 +72,13 @@ namespace iHub
                           .Where(a => (today - DateTime.ParseExact(a.BeginDate.ToString(), "yyyyMMdd", CultureInfo.InvariantCulture)).Days >= nDay)
                           .Select(a => a.BillNo).ToList();
 
+                ////tmp = tmp.Where(a => a.TypeId != "OA"
+                ////                    || (a.TypeId == "OA" && a.UserId != a.MakerId)
+                ////                    || (a.TypeId == "OA" && a.UserId == a.MakerId && hrms.Contains(a.BillPKValueText)));
+
+                ////送審人與簽核者(「若"當下時間"超過"實際加班時間"，將於次一日開始提醒」)
                 tmp = tmp.Where(a => a.TypeId != "OA"
-                                    || (a.TypeId == "OA" && a.UserId != a.MakerId)
-                                    || (a.TypeId == "OA" && a.UserId == a.MakerId && hrms.Contains(a.BillPKValueText)));
+                                    || (a.TypeId == "OA" && hrms.Contains(a.BillPKValueText)));
 
                 //輸出
                 Dou.Models.DB.IModelEntity<webUrlAccess> e_webUrlAccess = new Dou.Models.DB.ModelEntity<webUrlAccess>(dbContextT8ERP);
