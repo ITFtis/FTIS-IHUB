@@ -27,6 +27,7 @@ namespace iHub.Controllers
 			Dou.Models.DB.IModelEntity<POST> post = new Dou.Models.DB.ModelEntity<POST>(dbContext);
 			var news = post.GetAll()
 								.Where(x => x.NodeId == 3 && x.Flag == 1)
+                                .Where(a => DateTime.Now >= a.ShowDate)
 								.OrderByDescending(x => x.ShowDate)
 								.Take(5)
 								.ToList();
