@@ -1,3 +1,22 @@
 ﻿@using Dou.Misc.Extension
 @Html.MenuMap()
-@Html.DataManagerTable()
+@Html.DataManagerOptionsJavascript(null, "douoptions")
+
+<table id="_table"></table>
+
+<script>
+
+    douoptions.updateServerData =
+        function (row, callback) {
+            //(Html Tag)dou架構無法傳遞資訊
+            row.HtmlContent = '';
+            row.HtmlContent2 = '';
+            row.HtmlContent3 = '';
+            row.HtmlContent4 = '';
+            transactionDouClientDataToServer(row, $.AppConfigOptions.baseurl + 'SettingPOST/Update', callback);
+        };
+
+    $(document).ready(function () {
+        $_masterTablev = $("#_table").DouEditableTable(douoptions);
+    });
+</script>
