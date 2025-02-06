@@ -53,7 +53,10 @@ namespace iHub.Controllers.Setting
 
             opts.GetFiled("Date").visibleEdit = true;
             opts.GetFiled("Title").visibleEdit = true;
+            opts.GetFiled("IsClosedIHub").visibleEdit = true;
             
+            opts.GetFiled("IsClosedIHub").editable = true;
+
             return opts;
         }
     }

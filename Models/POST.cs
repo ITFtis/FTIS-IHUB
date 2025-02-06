@@ -110,5 +110,11 @@ namespace iHub.Models
 
 		[ColumnDef(Visible = false, VisibleView = false)]
 		public string HtmlContent4 { get; set; }
-	}
+
+		[Required]
+		[Display(Name = "不顯示iHub")]        
+        [ColumnDef(EditType = EditType.Radio,
+            SelectItemsClassNamespace = iHub.GetYNSelectItems.AssemblyQualifiedName)]
+        public string IsClosedIHub { get; set; }
+    }
 }

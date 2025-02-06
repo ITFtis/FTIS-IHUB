@@ -1,4 +1,5 @@
-﻿using iHub.Models;
+﻿using Dou.Misc.Attr;
+using iHub.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,6 +121,20 @@ namespace iHub
             return mno.Substring(1, 5);            
         }
 
+        /// <summary>
+        /// 是否(Y/N)
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<KeyValuePair<string, object>> GetYN()
+        {
+            IEnumerable<KeyValuePair<string, object>> result = new List<KeyValuePair<string, object>>();
+
+            result = result.Append(new KeyValuePair<string, object>("Y", "是"));
+            result = result.Append(new KeyValuePair<string, object>("N", "否"));
+
+            return result;
+        }
+        
         #endregion
 
         #region  T8ERP
@@ -212,4 +227,21 @@ namespace iHub
 
         #endregion
     }
+
+    #region  下拉
+
+    /// <summary>
+    /// 是否(Y/N)
+    /// </summary>
+    public class GetYNSelectItems : SelectItemsClass
+    {
+        public const string AssemblyQualifiedName = "iHub.GetYNSelectItems, iHub";
+
+        public override IEnumerable<KeyValuePair<string, object>> GetSelectItems()
+        {
+            return Code.GetYN().Select(a => new KeyValuePair<string, object>(a.Key, a.Value));
+        }
+    }
+
+    #endregion
 }
