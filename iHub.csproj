@@ -178,6 +178,7 @@
     <Compile Include="Controllers\Path\OnlinePathController.cs" />
     <Compile Include="Controllers\Path\ProjectPathController.cs" />
     <Compile Include="Controllers\Path\ReservePathController.cs" />
+    <Compile Include="Controllers\Path\SettingPathController.cs" />
     <Compile Include="Controllers\Path\SysPathController.cs" />
     <Compile Include="Controllers\Path\TrainingPathController.cs" />
     <Compile Include="Controllers\Project\ProjectManageController.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Controllers\Reserve\ReserveMeetingActController.cs" />
     <Compile Include="Controllers\Reserve\ReserveSupportController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\Setting\SettingPOSTController.cs" />
     <Compile Include="Controllers\Training\TrainingCourseController.cs" />
     <Compile Include="Controllers\Training\TrainingStudyController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -319,6 +321,7 @@
     <Content Include="Views\Shared\_LayoutV3.cshtml" />
     <Content Include="Views\ReserveManage\Index.cshtml" />
     <Content Include="Scripts\prj\News.js" />
+    <Content Include="Views\SettingPOST\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

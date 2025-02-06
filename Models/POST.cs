@@ -91,7 +91,7 @@ namespace iHub.Models
 		{
 			get
 			{
-				return ShowDate.Value.ToString("yyyy/MM/dd");
+				return ShowDate != null ? ShowDate.Value.ToString("yyyy/MM/dd") : "";
 			}
 		}
 
