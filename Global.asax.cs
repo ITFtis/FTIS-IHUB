@@ -23,10 +23,13 @@ namespace iHub
 
             try
             {
-                logger.Info("BkTask±Ò°Ê(Application_Start):" + DateFormat.ToDate6(DateTime.Now));
+                if (AppConfig.IsBkTask)
+                {
+                    logger.Info("BkTask±Ò°Ê(Application_Start):" + DateFormat.ToDate6(DateTime.Now));
 
-                var task = new BkTask();
-                task.Run();
+                    var task = new BkTask();
+                    task.Run();
+                }
             }
             catch (Exception ex)
             {
