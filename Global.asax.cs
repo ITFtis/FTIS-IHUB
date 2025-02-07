@@ -19,7 +19,19 @@ namespace iHub
 
             //log4net
             log4net.Config.XmlConfigurator.Configure(); // must have this line
-            var Logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
+            var logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
+
+            try
+            {
+                logger.Info("BkTask±Ò°Ê(Application_Start):" + DateFormat.ToDate6(DateTime.Now));
+
+                var task = new BkTask();
+                task.Run();
+            }
+            catch (Exception ex)
+            {
+                logger.Error("BkTask¿ù»~:" + ex.Message);
+            }
         }
     }
 }

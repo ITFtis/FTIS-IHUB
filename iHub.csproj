@@ -212,6 +212,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="_core\BasicClass.cs" />
+    <Compile Include="_core\BkTask.cs" />
     <Compile Include="_core\Code.cs" />
     <Compile Include="_core\Constant.cs" />
     <Compile Include="_core\DateFormat.cs" />

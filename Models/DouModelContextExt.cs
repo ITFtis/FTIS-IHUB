@@ -18,7 +18,9 @@ namespace iHub.Models
         public virtual DbSet<cmmMrq> cmmMrq { get; set; }
 
 		public virtual DbSet<POST> POST { get; set; }
-	}
+
+        public virtual DbSet<tmp_POST> tmp_POST { get; set; }
+    }
 
     public class T8ModelContext : DbContext
     {

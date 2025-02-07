@@ -117,4 +117,62 @@ namespace iHub.Models
             SelectItemsClassNamespace = iHub.GetYNSelectItems.AssemblyQualifiedName)]
         public string IsClosedIHub { get; set; }
     }
+
+	/// <summary>
+	/// (官網轉入暫存表)會內公告
+	/// </summary>
+    [Table("tmp_POST")]
+    public partial class tmp_POST
+    {
+        [Key]
+        public int PostId { get; set; }
+
+        public string Title { get; set; }
+
+        public string Summary { get; set; }
+
+        public string HtmlContent { get; set; }
+
+        public string KeyWord { get; set; }
+
+        public int? NodeId { get; set; }
+
+        public int? SortNo { get; set; }
+
+        public int? Flag { get; set; }
+
+        public string PicFileName { get; set; }
+
+        public string DocFileName { get; set; }
+
+        public string StoreName { get; set; }
+
+        public string Phone { get; set; }
+
+        public string Fax { get; set; }
+
+        public string Address { get; set; }
+
+        public string GoogleMap { get; set; }
+
+        public string CreatedBy { get; set; }
+
+        public string UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        public DateTime? ShowDate { get; set; }
+
+        public int? Type { get; set; }
+
+        public string LinkUrl { get; set; }
+
+        public string HtmlContent2 { get; set; }
+
+        public string HtmlContent3 { get; set; }
+
+        public string HtmlContent4 { get; set; }
+    }
 }
