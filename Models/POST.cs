@@ -113,7 +113,7 @@ namespace iHub.Models
 
 		[Required]
 		[Display(Name = "不顯示iHub")]        
-        [ColumnDef(Visible = false, VisibleEdit = false,
+        [ColumnDef(Visible = false, VisibleEdit = false, VisibleView = false,
 			EditType = EditType.Radio,
             SelectItemsClassNamespace = iHub.GetYNSelectItems.AssemblyQualifiedName)]
         public string IsClosedIHub { get; set; }
