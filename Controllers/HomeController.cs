@@ -28,7 +28,8 @@ namespace iHub.Controllers
 			var news = post.GetAll()
 								.Where(x => x.NodeId == 3 && x.Flag == 1)
                                 .Where(a => DateTime.Now >= a.ShowDate)
-								.OrderByDescending(x => x.ShowDate)
+                                .Where(a => a.IsClosedIHub != "Y")
+                                .OrderByDescending(x => x.ShowDate)
 								.Take(5)
 								.ToList();
 

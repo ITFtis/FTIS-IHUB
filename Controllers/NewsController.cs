@@ -23,7 +23,8 @@ namespace iHub.Controllers
 		protected override IQueryable<POST> BeforeIQueryToPagedList(IQueryable<POST> iquery, params KeyValueParams[] paras)
 		{
 			iquery = iquery.Where(x => x.NodeId == 3 && x.Flag == 1)
-                        .Where(a => DateTime.Now >= a.ShowDate);
+                        .Where(a => DateTime.Now >= a.ShowDate)
+						.Where(a => a.IsClosedIHub != "Y");
             
 			return base.BeforeIQueryToPagedList(iquery, paras);
 		}
